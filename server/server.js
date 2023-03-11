@@ -3,6 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
 const dbRouter = require('./routes/db_server');
+const bcrypt = require('bcryptjs');
 
 const PORT = 3000;
 
