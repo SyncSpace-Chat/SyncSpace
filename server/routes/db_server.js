@@ -24,15 +24,15 @@ router.post('/login', userController.verifyUser, (req, res) => {
 // Gets messages and returns a json array of objects, each containing messages.  
 // TODO Add usernames to the messages pulled from the messages  -M
 router.post('/getMessages', channelController.getMessages, (req, res) => {
-    console.log('Getting Messages');
+    console.log(res.locals.messages);
     res.status(200).json(res.locals.messages);
 }); 
 
 // Sends messages, saves to DB, then returns the saved channel and message for monitoring/testing purposes -M
 router.post('/sendMessage', channelController.sendMessage, (req, res) => {
     console.log('Sending messages');
-    res.status(200).send(req.body.channel, req.body.message);
-});
+    res.sendStatus(200);
+})
 
 // Returns an array of ALL of the channels, user verification happens on the frontend -M 
 router.get('/getChannels', channelController.getChannels, (req, res) => {
