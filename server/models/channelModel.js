@@ -26,3 +26,8 @@ const channelSchema = ({
         }
     ]
 });
+
+//create a model based on the schema
+const Channel = mongoose.model('channels', channelSchema);
+
+module.exports = Channel;

@@ -22,3 +22,8 @@ const userSchema = ({
     password: { type: String, required: true },
     subscribedChannels: [String]
 });
+
+//create a model based on the schema
+const User = mongoose.model('users', userSchema);
+
+module.exports = User;
