@@ -47,4 +47,11 @@ channelController.sendMessage = async (req, res, next) => {
     return next();
 }
 
+channelController.getChannels = async (req, res, next) => {
+    const channelCollectionArr = await Channel.find({});
+    console.log(channelCollectionArr);
+    res.locals.channels = channelCollectionArr; 
+    return next(); 
+}
+
 module.exports = channelController;
