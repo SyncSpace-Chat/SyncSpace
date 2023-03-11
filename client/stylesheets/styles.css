@@ -1,0 +1,25 @@
+body {
+    background-color: rgb(66, 128, 179);
+}
+
+.navbarClass {
+    background-color: rgb(183, 208, 231);
+}
+
+#siteHandle {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+}
+
+.formHeader {
+    margin-top: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.initialForms {
+    margin-left: 30%;
+    margin-right: 30%;
+}
