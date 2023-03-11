@@ -40,4 +40,10 @@ router.get('/getChannels', channelController.getChannels, (req, res) => {
     res.status(200).send(res.locals.channels); 
 });
 
+// Subscribes users to a channel: takes in username and channel in req.body -M
+router.put('/subscribe', userController.subscribe, (req, res) => {
+    console.log('Subscribing to channel');
+    res.sendStatus(200);
+})
+
 module.exports = router;

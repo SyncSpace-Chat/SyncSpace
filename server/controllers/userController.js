@@ -4,9 +4,11 @@ const bcrypt = require('bcryptjs');
 
 const userController = {};
 
+/* Creates a user -> Takes in a username and password, hashes via bcrypt, then adds General to subscribedChannels - M */
+
 userController.createUser = (req,res,next) => {
   bcrypt.hash(req.body.password, 10, function(err, hash) {
-    User.create({username: req.body.username, password: hash, subscribedChannels: []})
+    User.create({username: req.body.username, password: hash, subscribedChannels: ["General"]})
     .then(() => {
       console.log('successfully added user to the database');
       res.cookie('user', req.body.username,);
@@ -18,6 +20,8 @@ userController.createUser = (req,res,next) => {
     })
   })
 }
+
+/* Verifies user on login page.  Finds user that matches the username, redirects if no user is found, compares the PW if the username is found & sores cookie if it matches properly - M*/ 
 
 userController.verifyUser = async (req, res, next) => {
   //verification logic
@@ -40,6 +44,25 @@ userController.verifyUser = async (req, res, next) => {
   }
 }
 
+/* Subscribes users to a channel "channel" passed into the body along with the username -> retrieves entry from DB, pushes channel onto array, then updates DB entry - M*/ 
+
+userController.subscribe = async (req, res, next) => {
+  const subscriber = await User.findOne({ username: req.body.username });
+  if (!subscriber) {
+    console.log('Error - User does not exist');
+    return res.redirect('login'); 
+  }
+  const subChannels = subscriber.subscribedChannels;
+  if (subChannels.includes(req.body.channel)) {
+    console.log('Channel already subscribed');
+    return next();
+  }
+  
+  subChannels.push(req.body.channel);
+
+  await User.findOneAndUpdate( {username: req.body.username } , {subscribedChannels: subChannels} );
+  return next();
+}
 // userController.verifyUser = async (req, res, next) => {
 //   //verification logic
 //   const results = await User.findOne({username: req.body.username })
