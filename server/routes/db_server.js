@@ -3,13 +3,9 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const channelController = require('../controllers/channelController');
 const bcrypt = require('bcryptjs');
+const { javascript } = require('webpack');
 
 // Express json preparations
-//test that server is set up correctly GS
-router.get('/*', (req, res) => {
-    console.log("in the server now")
-    res.status(200).json("You reached server");
-});
 
 //router.post('/signup')
 router.post('/signup', userController.createUser, (req, res) => {
@@ -20,8 +16,22 @@ router.post('/signup', userController.createUser, (req, res) => {
 //Would be slightly less coding to send them to the login page after account creation
 router.post('/login', userController.verifyUser, (req, res) => {
     console.log('Verifying User');
-    res.status(200).json('User verified')
+    res.status(200).json('User verified');
 });
+
+/* CHANNEL ROUTES */ 
+
+// Gets messages and returns a json array of objects, each containing messages.  
+// TODO Add usernames to the messages pulled from the messages  -M
+router.post('/getMessages', channelController.getMessages, (req, res) => {
+    console.log('Getting Messages');
+    res.status(200).json(res.locals.messages);
+}) 
+
+router.post('/sendMessage', channelController.sendMessage, (req, res) => {
+    console.log('Sending messages');
+    res.status(200).send(req.body.channel, req.body.message);
+})
 
 
 module.exports = router;
