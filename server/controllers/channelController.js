@@ -13,8 +13,8 @@ const channelController = {};
 // Output: null
 channelController.getMessages = async (req, res, next) => {
     const channel = req.body.channel;
-    const channelCollectionArr = await Channel.find({ channelName: channel })[0];
-    res.locals.messages = channelCollectionArr.messages;
+    const channelCollectionArr = await Channel.find({ channelName: channel });
+    res.locals.messages = channelCollectionArr[0].messages;
     return next();
 }
 
@@ -32,8 +32,10 @@ channelController.sendMessage = async (req, res, next) => {
     const channel = req.body.channel;
     const message = req.body.message;
     const username = req.cookies.user;
-    const channelCollectionArr = await Channel.find({ channelName: channel })[0];
-    const messageArr = channelCollectionArr.messages;
+    console.log(channel, message, username);
+    const channelCollectionArr = await Channel.find({ channelName: channel });
+    console.log(channelCollectionArr);
+    const messageArr = channelCollectionArr[0].messages;
     messageArr.push({
         message: message,
         username: username
