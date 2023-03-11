@@ -46,7 +46,7 @@ router.put('/subscribe', userController.subscribe, (req, res) => {
     res.sendStatus(200);
 })
 
-// Creates a new channel; 
+// Creates a new channel and subscribes the owner to it; 
 router.post('/newChannel', channelController.createChannel, userController.subscribe, (req, res) => {
     console.log('Channel created');
     res.status(200).send(res.locals.channel);

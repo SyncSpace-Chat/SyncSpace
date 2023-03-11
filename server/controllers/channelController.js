@@ -56,7 +56,7 @@ channelController.getChannels = async (req, res, next) => {
     return next(); 
 }
 
-/* Creates a new channel - M*/ 
+/* Creates a new channel: takes in {channel: "channelname", username: "username"}  - M */ 
 
 channelController.createChannel = async (req, res, next) => {
     console.log('Creating channel');

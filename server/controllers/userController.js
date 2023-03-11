@@ -45,7 +45,7 @@ userController.verifyUser = async (req, res, next) => {
   }
 }
 
-/* Subscribes users to a channel "channel" passed into the body along with the username -> retrieves entry from DB, pushes channel onto array, then updates DB entry - M*/ 
+/* Subscribes users to a channel "channel" passed into the body in form {channel: "channelname", username: "username"}  -> retrieves entry from DB, pushes channel onto array, then updates DB entry - M*/ 
 
 userController.subscribe = async (req, res, next) => {
   const subscriber = await User.findOne({ username: req.body.username });
