@@ -8,6 +8,7 @@ const Schema = mongoose.Schema;
 //create schema for user collection
 const channelSchema = new Schema({
     channelName: { type: String, required: true },
+    owner: { type: String, required: true },
     messages: [
         {
             message: { type: String },

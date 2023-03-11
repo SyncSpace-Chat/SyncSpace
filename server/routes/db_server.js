@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const channelController = require('../controllers/channelController');
-const bcrypt = require('bcryptjs');
+
 const { javascript } = require('webpack');
 
 // Express json preparations
@@ -40,4 +40,15 @@ router.get('/getChannels', channelController.getChannels, (req, res) => {
     res.status(200).send(res.locals.channels); 
 });
 
+// Subscribes users to a channel: takes in username and channel in req.body -M
+router.put('/subscribe', userController.subscribe, (req, res) => {
+    console.log('Subscribing to channel');
+    res.sendStatus(200);
+})
+
+// Creates a new channel and subscribes the owner to it; 
+router.post('/newChannel', channelController.createChannel, userController.subscribe, (req, res) => {
+    console.log('Channel created');
+    res.status(200).send(res.locals.channel);
+})
 module.exports = router;
