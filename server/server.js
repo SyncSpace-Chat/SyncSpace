@@ -4,8 +4,20 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const dbRouter = require('./routes/db_server');
 const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
 
 const PORT = 3000;
+
+const URIkey = process.env.SHARK_DB_KEY;
+const MONGO_URI = URIkey;
+
+mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: 'shark-db'
+})
+.then(() => console.log('Connected to Mongo DB.'))
+.catch(err => console.log(err));
 
 //handle request parsing
 app.use(express.json());
