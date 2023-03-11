@@ -30,13 +30,13 @@ export default function LBar() {
     // When user clicks on the add channel button they will be directed to make a new channel which will then be shown on the screen and
     // Be able to be clicked. This will then call the server which will create a new channel in the database and add whichever user made
     // the channel
-    // async function addChannel() {
-    //     await fetch('./db/addChannel' {
-    //         method: 'POST',
-    //         body: JSON.stringify({ channelName }),
-    //         headers: { 'Content-Type': 'application/json' },
-    //     });
-    // };
+    async function addChannel() {
+        await fetch('./db/addChannel' {
+            method: 'POST',
+            body: JSON.stringify({ channelName }),
+            headers: { 'Content-Type': 'application/json' },
+        });
+    };
 
     //when users pressed log out button the cookie is cleared and window redirected to login
     function logOut() {

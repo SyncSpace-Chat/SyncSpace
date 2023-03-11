@@ -83,11 +83,7 @@ body {
     font-size: 1.5rem;
 }
 
-.messageBox {
-    height: 40vw;
-    width: 40vw;
-    margin-bottom: 2rem;
-}
+
 
 .textBox {
     margin-right: 1rem;
@@ -115,20 +111,35 @@ body {
     background-color: #222529;
     border: 1px solid #555856;
     border-radius: 8px;
+    color: white;
 }
 
 .bubble {
     margin: 20px;
     border-radius: 8px;
+    bottom: 0;
+    overflow-anchor: auto ;
+    flex-direction: column-reverse;
+
     
 }
 
 .messageBox {
     overflow-y: auto;
+    overflow-anchor: none;
     background-color: #FFFFFF;
     background-image: linear-gradient(180deg, #FFFFFF 0%, #6284FF 50%, #FF0000 100%);
     flex-direction: column-reverse;
+    position: relative;
 
+}
+
+.messageBox {
+    height: 40vw;
+    width: 40vw;
+    margin-bottom: 2rem;
+    bottom: 0;
+    left: 0;
 }
 
 .user {
