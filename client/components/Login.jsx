@@ -14,15 +14,24 @@ function Login() {
     }
 
 
+
     const handleSubmit = () => {
-        fetch('/login',
+
+        let temp = {
+            "username": username,
+            "password": password
+        }
+        //=============fetch===============
+        //input proper end point
+        fetch('/db/login',
         {
-            method: "GET",
-            body: {
-                username: username,
-                password: password
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
             },
+            body: JSON.stringify(temp),
         })
+        //=============fetch===============
     }
 
     return (

@@ -14,16 +14,19 @@ const handlePass = (e) => {
 
 const handleSubmit = () => {
 
-
+    let temp = {
+        "username": username,
+        "password": password
+    }
     //=============fetch===============
     //input proper end point
-    fetch('/signup',
+    fetch('/db/signup',
     {
         method: "POST",
-        body: {
-            username: username,
-            password: password
+        headers: {
+            'Content-Type': 'application/json'
         },
+        body: JSON.stringify(temp),
     })
     //=============fetch===============
 }
