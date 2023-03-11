@@ -5,7 +5,12 @@ export default function ChatBubble(props) {
     const { username , message } = props;
     return (
         <div className='bubble'>
-            {message} createdBy: {username}
+            <div className='user'>
+                {username}
+            </div>
+            <div className='theMessage'>
+                {message}
+            </div>
         </div>
     )
 }
