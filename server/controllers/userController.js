@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Channel = require('../models/channelModel');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -8,7 +9,7 @@ const userController = {};
 
 userController.createUser = (req,res,next) => {
   bcrypt.hash(req.body.password, 10, function(err, hash) {
-    User.create({username: req.body.username, password: hash, subscribedChannels: ["General"]})
+    User.create({username: req.body.username, password: hash, subscribedChannels: ["General"], ownedChannels: []})
     .then(() => {
       console.log('successfully added user to the database');
       res.cookie('user', req.body.username,);
@@ -51,7 +52,15 @@ userController.subscribe = async (req, res, next) => {
   if (!subscriber) {
     console.log('Error - User does not exist');
     return res.redirect('login'); 
-  }
+  };
+
+  //Check to see if channel exists 
+  const found = await Channel.findOne({ channelName: req.body.channel})
+  if (!found) {
+    console.log('Channel not found!')
+    return next();
+  };
+
   const subChannels = subscriber.subscribedChannels;
   if (subChannels.includes(req.body.channel)) {
     console.log('Channel already subscribed');

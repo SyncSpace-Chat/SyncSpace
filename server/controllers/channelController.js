@@ -1,4 +1,5 @@
 const Channel = require('../models/channelModel');
+const User = require('../models/userModel');
 
 const channelController = {};
 
@@ -46,6 +47,7 @@ channelController.sendMessage = async (req, res, next) => {
         { messages: messageArr });
     return next();
 }
+/* Retrieves an array of every channel - M*/
 
 channelController.getChannels = async (req, res, next) => {
     const channelCollectionArr = await Channel.find({});
@@ -53,5 +55,27 @@ channelController.getChannels = async (req, res, next) => {
     res.locals.channels = channelCollectionArr; 
     return next(); 
 }
+
+/* Creates a new channel - M*/ 
+
+channelController.createChannel = async (req, res, next) => {
+    console.log('Creating channel');
+
+    if (!req.body.username || !req.body.channel) return next(); 
+    
+    await Channel.create({channelName: req.body.channel, owner: req.body.username, messages:[]});
+    
+    const user = await User.findOne({ username: req.body.username });
+
+    const userSubs = user.ownedChannels;
+    
+    userSubs.push(req.body.channel);
+
+    res.locals.channel = req.body.channel;
+
+    console.log('Channel created'); 
+
+    return next();
+}; 
 
 module.exports = channelController;

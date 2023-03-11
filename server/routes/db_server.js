@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const channelController = require('../controllers/channelController');
-const bcrypt = require('bcryptjs');
+
 const { javascript } = require('webpack');
 
 // Express json preparations
@@ -46,4 +46,9 @@ router.put('/subscribe', userController.subscribe, (req, res) => {
     res.sendStatus(200);
 })
 
+// Creates a new channel; 
+router.post('/newChannel', channelController.createChannel, userController.subscribe, (req, res) => {
+    console.log('Channel created');
+    res.status(200).send(res.locals.channel);
+})
 module.exports = router;
