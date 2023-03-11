@@ -9,6 +9,7 @@ userController.createUser = (req,res,next) => {
     User.create({username: req.body.username, password: hash})
     .then(() => {
       console.log('successfully added user to the database');
+      res.cookie('verified user', req.body.username);
       return next();
     })
     .catch((err) => {
