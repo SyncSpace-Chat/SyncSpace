@@ -39,13 +39,13 @@ body {
 #channelList {
     position: absolute;
     top: .75rem;
-    display: flex; 
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
 
 }
 
-.channelButton{
+.channelButton {
     /* width: 200px;
     height: 2rem;
     margin-bottom: 2rem; */
@@ -60,10 +60,10 @@ body {
 
     border-color: black;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-    
+
 }
 
-.chatPage{
+.chatPage {
     display: flex;
     flex-direction: column;
     
@@ -77,7 +77,7 @@ body {
     align-items: center;
 }
 
-.inputHeader { 
+.inputHeader {
     font-weight: bold;
     margin-right: 1rem;
     font-size: 1.5rem;
@@ -120,8 +120,6 @@ body {
 .bubble {
     margin: 20px;
     border-radius: 8px;
-    color: black;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     
 }
 
@@ -140,4 +138,16 @@ body {
 
 .theMessage {
     font-weight: 300;
+}
+
+.logoutButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.logoutButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
 }
