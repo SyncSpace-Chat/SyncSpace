@@ -1,4 +1,5 @@
 import React from 'react'
+import Cookies from 'js-cookie';
 
 function Login() {
 
@@ -8,14 +9,12 @@ function Login() {
     const handleUser = (e) => {
         username = e.target.value;
     }
-    
+
     const handlePass = (e) => {
         password = e.target.value;
     }
 
-
-
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
         let temp = {
             "username": username,
@@ -23,15 +22,22 @@ function Login() {
         }
         //=============fetch===============
         //input proper end point
-        fetch('/db/login',
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(temp),
-        })
+        await fetch('/db/login',
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(temp),
+            })
         //=============fetch===============
+
+        //Giles Steiner
+        //if user is assigned a cookie redirect them to window
+        if (Cookies.get('user')) {
+            window.location.href = "/window";
+            console.log("valid cookie")
+        }
     }
 
     return (
@@ -47,7 +53,7 @@ function Login() {
                     <label className="form-label">Password</label>
                     <input type="text" onChange={handlePass} className="form-control" id="inputPassword" />
                 </div>
-                <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
+                <button type="button" className="btn btn-primary" onClick={handleSubmit}>Submit</button>
             </form>
         </div>
     );

@@ -1,10 +1,11 @@
 import React from 'react'
 import ChatWindow from './ChatWindow.jsx';
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 export default function LBar() {
 
-    const [channels, setChannels] = useState(["General","Random"]); //the channels that exist in db
+    const [channels, setChannels] = useState(["General", "Random"]); //the channels that exist in db
     const [currentChannel, setCurrentChannel] = useState("General"); //the current channel
 
     // Giles Steiner
@@ -25,12 +26,17 @@ export default function LBar() {
     // }, [])
 
 
+    //when users pressed log out button the cookie is cleared and window redirected to login
+    function logOut() {
+        Cookies.remove('user');
+        window.location.href = "/login";
+    }
 
     // Giles Steiner
     //
     // When user clicks to change channel the currentChannel state is changed
     // and adds them to res.locals.messages
-    function changeChannelHandler(newChannelName){
+    function changeChannelHandler(newChannelName) {
         setCurrentChannel(newChannelName);
     }
 
@@ -43,11 +49,14 @@ export default function LBar() {
     // Chat window is rendered as a child component and the current channel is passed down
     // as a prop
     return (
-        <div className="chatPage">
-            <ChatWindow currentChannel={currentChannel}/>
-            <div id="channelList">
-                    {channels.map((channel) => <button className="channelButton" onClick={()=>changeChannelHandler(channel)}>{channel}</button>)}
+        <>
+            <div className="chatPage">
+                <ChatWindow currentChannel={currentChannel} />
+                <div id="channelList">
+                    {channels.map((channel) => <button className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}</button>)}
+                </div>
             </div>
-        </div>
+            <button className="btn btn-secondary logoutButton" type='button' onClick={logOut}> Logout </button>
+        </>
     )
 }
