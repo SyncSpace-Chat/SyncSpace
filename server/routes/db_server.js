@@ -26,12 +26,18 @@ router.post('/login', userController.verifyUser, (req, res) => {
 router.post('/getMessages', channelController.getMessages, (req, res) => {
     console.log('Getting Messages');
     res.status(200).json(res.locals.messages);
-}) 
+}); 
 
+// Sends messages, saves to DB, then returns the saved channel and message for monitoring/testing purposes -M
 router.post('/sendMessage', channelController.sendMessage, (req, res) => {
     console.log('Sending messages');
     res.status(200).send(req.body.channel, req.body.message);
-})
+});
 
+// Returns an array of ALL of the channels, user verification happens on the frontend -M 
+router.get('/getChannels', channelController.getChannels, (req, res) => {
+    console.log('Retrieving channels'); 
+    res.status(200).send(res.locals.channels); 
+});
 
 module.exports = router;
