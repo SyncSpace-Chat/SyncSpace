@@ -1,13 +1,14 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ChatBubble from './ChatBubble.jsx';
 import Cookies from 'js-cookie';
+import { motion } from 'framer-motion';
 
 export default function ChatWindow(props) {
 
   const [message, setMessage] = useState('');
   const { currentChannel } = props;
   const [chats, setChats] = useState([]);
+  const messageBoxRef = useRef(null);
 
   const handleMessage = (e) => {
     setMessage(e.target.value);
@@ -22,42 +23,55 @@ export default function ChatWindow(props) {
   };
 
 
-  //TODO - do we have to use a setInterval / AJAX timing
   useEffect(() => {
-    async function getMessages() {
-      if (currentChannel != "") { //make sure a channel is selected
-        await fetch('./db/getMessages', {
-          method: 'POST',
-          body: JSON.stringify({ channel: currentChannel }),
-          headers: { 'Content-Type': 'application/json' }
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log('prop drilled down for currentChannel', currentChannel);
-            setChats(data);
+    const intervalId = setInterval(() => {
+      async function getMessages() {
+        if (currentChannel != "") {
+          await fetch('./db/getMessages', {
+            method: 'POST',
+            body: JSON.stringify({ channel: currentChannel }),
+            headers: { 'Content-Type': 'application/json' }
           })
-          .catch((error) => {
-            console.error('Error in grabbing chats from channel:', error);
-          });
-        console.log("hello");
+            .then((response) => response.json())
+            .then((data) => {
+              setChats(data);
+            })
+            .catch((error) => {
+              console.error('Error in grabbing chats from channel:', error);
+            });
+        }
       }
+      getMessages();
+    }, 500);
+  
+    return () => clearInterval(intervalId);
+  }, [currentChannel]);
+  
+
+  useEffect(() => {
+    if (messageBoxRef.current) {
+      messageBoxRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-    getMessages();
+  }, [chats]);
+
+  const messageCache = {};
+  const chatBubbles = [];
+  chats.forEach((bubble) => {
+    if(messageCache[bubble._id]){
+
+    } else {
+      messageCache[bubble._id] = true;
+      chatBubbles.push(
+        <ChatBubble message={bubble.message} username={bubble.username} />
+    );}
   });
 
-  const chatBubbles = [];
-  console.log('Console log results from post thing', chats);
-  console.log('type of thing chats is ', Array.isArray(chats));
-  chats.forEach((bubble) => {
-    chatBubbles.push(
-      <ChatBubble message={bubble.message} username={bubble.username} />
-    );
-  });
 
   return (
     <div className='chatWindow'>
       <div className='messageBox'>
         {chatBubbles}
+        <div ref={messageBoxRef}></div>
       </div>
       <div className='submitBox'>
         <form className='messageForm'>

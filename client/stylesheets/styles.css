@@ -27,6 +27,9 @@ body {
 
 .messageForm {
   display: flex;
+  height: 50px;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
 .messageBox {
@@ -37,10 +40,11 @@ body {
 
 #channelList {
   position: absolute;
-  top: 0.75rem;
+  /* top: 0.75rem; */
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  margin-top: 2rem;
+  /* align-items: flex-start; */
 }
 
 .channelButton {
@@ -49,8 +53,8 @@ body {
     margin-bottom: 2rem; */
   width: 10rem;
   height: 4rem;
-  margin-bottom: 4rem;
-  margin-top: 4rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
   border-radius: 1rem;
   margin-left: 1rem;
   background-color: #4158d0;
@@ -136,7 +140,7 @@ body {
 }
 
 .messageBox {
-  height: 40vw;
+  height: 35vw;
   width: 40vw;
   margin-bottom: 2rem;
   bottom: 0;

@@ -2,6 +2,7 @@ import React from 'react'
 import ChatWindow from './ChatWindow.jsx';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { motion } from 'framer-motion';
 
 export default function LBar() {
     // Tim Muller
@@ -80,7 +81,7 @@ export default function LBar() {
             <div className="chatPage">
                 <ChatWindow currentChannel={currentChannel} />
                 <div id="channelList">
-                    {channels.map((channel) => <button className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}</button>)}
+                    {channels.map((channel) => <motion.button whileHover={{scale: 1.25}} className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}</motion.button>)}
                     <div className='addChannelBox'>
                         <div>Add a new channel!</div>
                         <form className='channelForm'>
