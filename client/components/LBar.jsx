@@ -16,12 +16,14 @@ export default function LBar() {
     const [userChannels, setUserChannels] = useState([]);
     const [currentChannel, setCurrentChannel] = useState("General"); //the current channel
     //==========dark mode===========
-    const [theme, setTheme] = useState('light'); 
+    const [theme, setTheme] = useState('light');
 
     const toggleTheme = () => {
-        if ( theme === 'light'){
+        if (theme === 'light') {
+            document.body.style.background = "#222222";
             setTheme('dark');
         } else {
+            document.body.style.background = "#0093e9";
             setTheme('light');
         }
     };
@@ -69,12 +71,12 @@ export default function LBar() {
     // Be able to be clicked. This will then call the server which will create a new channel in the database and add whichever user made
     // the channel
     const addChannel = async () => {
-      console.log('hello!!!!');
-      await fetch('./db/newChannel', {
-          method: 'POST',
-          body: JSON.stringify({ channel: newChannel }),
-          headers: { 'Content-Type': 'application/json' },
-      });
+        console.log('hello!!!!');
+        await fetch('./db/newChannel', {
+            method: 'POST',
+            body: JSON.stringify({ channel: newChannel }),
+            headers: { 'Content-Type': 'application/json' },
+        });
     };
 
     //when users pressed log out button the cookie is cleared and window redirected to login
