@@ -62,13 +62,23 @@ channelController.getChannels = async (req, res, next) => {
 
 channelController.createChannel = async (req, res, next) => {
     console.log('Creating channel');
-    if (!req.body.username || !req.body.channel) return next();
-    await Channel.create({ channelName: req.body.channel, owner: req.body.username, messages: [] });
-    const user = await User.findOne({ username: req.body.username });
+    if (!req.cookies.user || !req.body.channel) return next();
+    
+    const chanCheck = await Channel.findOne({ channelName: req.body.channel }); 
+    if ( chanCheck.channelName ) {
+        console.log('Channel Already Exists');
+        res.locals.exists = true; 
+        return next(); 
+    }
+
+    res.locals.exists = false; 
+
+    await Channel.create({ channelName: req.body.channel, owner: req.cookies.user, messages: [] });
+    const user = await User.findOne({ username: req.cookies.user });
     const ownedChannels = user.ownedChannels;
     ownedChannels.push(req.body.channel);
 
-    await User.findOneAndUpdate({ username: req.body.username }, { ownedChannels: ownedChannels });
+    await User.findOneAndUpdate({ username: req.cookies.user }, { ownedChannels: ownedChannels });
     res.locals.channel = req.body.channel;
     console.log('Channel created');
     return next();

@@ -37,8 +37,8 @@ userController.verifyUser = async (req, res, next) => {
     console.log('correct password');
     //store the username as a cookie value
     res.cookie('user', req.body.username);
-    res.cookie('subscribedChannels', results.subscribedChannels);
-    res.cookie('ownedChannels', results.ownedChannels);
+    res.cookie('subscribedChannels', results.subscribedChannels.join(''));
+    res.cookie('ownedChannels', results.ownedChannels.join(''));
     return next();
   } else {
     console.log('wrong password');
@@ -49,6 +49,9 @@ userController.verifyUser = async (req, res, next) => {
 /* Subscribes users to a channel "channel" passed into the body in form {channel: "channelname", username: "username"}  -> retrieves entry from DB, pushes channel onto array, then updates DB entry - M*/
 
 userController.subscribe = async (req, res, next) => {
+  // Check for failed channel creation - M 
+  if (res.locals.exists) return next(); 
+
   const subscriber = await User.findOne({ username: req.cookies.user });
   if (!subscriber) {
     console.log('Error - User does not exist');
