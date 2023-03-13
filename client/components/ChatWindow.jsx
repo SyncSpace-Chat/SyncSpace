@@ -30,7 +30,19 @@ export default function ChatWindow(props) {
       body: JSON.stringify({ message: message, channel: currentChannel }),
       headers: { 'Content-Type': 'application/json' },
     });
+    let stuff = document.getElementById('inputMessage');
+    stuff.value = '';
+    const audio = new Audio("db/static/iphone_woosh.mp3");
+    audio.play();
   };
+
+  const handleUnsubscribe = async () => {
+    await fetch('./db/unsubscribe', {
+      method: 'PUT',
+      body: JSON.stringify({ channel: currentChannel }),
+      headers: {'Content-Type': 'application/json'},
+    });
+  }
 
 
   //Giles Steiner 
@@ -84,6 +96,10 @@ export default function ChatWindow(props) {
 
   return (
     <div className='chatWindow'>
+      <div className='topWindow'>
+        <p id='channelNameHeader'>{currentChannel}</p>
+        <button type='button' className='unsubscribe' onClick='handleUnsubscribe'>Unsubscribe</button>
+      </div>
       <div className='messageBox'>
         {chatBubbles}
         <div ref={messageBoxRef}></div>

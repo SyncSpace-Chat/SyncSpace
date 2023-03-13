@@ -16,13 +16,14 @@ mongoose.connect(MONGO_URI, {
     useUnifiedTopology: true,
     dbName: 'shark-db'
 })
-.then(() => console.log('Connected to Mongo DB.'))
-.catch(err => console.log(err));
+    .then(() => console.log('Connected to Mongo DB.'))
+    .catch(err => console.log(err));
 
 //handle request parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use('/db/static', express.static(path.resolve(__dirname, '../client/sounds/')));
 
 app.use('/db', dbRouter); //route all 3000 requests to db file
 
