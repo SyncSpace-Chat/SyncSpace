@@ -49,7 +49,7 @@ userController.verifyUser = async (req, res, next) => {
 /* Subscribes users to a channel "channel" passed into the body in form {channel: "channelname", username: "username"}  -> retrieves entry from DB, pushes channel onto array, then updates DB entry - M*/
 
 userController.subscribe = async (req, res, next) => {
-  const subscriber = await User.findOne({ username: req.body.username });
+  const subscriber = await User.findOne({ username: req.cookies.user });
   if (!subscriber) {
     console.log('Error - User does not exist');
     return res.redirect('login');
@@ -70,7 +70,7 @@ userController.subscribe = async (req, res, next) => {
 
   subChannels.push(req.body.channel);
 
-  await User.findOneAndUpdate({ username: req.body.username }, { subscribedChannels: subChannels });
+  await User.findOneAndUpdate({ username: req.cookies.user }, { subscribedChannels: subChannels });
   return next();
 }
 // userController.verifyUser = async (req, res, next) => {
