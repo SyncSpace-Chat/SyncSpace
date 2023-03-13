@@ -37,8 +37,8 @@ userController.verifyUser = async (req, res, next) => {
     console.log('correct password');
     //store the username as a cookie value
     res.cookie('user', req.body.username);
-    res.cookie('subscribedChannels', results.subscribedChannels);
-    res.cookie('ownedChannels', results.ownedChannels);
+    res.cookie('subscribedChannels', results.subscribedChannels.join(''));
+    res.cookie('ownedChannels', results.ownedChannels.join(''));
     return next();
   } else {
     console.log('wrong password');
