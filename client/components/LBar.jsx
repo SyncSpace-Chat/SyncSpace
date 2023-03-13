@@ -132,7 +132,8 @@ export default function LBar() {
         <>
             <div className='chatPage'>
                 <form id='browseChannels'>
-                    <label>Subscribe to existing channel: </label>
+                    <label>Subscribe to: </label>
+                    <br></br>
                     <select id='browseChannelName'>
             //add motion thing here for channel
                         {channels.map((channel) => {

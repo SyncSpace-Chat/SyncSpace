@@ -15,7 +15,7 @@ export default function ChatBubble(props) {
         }
     }, [username]);
 
-    //PJ did some magic here
+    //PJ did some animation magic here
     return (
         <motion.div
             animate={{ x: 100, scale: 1 }}
