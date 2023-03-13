@@ -91,7 +91,7 @@ export default function ChatWindow(props) {
         <div ref={messageBoxRef}></div>
       </div>
       <div className='submitBox'>
-        <form className='messageForm'>
+        <div className='messageForm'>
           <p className='inputHeader'>Send New Message:</p>
           <div className='textBox'>
             <input type='text' id='inputMessage' onChange={handleMessage} />
@@ -99,7 +99,7 @@ export default function ChatWindow(props) {
           <button type='button' className='sendButton' onClick={handleSubmit}>
             Send Message
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );

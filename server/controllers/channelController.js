@@ -63,9 +63,9 @@ channelController.getChannels = async (req, res, next) => {
 channelController.createChannel = async (req, res, next) => {
     console.log('Creating channel');
     if (!req.cookies.user || !req.body.channel) return next();
-    
+
     if (res.locals.exists === true) {
-        console.log ('Channel Already Exists!');
+        console.log('Channel Already Exists!');
         return next();
     }
 
@@ -84,47 +84,45 @@ channelController.createChannel = async (req, res, next) => {
 
 channelController.channelCheck = async (req, res, next) => {
 
-    const check = await Channel.findOne({ channelName: req.body.channel }); 
-    
+    const check = await Channel.findOne({ channelName: req.body.channel });
+
     if (check === null) {
-        res.locals.exists = false; 
+        res.locals.exists = false;
         console.log('Channel does not exist');
         return next();
     }
-    res.locals.exists = true; 
+    res.locals.exists = true;
     console.log('Channel exists');
     return next();
 };
 
-/* Deletes a currently existing channel - takes in user from cookie and a channel name.  Checks if the channel exists, then if the user is the owner, then proceeds to delete it - M */ 
+/* Deletes a currently existing channel - takes in user from cookie and a channel name.  Checks if the channel exists, then if the user is the owner, then proceeds to delete it - M */
 
 channelController.deleteChannel = async (req, res, next) => {
-    console.log ('Deleting channel');
-    if (!req.cookies.user || !req.body.channel) return next(); 
+    console.log('Deleting channel');
+    if (!req.cookies.user || !req.body.channel) return next();
     res.locals.channel = req.body.channel;
 
     if (res.locals.exists === false) {
-        console.log ('Channel does not exist!');
+        console.log('Channel does not exist!');
         return next();
     }
 
     await Channel.findOneAndDelete({ channelName: req.body.channel });
 
-    return next(); 
+    return next();
 }
 
 /* Unsubscribes all users from a channel that has been deleted - M */
 
 channelController.unsubscribeAll = async (req, res, next) => {
-    console.log('Removing users from channel'); 
-
+    console.log('Removing users from channel');
     if (res.local.exists === false) {
-        console.log('Channel did not exist, moving out of middleware'); 
-        return next(); 
+        console.log('Channel did not exist, moving out of middleware');
+        return next();
     }
 
     const channelObj = await Channel.findOne({ channelName: req.body.channel });
-    const memberList = channelObj.members; 
-
+    const memberList = channelObj.members;
 }
 module.exports = channelController;
