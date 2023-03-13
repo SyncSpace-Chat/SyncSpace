@@ -77,7 +77,7 @@ userController.subscribe = async (req, res, next) => {
   }
   // Adds channel to array
   subChannels.push(req.body.channel);
-  memberList.push(req.body.channel);
+  memberList.push(req.cookies.user);
 
   // Updates the entries
   await User.findOneAndUpdate({ username: req.cookies.user }, { subscribedChannels: subChannels });
@@ -85,6 +85,25 @@ userController.subscribe = async (req, res, next) => {
 
   const cookieContents = req.cookies.user;
   res.cookie('subscribedChannels', req.cookies.subscribedChannels + req.body.channel);
+
+  return next();
+};
+/* Unscription functionality - takes in username from cookies and channel from body */ 
+
+userController.unsubscribe = async (req, res, next) => {
+  if (res.locals.exists === false) return next(); 
+
+  const subscriber = await User.findOne({ username: req.cookies.user });
+  const chan = await Channel.findOne({ channelName: req.body.channel });
+
+  // Check to see if owner -> if owner, must delete the channel 
+  if (subscriber.username === chan.owner) {
+    console.log('Owner cannot unsubscribe from channel, must delete!');
+    return next(); 
+  }
+
+  await User.findOneAndUpdate({ username: subscriber.username }, { $pull: { subscribedChannels: chan.channelName }});
+  await Channel.findOneAndUpdate({ channelName: chan.channelName }, { $pull: { members: subscriber.username}});
 
   return next();
 }
