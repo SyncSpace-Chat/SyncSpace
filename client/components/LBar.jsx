@@ -146,11 +146,11 @@ export default function LBar() {
 
                 <ChatWindow currentChannel={currentChannel} />
                 <div id="channelList">
-                    {userChannels.map((channel) => <motion.button             
+                    {userChannels.map((channel) => <motion.button
                         animate={{ x: 0, scale: 1 }}
                         initial={{ scale: 0 }}
                         transition={{ type: "tween", duration: 0.5 }} whileHover={{ scale: 1.25 }} className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}
-                        </motion.button>)}
+                    </motion.button>)}
                     <div className='addChannelBox'>
                         <div>Add a new channel!</div>
                         <form className='channelForm'>
