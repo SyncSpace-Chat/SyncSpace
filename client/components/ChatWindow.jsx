@@ -62,7 +62,7 @@ export default function ChatWindow(props) {
     } else {
       messageCache[bubble._id] = true;
       chatBubbles.push(
-        <ChatBubble message={bubble.message} username={bubble.username} />
+        <ChatBubble message={bubble.message} username={bubble.username} id={Cookies.get('user')}/>
       );
     }
   });
