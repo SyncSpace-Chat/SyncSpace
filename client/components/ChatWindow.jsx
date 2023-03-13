@@ -32,6 +32,8 @@ export default function ChatWindow(props) {
     });
     let stuff = document.getElementById('inputMessage');
     stuff.value = '';
+    const audio = new Audio("db/static/iphone_woosh.mp3");
+    audio.play();
   };
 
   const handleUnsubscribe = async () => {

@@ -151,50 +151,28 @@ export default function LBar() {
           </button>
         </form>
 
-        <ChatWindow currentChannel={currentChannel} />
-        <div id='channelList'>
-          {userChannels.map((channel) => (
-            <motion.button
-              animate={{ x: 0, scale: 1 }}
-              initial={{ scale: 0 }}
-              transition={{ type: 'tween', duration: 0.5 }}
-              whileHover={{ scale: 1.25 }}
-              className='channelButton'
-              onClick={() => changeChannelHandler(channel)}
-            >
-              {channel}
-            </motion.button>
-          ))}
-          <div className='addChannelBox'>
-          <div>Add a new channel!</div>
-          <form className='channelForm'>
-            <div className='channelNameBox'>
-              <input
-                type='text'
-                id='inputChannel'
-                onChange={handleChannelName}
-              />
+                <ChatWindow currentChannel={currentChannel} />
+                <div id="channelList">
+                    {userChannels.map((channel) => <motion.button
+                        animate={{ x: 0, scale: 1 }}
+                        initial={{ scale: 0 }}
+                        transition={{ type: "tween", duration: 0.5 }} whileHover={{ scale: 1.25 }} className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}
+                    </motion.button>)}
+                    <div className='addChannelBox'>
+                        <div>Add a new channel!</div>
+                        <form className='channelForm'>
+                            <div className='channelNameBox'>
+                                <input type='text' id='inputChannel' onChange={handleChannelName} />
+                            </div>
+                            <button type='button' className='addChannelButton' onClick={addChannel}>
+                                Add New Channel
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <button
-              type='button'
-              className='addChannelButton'
-              onClick={addChannel}
-            >
-              Add New Channel
-            </button>
-          </form>
-        </div>
-        </div>
-      </div>
-      <button
-        className='btn btn-secondary logoutButton'
-        type='button'
-        onClick={logOut}
-      >
-        {' '}
-        Logout{' '}
-      </button>
-      <button onClick={toggleTheme}>DARK MODE?!</button>
-    </>
-  );
+            <button className="btn btn-secondary logoutButton" type='button' onClick={logOut}> Logout </button>
+            <button onClick={toggleTheme}>DARK MODE?!</button>
+        </>
+    )
 }
