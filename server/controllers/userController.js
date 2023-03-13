@@ -52,28 +52,36 @@ userController.subscribe = async (req, res, next) => {
   // Check for failed channel creation - M 
   if (res.locals.exists) return next();
 
+  //Querying the subscriber
   const subscriber = await User.findOne({ username: req.cookies.user });
+
   if (!subscriber) {
     console.log('Error - User does not exist');
     return res.redirect('login');
   };
 
-  //Check to see if channel exists 
+  //Secondary check for channel existence (don't remove this - unrelated to res.locals.exists) 
   const found = await Channel.findOne({ channelName: req.body.channel })
   if (!found) {
     console.log('Channel not found!')
     return next();
   };
-
+  // The subscription list for the user
   const subChannels = subscriber.subscribedChannels;
+  // The list of members for the channel
+  const memberList = found.members; 
+
   if (subChannels.includes(req.body.channel)) {
     console.log('Channel already subscribed');
     return next();
   }
-
+  // Adds channel to array
   subChannels.push(req.body.channel);
+  memberList.push(req.body.channel);
 
+  // Updates the entries
   await User.findOneAndUpdate({ username: req.cookies.user }, { subscribedChannels: subChannels });
+  await Channel.findOneAndUpdate({ channelName: req.body.channel }, { members: memberList});
 
   const cookieContents = req.cookies.user;
   res.cookie('subscribedChannels', req.cookies.subscribedChannels + req.body.channel);
