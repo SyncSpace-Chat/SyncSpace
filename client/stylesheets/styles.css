@@ -297,9 +297,9 @@ body {
   font-size: 16px;
   font-weight: 800;
   line-height: 16px;
-  min-height: 40px;
+  min-height: 30px;
   outline: 0;
-  padding: 12px 14px;
+  /* padding: 12px 14px; */
   text-align: center;
   text-rendering: geometricprecision;
   text-transform: none;
@@ -307,6 +307,10 @@ body {
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: middle;
+  margin-left: 300px;
+  height: 15px;
+  margin-top: 25px;
+
 }
 
 .unsubscribe:hover,
@@ -318,6 +322,12 @@ body {
 
 .unsubscribe:active {
   opacity: .5;
+}
+
+#channelNameHeader {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 36px;
+  
 }
 
 
