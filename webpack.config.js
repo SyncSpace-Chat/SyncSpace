@@ -3,68 +3,66 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: [
-        // entry point
-        './client/index.js',
-    ],
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
-        filename: 'bundle.js',
+  entry: ['./client/index.js'],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'bundle.js',
+  },
+  mode: 'development',
+  devServer: {
+    host: 'localhost',
+    port: 8080,
+    hot: true,
+    historyApiFallback: true,
+    static: {
+      directory: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
     },
-    mode: 'development',
-    devServer: {
-        host: 'localhost',
-        port: 8080,
-        // enable HMR on the devServer
-        hot: true,
-        // fallback to root for other urls
-        historyApiFallback: true,
-
-        static: {
-            // match the output path
-            directory: path.resolve(__dirname, 'dist'),
-            // match the output 'publicPath'
-            publicPath: '/',
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    proxy: {
+      '/db/**': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+    },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
         },
-
-        headers: { 'Access-Control-Allow-Origin': '*' },
-        /**
-         * proxy is required in order to make api calls to
-         * express server while using hot-reload webpack server
-         * routes api fetch requests from localhost:8080/api/* (webpack dev server)
-         * to localhost:3000/api/* (where our Express server is running)
-         */
-        proxy: { //TODO: Change this based on your endpoints
-            '/db/**': {
-                target: 'http://localhost:3000/',
-                secure: false,
-            },
+      },
+      {
+        test: /\.(css|scss)$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(gif|svg|jpg|png)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'images/',
         },
-    },
-    module: {
-        rules: [
-            {
-                test: /.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
-            },
-            {
-                test: /.(css|scss)$/,
-                exclude: /node_modules/,
-                use: ['style-loader', 'css-loader'],
-            }
-        ],
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './client/index.html',
-        }),
+      },
     ],
-    resolve: {
-        // Enable importing JS / JSX files without specifying their extension
-        extensions: ['.js', '.jsx'],
-    }
-}
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './client/index.html',
+    }),
+    new webpack.ProvidePlugin({
+      React: 'react',
+    }),
+  ],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    alias: {
+      'framer-motion': path.resolve(__dirname, 'node_modules/framer-motion'),
+    },
+  },
+};
