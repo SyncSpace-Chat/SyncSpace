@@ -30,6 +30,8 @@ export default function ChatWindow(props) {
       body: JSON.stringify({ message: message, channel: currentChannel }),
       headers: { 'Content-Type': 'application/json' },
     });
+    let stuff = document.getElementById('inputMessage');
+    stuff.value = '';
   };
 
 
