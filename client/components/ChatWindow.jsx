@@ -43,10 +43,10 @@ export default function ChatWindow(props) {
       }
       getMessages();
     }, 500);
-  
+
     return () => clearInterval(intervalId);
   }, [currentChannel]);
-  
+
 
   useEffect(() => {
     if (messageBoxRef.current) {
@@ -57,13 +57,14 @@ export default function ChatWindow(props) {
   const messageCache = {};
   const chatBubbles = [];
   chats.forEach((bubble) => {
-    if(messageCache[bubble._id]){
+    if (messageCache[bubble._id]) {
 
     } else {
       messageCache[bubble._id] = true;
       chatBubbles.push(
         <ChatBubble message={bubble.message} username={bubble.username} />
-    );}
+      );
+    }
   });
 
 

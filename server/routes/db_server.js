@@ -19,14 +19,13 @@ router.post('/login', userController.verifyUser, (req, res) => {
     res.status(200).json('User verified');
 });
 
-/* CHANNEL ROUTES */ 
+/* CHANNEL ROUTES */
 
 // Gets messages and returns a json array of objects, each containing messages.  
 // TODO Add usernames to the messages pulled from the messages  -M
 router.post('/getMessages', channelController.getMessages, (req, res) => {
-    console.log(res.locals.messages);
     res.status(200).json(res.locals.messages);
-}); 
+});
 
 // Sends messages, saves to DB, then returns the saved channel and message for monitoring/testing purposes -M
 router.post('/sendMessage', channelController.sendMessage, (req, res) => {
@@ -36,8 +35,8 @@ router.post('/sendMessage', channelController.sendMessage, (req, res) => {
 
 // Returns an array of ALL of the channels, user verification happens on the frontend -M 
 router.get('/getChannels', channelController.getChannels, (req, res) => {
-    console.log('Retrieving channels'); 
-    res.status(200).send(res.locals.channels); 
+    console.log('Retrieving channels');
+    res.status(200).send(res.locals.channels);
 });
 
 // Subscribes users to a channel: takes in username and channel in req.body -M
