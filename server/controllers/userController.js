@@ -102,6 +102,11 @@ userController.unsubscribe = async (req, res, next) => {
     return next(); 
   }
 
+  const subCookie = req.cookies.subscribedChannels; 
+  const newCookie = subCookie.replace(req.body.channel, '');
+
+  res.cookie('subscribedChannels', newCookie); 
+
   await User.findOneAndUpdate({ username: subscriber.username }, { $pull: { subscribedChannels: chan.channelName }});
   await Channel.findOneAndUpdate({ channelName: chan.channelName }, { $pull: { members: subscriber.username}});
 
