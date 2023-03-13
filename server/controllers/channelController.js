@@ -50,32 +50,34 @@ channelController.sendMessage = async (req, res, next) => {
 /* Retrieves an array of every channel - M*/
 
 channelController.getChannels = async (req, res, next) => {
+    let channelStringArr = [];
     const channelCollectionArr = await Channel.find({});
-    console.log(channelCollectionArr);
-    res.locals.channels = channelCollectionArr; 
-    return next(); 
+    channelStringArr = channelCollectionArr.map(el => el.channelName)
+    console.log(channelStringArr);
+    res.locals.channels = channelStringArr;
+    return next();
 }
 
-/* Creates a new channel: takes in {channel: "channelname", username: "username"}  - M */ 
+/* Creates a new channel: takes in {channel: "channelname", username: "username"}  - M */
 
 channelController.createChannel = async (req, res, next) => {
     console.log('Creating channel');
 
-    if (!req.body.username || !req.body.channel) return next(); 
-    
-    await Channel.create({channelName: req.body.channel, owner: req.body.username, messages:[]});
-    
+    if (!req.body.username || !req.body.channel) return next();
+
+    await Channel.create({ channelName: req.body.channel, owner: req.body.username, messages: [] });
+
     const user = await User.findOne({ username: req.body.username });
 
     const userSubs = user.ownedChannels;
-    
+
     userSubs.push(req.body.channel);
 
     res.locals.channel = req.body.channel;
 
-    console.log('Channel created'); 
+    console.log('Channel created');
 
     return next();
-}; 
+};
 
 module.exports = channelController;
