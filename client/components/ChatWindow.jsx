@@ -7,7 +7,7 @@ export default function ChatWindow(props) {
 
   //Giles Steiner
   //
-  //Chat window stat
+  //Chat window state
   const [message, setMessage] = useState('');
   const { currentChannel } = props;
   const [chats, setChats] = useState([]);
@@ -23,7 +23,7 @@ export default function ChatWindow(props) {
   //Giles Steiner 
   //
   //When the user send a message send a post request to /db/sendMessage route
-  //route is caught in db_server
+  //route is caught in db_server 
   const handleSubmit = async () => {
     await fetch('./db/sendMessage', {
       method: 'POST',
@@ -40,7 +40,7 @@ export default function ChatWindow(props) {
     await fetch('./db/unsubscribe', {
       method: 'POST',
       body: JSON.stringify({ channel: currentChannel }),
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
@@ -84,7 +84,6 @@ export default function ChatWindow(props) {
   const chatBubbles = [];
   chats.forEach((bubble) => {
     if (messageCache[bubble._id]) {
-
     } else {
       messageCache[bubble._id] = true;
       chatBubbles.push(
