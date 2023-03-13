@@ -13,8 +13,22 @@ export default function LBar() {
     // WE NEED TO USE THE SERVER TO MAKE THIS SO IT UPDATES AUTOMATICALLY!!!!!
     const [channels, setChannels] = useState([]); //the channels that exist in db
     const [userChannels, setUserChannels] = useState([]);
-
     const [currentChannel, setCurrentChannel] = useState("General"); //the current channel
+    //==========dark mode===========
+    const [theme, setTheme] = useState('light'); 
+
+    const toggleTheme = () => {
+        if ( theme === 'light'){
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    };
+
+    useEffect(() => {
+        document.body.className = theme;
+    }, [theme]);
+    //==========dark mode===========
 
     // Giles Steiner
     //
@@ -135,6 +149,7 @@ export default function LBar() {
                 </div>
             </div>
             <button className="btn btn-secondary logoutButton" type='button' onClick={logOut}> Logout </button>
+            <button onClick={toggleTheme}>DARK MODE?!</button>
         </>
     )
 }

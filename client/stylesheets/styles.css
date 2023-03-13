@@ -58,10 +58,12 @@ body {
   border-radius: 1rem;
   margin-left: 1rem;
   background-color: #4158d0;
-  background-image: linear-gradient(43deg,
-      #4158d0 0%,
-      #c850c0 46%,
-      #ffcc70 100%);
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
 
   border-color: black;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
@@ -135,10 +137,12 @@ body {
   overflow-y: auto;
   overflow-anchor: none;
   background-color: #ffffff;
-  background-image: linear-gradient(180deg,
-      #ffffff 0%,
-      #6284ff 50%,
-      #ff0000 100%);
+  background-image: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #6284ff 50%,
+    #ff0000 100%
+  );
   flex-direction: column-reverse;
   position: relative;
 }
@@ -173,18 +177,19 @@ body {
 }
 
 .addChannelBox {
-  background: #1e9600;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right,
-      #ff0000,
-      #fff200,
-      #1e9600);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right,
-      #ff0000,
-      #fff200,
-      #1e9600);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #1e9600; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #ff0000,
+    #fff200,
+    #1e9600
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #ff0000,
+    #fff200,
+    #1e9600
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   width: 15rem;
   height: 15rem;
   margin-bottom: 4rem;
@@ -197,13 +202,80 @@ body {
   align-items: center;
 }
 
-#browseChannels {
-  position: absolute;
-  top: 3rem;
-  left: 13rem;
+.dark {
+  background-color: #1a1a1a;
 }
 
-.subscribeButton {
-  width: 4rem;
-  height: 2rem;
+.dark .navbarClass {
+  background-color: #363636;
+}
+
+.dark #siteHandle {
+  color: white;
+}
+
+.dark .formHeader {
+  color: white;
+}
+
+.dark .initialForms {
+  background-color: #3f3f3f;
+}
+
+.dark .messageForm {
+  background-color: #3f3f3f;
+}
+
+.dark .messageBox {
+  background-color: #292929;
+  border-color: white;
+}
+
+.dark .channelButton {
+  background-color: #363636;
+  background-image: none;
+  color: white;
+  border-color: white;
+}
+
+.dark .chatPage {
+  color: white;
+}
+
+.dark .inputHeader {
+  color: white;
+}
+
+.dark .textBox {
+  background-color: #292929;
+  color: white;
+  border-color: white;
+}
+
+.dark .bubble {
+  background-color: #292929;
+  color: white;
+}
+
+.dark .user {
+  color: white;
+}
+
+.dark .theMessage {
+  color: white;
+}
+
+.dark .logoutButton {
+  color: white;
+}
+
+.dark .addChannelBox {
+  background-color: #1a1a1a;
+  background-image: none;
+  color: white;
+  border-color: white;
+}
+
+.dark .app{
+    background-color: #222;
 }
