@@ -102,7 +102,7 @@ userController.unsubscribe = async (req, res, next) => {
     return next(); 
   }
 
-  const subCookie = res.cookies.subscribedChannels; 
+  const subCookie = req.cookies.subscribedChannels; 
   const newCookie = subCookie.replace(req.body.channel, '');
 
   res.cookie('subscribedChannels', newCookie); 
