@@ -129,6 +129,7 @@ export default function LBar() {
                 <form id="browseChannels">
                     <label>Add a new channel: </label>
                     <select id="browseChannelName">
+                        //add motion thing here for channel
                         {channels.map((channel) => {
                             if (!Cookies.get('subscribedChannels').includes(channel)) {
                                 return <option value={channel}>{channel}</option>
@@ -143,7 +144,11 @@ export default function LBar() {
 
                 <ChatWindow currentChannel={currentChannel} />
                 <div id="channelList">
-                    {userChannels.map((channel) => <motion.button whileHover={{ scale: 1.25 }} className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}</motion.button>)}
+                    {userChannels.map((channel) => <motion.button             
+                        animate={{ x: 0, scale: 1 }}
+                        initial={{ scale: 0 }}
+                        transition={{ type: "tween", duration: 0.5 }} whileHover={{ scale: 1.25 }} className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}
+                        </motion.button>)}
                     <div className='addChannelBox'>
                         <div>Add a new channel!</div>
                         <form className='channelForm'>
