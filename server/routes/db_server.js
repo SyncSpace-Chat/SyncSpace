@@ -56,10 +56,15 @@ router.post('/deleteChannel', channelController.channelCheck, channelController.
     console.log('Channel SLAIN'); 
     res.sendStatus(200);
 });
-
+/* Unsubscribes from a channel - M */ 
 router.post('/unsubscribe', channelController.channelCheck, userController.unsubscribe, (req, res) => {
     console.log('Unsubscribed!');
     res.sendStatus(200); 
+})
+/* Returns an array of a users' owned channels - M */ 
+router.get('/ownedChannels', userController.ownedChannels, (req, res) => {
+    console.log('Returned user owned channels'); 
+    res.status(200).json(res.locals.ownedChannels);
 })
 
 module.exports = router;

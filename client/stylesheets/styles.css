@@ -1,10 +1,8 @@
 body {
-  background: #20002C;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #0093E9, #80D0C7);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #0093E9, #80D0C7);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #20002c;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #cbb4d4, #20002c);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #cbb4d4, #20002c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 .navbarClass {
@@ -180,17 +178,11 @@ body {
   position: absolute;
   top: 9rem;
   left: 13rem;
-  background: #1e9600;
+  background: #4568DC; 
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right,
-      #ff0000,
-      #fff200,
-      #1e9600);
+  background: -webkit-linear-gradient(to right, #B06AB3, #4568DC); 
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right,
-      #ff0000,
-      #fff200,
-      #1e9600);
+  background: linear-gradient(to right, #B06AB3, #4568DC);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   width: 13rem;
   height: 8rem;
@@ -200,6 +192,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+
 
 .dark {
   background-color: #1a1a1a;
