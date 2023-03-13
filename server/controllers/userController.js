@@ -49,6 +49,9 @@ userController.verifyUser = async (req, res, next) => {
 /* Subscribes users to a channel "channel" passed into the body in form {channel: "channelname", username: "username"}  -> retrieves entry from DB, pushes channel onto array, then updates DB entry - M*/
 
 userController.subscribe = async (req, res, next) => {
+  // Check for failed channel creation - M 
+  if (res.locals.exists) return next(); 
+
   const subscriber = await User.findOne({ username: req.body.username });
   if (!subscriber) {
     console.log('Error - User does not exist');

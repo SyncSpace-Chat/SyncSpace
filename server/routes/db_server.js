@@ -1,17 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 const userController = require('../controllers/userController');
 const channelController = require('../controllers/channelController');
 
 const { javascript } = require('webpack');
 
-// Express json preparations
+
+// router.get('/', (req, res) => {
+//     console.log('Login Redirect');
+//     res.redirect('/login'); 
+// })
 
 //router.post('/signup')
 router.post('/signup', userController.createUser, (req, res) => {
     console.log('Signing process started');
     res.status(200).json('User created');
 });
+
 //do we want to redirect users to login after they register their account or just log them in automatically?  //- Log them in automatically ofc -M
 //Would be slightly less coding to send them to the login page after account creation
 router.post('/login', userController.verifyUser, (req, res) => {
@@ -50,4 +56,5 @@ router.post('/newChannel', channelController.createChannel, userController.subsc
     console.log('Channel created');
     res.status(200).send(res.locals.channel);
 })
+
 module.exports = router;
