@@ -1,10 +1,17 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Cookies from 'js-cookie';
 
 export default function ChatBubble(props) {
-    const { username , message } = props;
-    const [bgColor, setBgColor] = useState('#d1f1e5');
+    const { username , message, id } = props;
+    const [bgColor, setBgColor] = useState('#D880B6');
+
+    useEffect(() => {
+      if (id === username) {
+          setBgColor('#80ABD8');
+      }
+    }, [username]);
 
     return (
         <motion.div 

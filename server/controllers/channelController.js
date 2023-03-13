@@ -53,7 +53,6 @@ channelController.getChannels = async (req, res, next) => {
     let channelStringArr = [];
     const channelCollectionArr = await Channel.find({});
     channelStringArr = channelCollectionArr.map(el => el.channelName)
-    console.log(channelStringArr);
     res.locals.channels = channelStringArr;
     return next();
 }

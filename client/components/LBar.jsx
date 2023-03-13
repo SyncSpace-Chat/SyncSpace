@@ -8,31 +8,39 @@ export default function LBar() {
     // Tim Muller
     //
     // State thing is added so that the channel can be updated
-    const [channel, setChannel] = useState('');
+    // const [channel, setChannel] = useState('');
 
     // WE NEED TO USE THE SERVER TO MAKE THIS SO IT UPDATES AUTOMATICALLY!!!!!
-    const [channels, setChannels] = useState(["General", "Random"]); //the channels that exist in db
-
+    const [channels, setChannels] = useState([]); //the channels that exist in db
+    const [userChannels, setUserChannels] = useState([]);
 
     const [currentChannel, setCurrentChannel] = useState("General"); //the current channel
 
     // Giles Steiner
     //
-    // Purpose: When the lbar initial renders (only ran once), the channels that exist in 
-    // the database are fetched and rendered on the screen 
-    // useEffect(() => {
-    //     async function getChannels() {
-    //         await fetch('./db/getChannels')
-    //         // .then(data => data.json())
-    //         .then(data => {
-    //             //TODO - once response returned with arr of channels from server set Channels state
-
-    //         })
-    //         .catch(err => { console.error(err) });
-    //     }
-    //     getChannels();
-    // }, [])
-
+    // Purpose: pull the list of channels that exist in the database 
+    // and only show the ones that match with the users cookie preference
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            async function getChannels() {
+                await fetch('./db/getChannels', {
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        setChannels(data);
+                        const userChannels = data.filter((el) => Cookies.get('subscribedChannels').includes(el));
+                        console.log(userChannels);
+                        setUserChannels(userChannels);
+                    })
+                    .catch((error) => {
+                        console.error('Error in grabbing chats from channel:', error);
+                    });
+            }
+            getChannels();
+        }, 500);
+        return () => clearInterval(intervalId);
+    }, []);
 
     // Tim Muller
     //
@@ -58,6 +66,8 @@ export default function LBar() {
     //when users pressed log out button the cookie is cleared and window redirected to login
     function logOut() {
         Cookies.remove('user');
+        Cookies.remove('ownedChannels');
+        Cookies.remove('subscribedChannels')
         window.location.href = "/login";
     }
 
@@ -82,7 +92,7 @@ export default function LBar() {
             <div className="chatPage">
                 <ChatWindow currentChannel={currentChannel} />
                 <div id="channelList">
-                    {channels.map((channel) => <motion.button whileHover={{scale: 1.25}} className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}</motion.button>)}
+                    {userChannels.map((channel) => <motion.button whileHover={{ scale: 1.25 }} className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}</motion.button>)}
                     <div className='addChannelBox'>
                         <div>Add a new channel!</div>
                         <form className='channelForm'>
