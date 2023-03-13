@@ -57,5 +57,9 @@ router.post('/deleteChannel', channelController.channelCheck, channelController.
     res.sendStatus(200);
 });
 
+router.post('/unsubscribe', channelController.channelCheck, userController.unsubscribe, (req, res) => {
+    console.log('Unsubscribed!');
+    res.sendStatus(200); 
+})
 
 module.exports = router;
