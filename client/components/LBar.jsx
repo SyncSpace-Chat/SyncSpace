@@ -10,20 +10,22 @@ export default function LBar() {
   // State thing is added so that the channel can be updated
   const [newChannel, setChannel] = useState('');
 
-  // WE NEED TO USE THE SERVER TO MAKE THIS SO IT UPDATES AUTOMATICALLY!!!!!
-  const [channels, setChannels] = useState([]); //the channels that exist in db
-  const [userChannels, setUserChannels] = useState([]);
-  const [currentChannel, setCurrentChannel] = useState('General'); //the current channel
-  //==========dark mode===========
-  const [theme, setTheme] = useState('light');
+    // WE NEED TO USE THE SERVER TO MAKE THIS SO IT UPDATES AUTOMATICALLY!!!!!
+    const [channels, setChannels] = useState([]); //the channels that exist in db
+    const [userChannels, setUserChannels] = useState([]);
+    const [currentChannel, setCurrentChannel] = useState("General"); //the current channel
+    //==========dark mode===========
+    const [theme, setTheme] = useState('light');
 
-  const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  };
+    const toggleTheme = () => {
+        if (theme === 'light') {
+            document.body.style.background = "#222222";
+            setTheme('dark');
+        } else {
+            document.body.style.background = "#0093e9";
+            setTheme('light');
+        }
+    };
 
   useEffect(() => {
     document.body.className = theme;
@@ -64,19 +66,19 @@ export default function LBar() {
     setChannel(e.target.value);
   };
 
-  // Tim Muller
-  //
-  // When user clicks on the add channel button they will be directed to make a new channel which will then be shown on the screen and
-  // Be able to be clicked. This will then call the server which will create a new channel in the database and add whichever user made
-  // the channel
-  const addChannel = async () => {
-    console.log('hello!!!!');
-    await fetch('./db/newChannel', {
-      method: 'POST',
-      body: JSON.stringify({ channel: newChannel }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-  };
+    // Tim Muller
+    //
+    // When user clicks on the add channel button they will be directed to make a new channel which will then be shown on the screen and
+    // Be able to be clicked. This will then call the server which will create a new channel in the database and add whichever user made
+    // the channel
+    const addChannel = async () => {
+        console.log('hello!!!!');
+        await fetch('./db/newChannel', {
+            method: 'POST',
+            body: JSON.stringify({ channel: newChannel }),
+            headers: { 'Content-Type': 'application/json' },
+        });
+    };
 
   //when users pressed log out button the cookie is cleared and window redirected to login
   function logOut() {
