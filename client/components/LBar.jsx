@@ -89,6 +89,14 @@ export default function LBar() {
     return (
         <>
             <div className="chatPage">
+                <div class="dropdown">
+                    <button class="dropbtn">Dropdown</button>
+                    <div class="dropdown-content">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                </div>
                 <ChatWindow currentChannel={currentChannel} />
                 <div id="channelList">
                     {userChannels.map((channel) => <motion.button whileHover={{ scale: 1.25 }} className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}</motion.button>)}
