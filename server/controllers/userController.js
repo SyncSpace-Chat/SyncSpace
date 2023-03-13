@@ -50,7 +50,7 @@ userController.verifyUser = async (req, res, next) => {
 
 userController.subscribe = async (req, res, next) => {
   // Check for failed channel creation - M 
-  if (res.locals.exists) return next(); 
+  if (res.locals.exists) return next();
 
   const subscriber = await User.findOne({ username: req.body.username });
   if (!subscriber) {
