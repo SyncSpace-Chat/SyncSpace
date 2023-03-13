@@ -8,7 +8,7 @@ export default function LBar() {
     // Tim Muller
     //
     // State thing is added so that the channel can be updated
-    // const [channel, setChannel] = useState('');
+    const [channel, setChannel] = useState('');
 
     // WE NEED TO USE THE SERVER TO MAKE THIS SO IT UPDATES AUTOMATICALLY!!!!!
     const [channels, setChannels] = useState([]); //the channels that exist in db
