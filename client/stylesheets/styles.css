@@ -220,6 +220,7 @@ body {
 
 .dark .messageBox {
   background-color: #292929;
+  background-image: none;
   border-color: white;
 }
 
