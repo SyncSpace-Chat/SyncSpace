@@ -30,7 +30,6 @@ export default function LBar() {
                     .then((data) => {
                         setChannels(data);
                         const userChannels = data.filter((el) => Cookies.get('subscribedChannels').includes(el));
-                        console.log(userChannels);
                         setUserChannels(userChannels);
                     })
                     .catch((error) => {
@@ -48,6 +47,7 @@ export default function LBar() {
     const handleChannelName = (e) => {
         setChannel(e.target.value);
     }
+
     // Tim Muller
     //
     // When user clicks on the add channel button they will be directed to make a new channel which will then be shown on the screen and
@@ -78,6 +78,20 @@ export default function LBar() {
         setCurrentChannel(newChannelName);
     }
 
+    async function browseChannelClick() {
+        // console.log("clicked: ", document.getElementById('browseChannelName').value);
+        console.log("subscribing to new channel");
+        await fetch('./db/subscribe', {
+            method: 'PUT',
+            body: JSON.stringify({ channel: document.getElementById('browseChannelName').value }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then((response) => response.json())
+            .catch((error) => {
+                console.error('Error in grabbing chats from channel:', error);
+            });
+    }
+
     // Giles Steiner
     //
     // channels.map is iterating through channels array and rendering a button for each channel 
@@ -89,14 +103,21 @@ export default function LBar() {
     return (
         <>
             <div className="chatPage">
-                <div class="dropdown">
-                    <button class="dropbtn">Dropdown</button>
-                    <div class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
-                </div>
+                <form id="browseChannels">
+                    <label>Add a new channel: </label>
+                    <select id="browseChannelName">
+                        {channels.map((channel) => {
+                            if (!Cookies.get('subscribedChannels').includes(channel)) {
+                                return <option value={channel}>{channel}</option>
+                            }
+                        })}
+                    </select>
+                    <br></br>
+                    <button type='button' className='sendButton' onClick={browseChannelClick}>
+                        Subcribe
+                    </button>
+                </form>
+
                 <ChatWindow currentChannel={currentChannel} />
                 <div id="channelList">
                     {userChannels.map((channel) => <motion.button whileHover={{ scale: 1.25 }} className="channelButton" onClick={() => changeChannelHandler(channel)}>{channel}</motion.button>)}
