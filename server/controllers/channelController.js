@@ -77,7 +77,7 @@ channelController.createChannel = async (req, res, next) => {
     const ownedChannels = user.ownedChannels;
     ownedChannels.push(req.body.channel);
 
-    await User.findOneAndUpdate({ username: req.cookies.user }, { ownedChannels: ownedChannels });
+    await User.findOneAndUpdate({ username: req.body.username }, { ownedChannels: ownedChannels });
     res.locals.channel = req.body.channel;
     console.log('Channel created');
     return next();

@@ -52,7 +52,7 @@ userController.subscribe = async (req, res, next) => {
   // Check for failed channel creation - M 
   if (res.locals.exists) return next(); 
 
-  const subscriber = await User.findOne({ username: req.cookies.user });
+  const subscriber = await User.findOne({ username: req.body.username });
   if (!subscriber) {
     console.log('Error - User does not exist');
     return res.redirect('login');
@@ -73,7 +73,7 @@ userController.subscribe = async (req, res, next) => {
 
   subChannels.push(req.body.channel);
 
-  await User.findOneAndUpdate({ username: req.cookies.user }, { subscribedChannels: subChannels });
+  await User.findOneAndUpdate({ username: req.body.username }, { subscribedChannels: subChannels });
   return next();
 }
 // userController.verifyUser = async (req, res, next) => {
