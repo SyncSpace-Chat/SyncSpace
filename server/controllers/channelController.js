@@ -120,7 +120,7 @@ channelController.deleteChannel = async (req, res, next) => {
         console.log('User does not own channel!')
     };
     // Remove channel from owned channels, then delete channel - M
-    await User.update({ username: res.cookies.user }, { $pull: { ownedChannels: delChan.channelName }});
+    await User.findOneAndUpdate({ username: req.cookies.user }, { $pull: { ownedChannels: delChan.channelName }});
     await Channel.findOneAndDelete({ channelName: req.body.channel });
 
     return next(); 
@@ -131,7 +131,7 @@ channelController.deleteChannel = async (req, res, next) => {
 channelController.unsubscribeAll = async (req, res, next) => {
     console.log('Removing users from channel'); 
 
-    if (res.local.exists === false) {
+    if (res.locals.exists === false) {
         console.log('Channel did not exist, moving out of middleware'); 
         return next(); 
     }
@@ -142,7 +142,7 @@ channelController.unsubscribeAll = async (req, res, next) => {
     memberList.forEach( async element => {
         console.log(element);
         // Removes channel from each user's subscriptions
-        await User.update( { username: element }, { $pull: { subscribedChannels: channelObj.channelName }});
+        await User.findOneAndUpdate( { username: element }, { $pull: { subscribedChannels: channelObj.channelName }});
     })
     return next();
 }
