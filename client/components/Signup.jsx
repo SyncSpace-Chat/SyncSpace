@@ -13,7 +13,7 @@ const handlePass = (e) => {
     password = e.target.value;
 }
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
 
     let temp = {
         "username": username,
@@ -21,7 +21,7 @@ const handleSubmit = () => {
     }
     //=============fetch===============
     //input proper end point
-    fetch('/db/signup',
+    await fetch('/db/signup',
         {
             method: "POST",
             headers: {
@@ -30,6 +30,8 @@ const handleSubmit = () => {
             body: JSON.stringify(temp),
         })
     //=============fetch===============
+
+    window.location.href = '/login';
 
 }
 

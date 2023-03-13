@@ -5,15 +5,25 @@ import { motion } from 'framer-motion';
 
 export default function ChatWindow(props) {
 
+  //Giles Steiner
+  //
+  //Chat window stat
   const [message, setMessage] = useState('');
   const { currentChannel } = props;
   const [chats, setChats] = useState([]);
   const messageBoxRef = useRef(null);
 
+  //Giles Steiner
+  //
+  //Keeps the message state updated onChange 
   const handleMessage = (e) => {
     setMessage(e.target.value);
   };
 
+  //Giles Steiner 
+  //
+  //When the user send a message send a post request to /db/sendMessage route
+  //route is caught in db_server
   const handleSubmit = async () => {
     await fetch('./db/sendMessage', {
       method: 'POST',
@@ -23,6 +33,10 @@ export default function ChatWindow(props) {
   };
 
 
+  //Giles Steiner 
+  //
+  // Every 500 seconds a fetch request is done to db/getMessages to get all the current messages in 
+  // the channel the user is currently in. The chats state is concurrently updated
   useEffect(() => {
     const intervalId = setInterval(() => {
       async function getMessages() {
@@ -62,7 +76,7 @@ export default function ChatWindow(props) {
     } else {
       messageCache[bubble._id] = true;
       chatBubbles.push(
-        <ChatBubble message={bubble.message} username={bubble.username} id={Cookies.get('user')}/>
+        <ChatBubble message={bubble.message} username={bubble.username} id={Cookies.get('user')} />
       );
     }
   });

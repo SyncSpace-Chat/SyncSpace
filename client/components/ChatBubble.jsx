@@ -1,25 +1,28 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Cookies from 'js-cookie';
 
 export default function ChatBubble(props) {
-    const { username , message, id } = props;
+    const { username, message, id } = props;
     const [bgColor, setBgColor] = useState('#D880B6');
 
+    //Giles Steiner
+    //
+    //Make the user messages a different color than other messages
     useEffect(() => {
-      if (id === username) {
-          setBgColor('#80ABD8');
-      }
+        if (id === username) {
+            setBgColor('#80ABD8');
+        }
     }, [username]);
 
+    //PJ did some magic here
     return (
-        <motion.div 
-            animate={{x: 100, scale: 1}} 
-            initial={{scale:0}}
-            transition={{type: "tween", duration:0.5}}
+        <motion.div
+            animate={{ x: 100, scale: 1 }}
+            initial={{ scale: 0 }}
+            transition={{ type: "tween", duration: 0.5 }}
         >
-            <div 
+            <div
                 className='bubble'
                 style={{
                     backgroundColor: bgColor,
@@ -30,7 +33,7 @@ export default function ChatBubble(props) {
                     boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.25)',
                 }}
             >
-                <div 
+                <div
                     className='user'
                     style={{
                         fontSize: '14px',
@@ -40,7 +43,7 @@ export default function ChatBubble(props) {
                 >
                     {username}
                 </div>
-                <div 
+                <div
                     className='theMessage'
                     style={{
                         fontSize: '16px',

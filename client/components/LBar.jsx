@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
 
 export default function LBar() {
+
     // Tim Muller
     //
     // State thing is added so that the channel can be updated
@@ -32,7 +33,7 @@ export default function LBar() {
 
     // Giles Steiner
     //
-    // Purpose: pull the list of channels that exist in the database 
+    // Purpose: pulls the list of channels that exist in the database 
     // and only show the ones that match with the users cookie preference
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -92,6 +93,10 @@ export default function LBar() {
         setCurrentChannel(newChannelName);
     }
 
+    // Giles Steiner
+    // 
+    // When user clicks a new message from the drop down menu a PUT request is done to 
+    // db/subscribe subscribing the user to that channel and updating the cookie preference
     async function browseChannelClick() {
         // console.log("clicked: ", document.getElementById('browseChannelName').value);
         console.log("subscribing to new channel");
@@ -108,9 +113,13 @@ export default function LBar() {
 
     // Giles Steiner
     //
-    // channels.map is iterating through channels array and rendering a button for each channel 
+    // channels.map is iterating through entire channels state and if an element is not already 
+    // in the users cookie preferences it is displayed on a dropdown menu as a new channel for the 
+    // user to subscrbie to 
+
+    // userChannels.map is iterating through userChannels state and rendering a button for each channel
+    // in the users cookie prefences 
     // onclick invokes click handler function which changes currentChannel state
-    // TODO - change to something more aesthetic later
     //
     // Chat window is rendered as a child component and the current channel is passed down
     // as a prop
