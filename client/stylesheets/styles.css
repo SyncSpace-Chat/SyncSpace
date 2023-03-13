@@ -1,8 +1,10 @@
 body {
-  background: #20002c;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #cbb4d4, #20002c);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #cbb4d4, #20002c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  background: #20002C;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #0093E9, #80D0C7);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #0093E9, #80D0C7);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .navbarClass {
@@ -176,11 +178,11 @@ body {
 
 .addChannelBox {
   position: absolute;
-  top: 9rem;
+  top: 12rem;
   left: 13rem;
-  background: #4568DC; 
+  background: #4568DC;
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #B06AB3, #4568DC); 
+  background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);
   /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #B06AB3, #4568DC);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -192,8 +194,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
-
 
 .dark {
   background-color: #1a1a1a;
@@ -276,8 +276,21 @@ body {
 
 #browseChannels {
   position: absolute;
-  top: 3rem;
-  left: 14rem;
+  top: 2rem;
+  left: 13rem;
+  background: #4568DC;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #B06AB3, #4568DC);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 13rem;
+  height: 8rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .topWindow {
@@ -349,4 +362,8 @@ body {
 #inputChannel {
   width: 12rem;
   margin-top: .5rem;
+}
+
+#browseChannelName {
+  margin-bottom: .5rem;
 }

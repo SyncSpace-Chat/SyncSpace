@@ -135,7 +135,6 @@ export default function LBar() {
                     <label>Subscribe to: </label>
                     <br></br>
                     <select id='browseChannelName'>
-            //add motion thing here for channel
                         {channels.map((channel) => {
                             if (!Cookies.get('subscribedChannels').includes(channel)) {
                                 return <option value={channel}>{channel}</option>;
@@ -148,7 +147,7 @@ export default function LBar() {
                         className='sendButton'
                         onClick={browseChannelClick}
                     >
-                        Subcribe
+                        Subscribe
                     </button>
                 </form>
 
