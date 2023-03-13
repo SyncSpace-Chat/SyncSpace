@@ -165,8 +165,7 @@ export default function LBar() {
               {channel}
             </motion.button>
           ))}
-        </div>
-        <div className='addChannelBox'>
+          <div className='addChannelBox'>
           <div>Add a new channel!</div>
           <form className='channelForm'>
             <div className='channelNameBox'>
@@ -184,6 +183,7 @@ export default function LBar() {
               Add New Channel
             </button>
           </form>
+        </div>
         </div>
       </div>
       <button

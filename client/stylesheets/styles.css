@@ -277,3 +277,7 @@ body {
   top: 3rem;
   left: 14rem;
 }
+
+.topWindow {
+  display: flex;;
+}

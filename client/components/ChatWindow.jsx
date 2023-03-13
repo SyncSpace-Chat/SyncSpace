@@ -34,6 +34,14 @@ export default function ChatWindow(props) {
     stuff.value = '';
   };
 
+  const handleUnsubscribe = async () => {
+    await fetch('./db/unsubscribe', {
+      method: 'PUT',
+      body: JSON.stringify({ channel: currentChannel }),
+      headers: {'Content-Type': 'application/json'},
+    });
+  }
+
 
   //Giles Steiner 
   //
@@ -86,6 +94,10 @@ export default function ChatWindow(props) {
 
   return (
     <div className='chatWindow'>
+      <div className='topWindow'>
+        <p id='channelNameHeader'>{currentChannel}</p>
+        <button type='button' className='unsubscribe' onClick='handleUnsubscribe'>Unsubscribe</button>
+      </div>
       <div className='messageBox'>
         {chatBubbles}
         <div ref={messageBoxRef}></div>
