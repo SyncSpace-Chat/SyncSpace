@@ -141,9 +141,6 @@ body {
       #ff0000 100%);
   flex-direction: column-reverse;
   position: relative;
-}
-
-.messageBox {
   height: 35vw;
   width: 40vw;
   margin-bottom: 2rem;
@@ -185,8 +182,8 @@ body {
       #fff200,
       #1e9600);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  width: 15rem;
-  height: 15rem;
+  width: 13rem;
+  height: 8rem;
   margin-bottom: 4rem;
   margin-top: 4rem;
   border-radius: 1rem;
