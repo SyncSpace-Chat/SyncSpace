@@ -6,12 +6,6 @@ const channelController = require('../controllers/channelController');
 
 const { javascript } = require('webpack');
 
-
-// router.get('/', (req, res) => {
-//     console.log('Login Redirect');
-//     res.redirect('/login'); 
-// })
-
 //router.post('/signup')
 router.post('/signup', userController.createUser, (req, res) => {
     console.log('Signing process started');

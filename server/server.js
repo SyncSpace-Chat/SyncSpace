@@ -26,6 +26,7 @@ app.use(cookieParser());
 
 app.use('/db', dbRouter); //route all 3000 requests to db file
 
+
 //catch-all route handler for any requests to an unknown route
 app.use((req, res) => res.status(404).send('The page you are looking for does not exist'));
 
