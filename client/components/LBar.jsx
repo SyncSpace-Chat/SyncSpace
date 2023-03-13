@@ -8,7 +8,7 @@ export default function LBar() {
     // Tim Muller
     //
     // State thing is added so that the channel can be updated
-    // const [channel, setChannel] = useState('');
+    const [channel, setChannel] = useState('');
 
     // WE NEED TO USE THE SERVER TO MAKE THIS SO IT UPDATES AUTOMATICALLY!!!!!
     const [channels, setChannels] = useState([]); //the channels that exist in db
@@ -53,13 +53,14 @@ export default function LBar() {
     // When user clicks on the add channel button they will be directed to make a new channel which will then be shown on the screen and
     // Be able to be clicked. This will then call the server which will create a new channel in the database and add whichever user made
     // the channel
-    async function addChannel() {
+    const addChannel = async () => {
         console.log('hello!!!!');
-        // await fetch('./db/addChannel', {
-        //     method: 'POST',
-        //     body: JSON.stringify({ channelName: channel }),
-        //     headers: { 'Content-Type': 'application/json' },
-        // });
+        console.log(channel);
+        await fetch('./db/newChannel', {
+            method: 'POST',
+            body: JSON.stringify({ channel: channel }),
+            headers: { 'Content-Type': 'application/json' },
+        });
     };
 
     //when users pressed log out button the cookie is cleared and window redirected to login
