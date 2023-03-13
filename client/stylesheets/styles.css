@@ -337,3 +337,18 @@ body {
 .chatPage {
   display: flex;
 }
+
+#addChannelButton {
+  margin-top: 1rem;
+}
+
+.channelForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#inputChannel {
+  width: 12rem;
+  margin-top: .5rem;
+}

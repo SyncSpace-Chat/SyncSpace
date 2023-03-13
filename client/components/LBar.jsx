@@ -165,7 +165,7 @@ export default function LBar() {
                         <div className='channelNameBox'>
                             <input type='text' id='inputChannel' onChange={handleChannelName} />
                         </div>
-                        <button type='button' className='addChannelButton' onClick={addChannel}>
+                        <button id="addChannelButton" type='button' className='addChannelButton' onClick={addChannel}>
                             Add New Channel
                         </button>
                     </form>
