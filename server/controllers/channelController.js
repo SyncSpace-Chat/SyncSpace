@@ -82,14 +82,18 @@ channelController.createChannel = async (req, res, next) => {
 
 /* Middleware that checks to see if a channel exists in the DB -M */
 
-channelController.channelCheck = async (req, res) => {
+channelController.channelCheck = async (req, res, next) => {
 
     const check = await Channel.findOne({ channelName: req.body.channel }); 
-    if ( check.channelName ) {
-        console.log('Channel Exists');
-        res.locals.exists = true; 
-        return next(); 
+    
+    if (check === null) {
+        res.locals.exists = false; 
+        console.log('Channel does not exist');
+        return next();
     }
+    res.locals.exists = true; 
+    console.log('Channel exists');
+    return next();
 };
 
 /* Deletes a currently existing channel - takes in user from cookie and a channel name.  Checks if the channel exists, then if the user is the owner, then proceeds to delete it - M */ 
