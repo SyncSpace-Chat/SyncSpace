@@ -5,6 +5,7 @@ const userController = require('../controllers/userController');
 const channelController = require('../controllers/channelController');
 
 const { javascript } = require('webpack');
+const { restart } = require('nodemon');
 
 //router.post('/signup')
 router.post('/signup', userController.createUser, (req, res) => {
@@ -36,19 +37,26 @@ router.post('/sendMessage', channelController.sendMessage, (req, res) => {
 // Returns an array of ALL of the channels, user verification happens on the frontend -M 
 router.get('/getChannels', channelController.getChannels, (req, res) => {
     console.log('Retrieving channels');
-    res.status(200).send(res.locals.channels);
+    res.status(200).json(res.locals.channels);
 });
 
 // Subscribes users to a channel: takes in username and channel in req.body -M
 router.put('/subscribe', userController.subscribe, (req, res) => {
     console.log('Subscribing to channel');
     res.sendStatus(200);
-})
+});
 
-// Creates a new channel and subscribes the owner to it; 
-router.post('/newChannel', channelController.createChannel, userController.subscribe, (req, res) => {
+// Creates a new channel and subscribes the owner to it - M; 
+router.post('/newChannel', channelController.channelCheck, channelController.createChannel, userController.subscribe, (req, res) => {
     console.log('Channel created');
-    res.status(200).send(res.locals.channel);
-})
+    res.status(200).json(res.locals.channel);
+});
+
+// /* Deletes a channel if the user is the channel's owner */ 
+// router.post('/deleteChannel', channelController.channelCheck, userController.unsubscribeAll, channelController.deleteChannel, (req, res) => {
+//     console.log('Channel SLAIN'); 
+//     res.status(200).json(res.locals.channel);
+// });
+
 
 module.exports = router;

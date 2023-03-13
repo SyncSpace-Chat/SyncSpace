@@ -50,7 +50,7 @@ userController.verifyUser = async (req, res, next) => {
 
 userController.subscribe = async (req, res, next) => {
   // Check for failed channel creation - M 
-  if (res.locals.exists) return next(); 
+  if (res.locals.exists) return next();
 
   const subscriber = await User.findOne({ username: req.cookies.user });
   if (!subscriber) {
@@ -74,6 +74,10 @@ userController.subscribe = async (req, res, next) => {
   subChannels.push(req.body.channel);
 
   await User.findOneAndUpdate({ username: req.cookies.user }, { subscribedChannels: subChannels });
+
+  const cookieContents = req.cookies.user;
+  res.cookie('subscribedChannels', req.cookies.subscribedChannels + req.body.channel);
+
   return next();
 }
 // userController.verifyUser = async (req, res, next) => {
