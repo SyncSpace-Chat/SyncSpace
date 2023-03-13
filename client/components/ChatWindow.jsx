@@ -30,6 +30,8 @@ export default function ChatWindow(props) {
       body: JSON.stringify({ message: message, channel: currentChannel }),
       headers: { 'Content-Type': 'application/json' },
     });
+    const audio = new Audio("db/static/iphone_woosh.mp3");
+    audio.play();
   };
 
 
