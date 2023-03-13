@@ -7,7 +7,7 @@ export default function ChatWindow(props) {
 
   //Giles Steiner
   //
-  //Chat window stat
+  //Chat window state
   const [message, setMessage] = useState('');
   const { currentChannel } = props;
   const [chats, setChats] = useState([]);
@@ -23,7 +23,7 @@ export default function ChatWindow(props) {
   //Giles Steiner 
   //
   //When the user send a message send a post request to /db/sendMessage route
-  //route is caught in db_server
+  //route is caught in db_server 
   const handleSubmit = async () => {
     await fetch('./db/sendMessage', {
       method: 'POST',
@@ -38,9 +38,9 @@ export default function ChatWindow(props) {
 
   const handleUnsubscribe = async () => {
     await fetch('./db/unsubscribe', {
-      method: 'PUT',
+      method: 'POST',
       body: JSON.stringify({ channel: currentChannel }),
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
@@ -84,7 +84,6 @@ export default function ChatWindow(props) {
   const chatBubbles = [];
   chats.forEach((bubble) => {
     if (messageCache[bubble._id]) {
-
     } else {
       messageCache[bubble._id] = true;
       chatBubbles.push(
@@ -98,14 +97,14 @@ export default function ChatWindow(props) {
     <div className='chatWindow'>
       <div className='topWindow'>
         <p id='channelNameHeader'>{currentChannel}</p>
-        <button type='button' className='unsubscribe' onClick='handleUnsubscribe'>Unsubscribe</button>
+        <button type='button' className='unsubscribe' onClick={handleUnsubscribe}>Unsubscribe</button>
       </div>
       <div className='messageBox'>
         {chatBubbles}
         <div ref={messageBoxRef}></div>
       </div>
       <div className='submitBox'>
-        <form className='messageForm'>
+        <div className='messageForm'>
           <p className='inputHeader'>Send New Message:</p>
           <div className='textBox'>
             <input type='text' id='inputMessage' onChange={handleMessage} />
@@ -113,7 +112,7 @@ export default function ChatWindow(props) {
           <button type='button' className='sendButton' onClick={handleSubmit}>
             Send Message
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );

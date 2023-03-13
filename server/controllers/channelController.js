@@ -1,3 +1,6 @@
+const { channel } = require('diagnostics_channel');
+const { resourceLimits } = require('worker_threads');
+const { findOneAndDelete } = require('../models/channelModel');
 const Channel = require('../models/channelModel');
 const { exists } = require('../models/userModel');
 const User = require('../models/userModel');
@@ -63,68 +66,84 @@ channelController.getChannels = async (req, res, next) => {
 channelController.createChannel = async (req, res, next) => {
     console.log('Creating channel');
     if (!req.cookies.user || !req.body.channel) return next();
-    
+
     if (res.locals.exists === true) {
-        console.log ('Channel Already Exists!');
+        console.log('Channel Already Exists!');
         return next();
     }
 
-    await Channel.create({ channelName: req.body.channel, owner: req.cookies.user, messages: [] });
+    await Channel.create({ channelName: req.body.channel, owner: req.cookies.user, messages: [], members: [req.cookies.user] });
     const user = await User.findOne({ username: req.cookies.user });
     const ownedChannels = user.ownedChannels;
     ownedChannels.push(req.body.channel);
 
     await User.findOneAndUpdate({ username: req.cookies.user }, { ownedChannels: ownedChannels });
     res.locals.channel = req.body.channel;
+    /* This set adds the owned channel to the user's cookies.  This is actually a really big security flaw, maybe something
+    for any iterators to fix - relying on cookies in the way we did for functionality does create security flaws */
+    res.cookie('ownedChannels', req.cookies.ownedChannels + req.body.channel);
+
     console.log('Channel created');
     return next();
 };
 
-/* Middleware that checks to see if a channel exists in the DB -M */
+/* Middleware that checks to see if a channel exists in the DB - M */
 
 channelController.channelCheck = async (req, res, next) => {
 
-    const check = await Channel.findOne({ channelName: req.body.channel }); 
-    
+    const check = await Channel.findOne({ channelName: req.body.channel });
+
     if (check === null) {
-        res.locals.exists = false; 
+        res.locals.exists = false;
         console.log('Channel does not exist');
         return next();
     }
-    res.locals.exists = true; 
+    res.locals.exists = true;
     console.log('Channel exists');
     return next();
 };
 
-/* Deletes a currently existing channel - takes in user from cookie and a channel name.  Checks if the channel exists, then if the user is the owner, then proceeds to delete it - M */ 
+/* Deletes a currently existing channel - takes in user from cookie and a channel name.  Checks if the channel exists, then if the user is the owner, then proceeds to delete it - M */
 
 channelController.deleteChannel = async (req, res, next) => {
-    console.log ('Deleting channel');
-    if (!req.cookies.user || !req.body.channel) return next(); 
+    console.log('Deleting channel');
+    if (!req.cookies.user || !req.body.channel) return next();
     res.locals.channel = req.body.channel;
 
     if (res.locals.exists === false) {
-        console.log ('Channel does not exist!');
+        console.log('Channel does not exist!');
         return next();
-    }
+    };
 
+    const delChan = await Channel.findOne({ owner: req.cookies.user}); 
+    if (delChan === null) {
+        console.log('User does not own channel!')
+    };
+    // Remove channel from owned channels, then delete channel - M
+    await User.findOneAndUpdate({ username: req.cookies.user }, { $pull: { ownedChannels: delChan.channelName }});
     await Channel.findOneAndDelete({ channelName: req.body.channel });
 
-    return next(); 
+    return next();
 }
 
-/* Unsubscribes all users from a channel that has been deleted - M */
+/* Unsubscribes all users from a channel in preparation for deletion - M */
 
 channelController.unsubscribeAll = async (req, res, next) => {
     console.log('Removing users from channel'); 
 
-    if (res.local.exists === false) {
+    if (res.locals.exists === false) {
         console.log('Channel did not exist, moving out of middleware'); 
         return next(); 
     }
 
     const channelObj = await Channel.findOne({ channelName: req.body.channel });
     const memberList = channelObj.members; 
-
+    console.log(memberList);
+    memberList.forEach( async element => {
+        console.log(element);
+        // Removes channel from each user's subscriptions
+        await User.findOneAndUpdate( { username: element }, { $pull: { subscribedChannels: channelObj.channelName }});
+    })
+    return next();
 }
 module.exports = channelController;

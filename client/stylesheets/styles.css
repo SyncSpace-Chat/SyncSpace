@@ -1,6 +1,10 @@
 body {
-  background-color: #0093e9;
-  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+  background: #20002C;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #0093E9, #80D0C7);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #0093E9, #80D0C7);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .navbarClass {
@@ -40,11 +44,14 @@ body {
 
 #channelList {
   position: absolute;
-  /* top: 0.75rem; */
-  display: flex;
+  top: 0.75rem;
+  /*
   flex-direction: column;
   margin-top: 2rem;
-  /* align-items: flex-start; */
+  align-items: flex-start; */
+  display: flex;
+  flex-direction: column;
+
 }
 
 .channelButton {
@@ -159,35 +166,29 @@ body {
 
 .logoutButton {
   position: absolute;
-  top: 1rem;
+  top: 5rem;
   right: 1rem;
 }
 
-.logoutButton {
+.darkmodeButton {
   position: absolute;
-  top: 1rem;
+  top: 8rem;
   right: 1rem;
 }
 
 .addChannelBox {
-  background: #1e9600;
+  position: absolute;
+  top: 12rem;
+  left: 13rem;
+  background: #4568DC;
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right,
-      #ff0000,
-      #fff200,
-      #1e9600);
+  background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right,
-      #ff0000,
-      #fff200,
-      #1e9600);
+  background: linear-gradient(to right, #B06AB3, #4568DC);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   width: 13rem;
   height: 8rem;
-  margin-bottom: 4rem;
-  margin-top: 4rem;
   border-radius: 1rem;
-  margin-left: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -275,12 +276,26 @@ body {
 
 #browseChannels {
   position: absolute;
-  top: 3rem;
-  left: 14rem;
+  top: 2rem;
+  left: 13rem;
+  background: #4568DC;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #B06AB3, #4568DC);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 13rem;
+  height: 8rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .topWindow {
-  display: flex;;
+  display: flex;
+  ;
 }
 
 /* CSS */
@@ -293,13 +308,13 @@ body {
   color: #FFFFFF;
   cursor: pointer;
   display: inline-block;
-  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+  font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
   font-size: 16px;
   font-weight: 800;
   line-height: 16px;
-  min-height: 40px;
+  min-height: 30px;
   outline: 0;
-  padding: 12px 14px;
+  /* padding: 12px 14px; */
   text-align: center;
   text-rendering: geometricprecision;
   text-transform: none;
@@ -307,6 +322,10 @@ body {
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: middle;
+  margin-left: 300px;
+  height: 15px;
+  margin-top: 25px;
+
 }
 
 .unsubscribe:hover,
@@ -320,5 +339,31 @@ body {
   opacity: .5;
 }
 
+#channelNameHeader {
+  align-self: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 36px;
+}
 
+.chatPage {
+  display: flex;
+}
 
+#addChannelButton {
+  margin-top: 1rem;
+}
+
+.channelForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#inputChannel {
+  width: 12rem;
+  margin-top: .5rem;
+}
+
+#browseChannelName {
+  margin-bottom: .5rem;
+}
