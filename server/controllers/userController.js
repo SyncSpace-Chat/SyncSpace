@@ -107,6 +107,20 @@ userController.unsubscribe = async (req, res, next) => {
 
   return next();
 }
+/* Returns an array of a user's owned channels - used to determine where to render delete channel buttons */ 
+
+userController.ownedChannels = async (req, res, next) => {
+  
+  const owner = await User.findOne({ username: req.cookies.user}); 
+  const ownChan = owner.ownedChannels; 
+
+  res.locals.ownedChannels = ownChan; 
+  
+  return next(); 
+}
+
+/* THE BADLANDS - ABORTED OAUTH ATTEMPT */ 
+
 // userController.verifyUser = async (req, res, next) => {
 //   //verification logic
 //   const results = await User.findOne({username: req.body.username })
