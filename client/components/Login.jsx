@@ -1,22 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Cookies from 'js-cookie';
 
-function Login() {
 
-    let username = '';
-    let password = '';
+function Login() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    // let username = '';
+    // let password = '';
 
     const handleUser = (e) => {
-        username = e.target.value;
+        // username = e.target.value;
+        setUsername(e.target.value);
     }
 
     const handlePass = (e) => {
-        password = e.target.value;
+        // password = e.target.value;
+        setPassword(e.target.value);
     }
 
     const handleSubmit = async () => {
 
-        let temp = {
+        const temp = {
             "username": username,
             "password": password
         }

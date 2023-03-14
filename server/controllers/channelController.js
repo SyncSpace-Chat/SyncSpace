@@ -19,6 +19,7 @@ const channelController = {};
 channelController.getMessages = async (req, res, next) => {
     const channel = req.body.channel;
     const channelCollectionArr = await Channel.find({ channelName: channel });
+    if (!res.locals.messages) return next(); // KF added error handling
     res.locals.messages = channelCollectionArr[0].messages;
     return next();
 }

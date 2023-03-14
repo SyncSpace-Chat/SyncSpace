@@ -55,7 +55,7 @@ export default function LBar() {
                     });
             }
             getChannels();
-        }, 500);
+        }, 30000);
         return () => clearInterval(intervalId);
     }, []);
 

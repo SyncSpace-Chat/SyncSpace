@@ -1,41 +1,44 @@
-
 import React from 'react'
 import Cookies from 'js-cookie';
+import { useState } from 'react'
 
-let username = '';
-let password = '';
-
-const handleUser = (e) => {
-    username = e.target.value;
-}
-
-const handlePass = (e) => {
-    password = e.target.value;
-}
-
-const handleSubmit = async () => {
-
-    let temp = {
-        "username": username,
-        "password": password
-    }
-    //=============fetch===============
-    //input proper end point
-    await fetch('/db/signup',
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(temp),
-        })
-    //=============fetch===============
-
-    window.location.href = '/login';
-
-}
 
 function Signup() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    // let username = '';
+    // let password = '';
+
+    const handleUser = (e) => {
+        // username = e.target.value;
+        setUsername(e.target.value);
+    }
+
+    const handlePass = (e) => {
+        // password = e.target.value;
+        setPassword(e.target.value);
+    }
+
+    const handleSubmit = async () => {
+
+        let temp = {
+            "username": username,
+            "password": password
+        }
+        //=============fetch===============
+        //input proper end point
+        await fetch('/db/signup',
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(temp),
+            })
+        //=============fetch===============
+
+        window.location.href = '/login';
+    }
 
     return (
         <div >
