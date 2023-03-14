@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
 const PORT = 3000;
-
+// .ENV key variable name goes here -> each user must create their own ENV key, which all need to be the same URI key.
 const URIkey = process.env.SHARK_DB_KEY;
 const MONGO_URI = URIkey;
 
