@@ -65,7 +65,7 @@ export default function ChatWindow(props) {
         }
       }
       getMessages();
-    }, 500);
+    }, 5000);
 
     return () => clearInterval(intervalId);
   }, [currentChannel]);
