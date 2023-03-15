@@ -6,6 +6,16 @@ const dbRouter = require("./routes/db_server");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const websocket = require('ws');
+
+const wss = new websocket.Server({port: 8082});
+
+wss.on("connection", (ws)=>{
+  console.log('new client connected')
+  ws.on("message", (message) => {
+    console.log('message from client: ', message.toString())
+  })
+})
 
 const PORT = 3000;
 

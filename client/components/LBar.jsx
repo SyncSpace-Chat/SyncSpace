@@ -37,7 +37,7 @@ export default function LBar() {
     // Purpose: pulls the list of channels that exist in the database
     // and only show the ones that match with the users cookie preference
     useEffect(() => {
-        const intervalId = setInterval(() => {
+        // const intervalId = setInterval(() => {
             async function getChannels() {
                 await fetch('./db/getChannels', {
                     headers: { 'Content-Type': 'application/json' },
@@ -55,7 +55,7 @@ export default function LBar() {
                     });
             }
             getChannels();
-        }, 500);
+        // }, 500);
         return () => clearInterval(intervalId);
     }, []);
 
