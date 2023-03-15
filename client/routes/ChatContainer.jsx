@@ -8,9 +8,9 @@ import ChatBubble from "../components/ChatBubble.jsx";
 export default function ChatContainer() {
   return (
     <div>
-      <LBar />
-      <div>
         <Header />
+      <div>
+      <LBar />
         {/* <ChatWindow /> */}
       </div>
     </div>

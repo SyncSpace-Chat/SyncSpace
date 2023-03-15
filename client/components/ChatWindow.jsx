@@ -95,17 +95,17 @@ export default function ChatWindow(props) {
   return (
     <div className="chatWindow">
 
-      <div className="topWindow">
+      <div id="chatHeader">
         <p id="channelNameHeader">{currentChannel}</p>
         <button type="button" className="unsubscribe" onClick={handleUnsubscribe}>Unsubscribe</button>
       </div>
 
-      <div className="messageBox">
+      <div id="chatMessages">
         {chatBubbles}
         <div ref={messageBoxRef}></div>
       </div>
 
-      <div className="submitBox">
+      <div id="submitChats">
         <div className="messageForm">
           <p className="inputHeader">Send New Message:</p>
           <div className="textBox">
