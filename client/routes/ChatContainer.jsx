@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useEffect } from "react";
 import Header from "../components/Header.jsx";
 import LBar from "../components/LBar.jsx";
-import ChatWindow from "../components/ChatWindow.jsx";
-import ChatBubble from "../components/ChatBubble.jsx";
-
-import { userCredentialsStore } from "../store.js";
+import ChatWindow from "../components/ChatWindow";
+import { isLoggedInStore } from "../store.js";
+import { useNavigate } from "react-router-dom";
 
 export default function ChatContainer() {
-  userCredentialsStore((state) => {
-    console.log(state);
-  });
+  const { isLoggedIn } = isLoggedInStore();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      return navigate("/login");
+    }
+  }, [isLoggedIn]);
   return (
     <div>
-        <Header />
+      <Header />
       <div>
-      <LBar />
-        {/* <ChatWindow /> */}
+        <LBar />
+        <ChatWindow />
       </div>
     </div>
-  )
+  );
 }
