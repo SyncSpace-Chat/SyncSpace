@@ -106,29 +106,34 @@ export default function LBar() {
     return (
         <>
             <div className="chatPage">
-                <div className="channelSideBar">
+
+            <div className="channelSideBar">
                     <div id="browseChannels">
                         Browse Channels<br></br>
-                        {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
-                        <select id="browseChannelName">
-                            {channels.map((channel) => {
-                                if (!Cookies.get("subscribedChannels").includes(channel)) {
-                                    return <option value={channel}>{channel}</option>;
-                                }
-                            })}
-                        </select>
-                        <button type="button" className="sendButton" onClick={browseChannelClick}>Subscribe</button>
-                    </div>
-                    <div id="channelList">
-                        {userChannels.map((channel) => (
+                    {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
+                    <select id="browseChannelName">
+                        {channels.map((channel, index) => {
+                            if (!Cookies.get("subscribedChannels").includes(channel)) {
+                                return <option key={index + 100} value={channel}>{channel}</option>;
+                            }
+                        })}
+                    </select>
+                    <button type="button" className="sendButton" onClick={browseChannelClick}>Subscribe</button>
+                </div>
+
+
+                <div id="channelList">
+                        {userChannels.map((channel, index) => (
                             <div className="channelButton"
+                                key={index}
                                 onClick={() => changeChannelHandler(channel)}
                                     >
                                 <strong># </strong>{channel.toLowerCase()}
                             </div>
                                 ))} 
                     </div>
-                    <div id="addChannel">
+                
+                 <div id="addChannel">
                         <section className="addChannelBox">
                         <h7>Add a new channel!</h7>
                         <form className="channelForm">
@@ -138,6 +143,7 @@ export default function LBar() {
                             <button id="addChannelButton" type="button" className="addChannelButton" onClick={addChannel}>Add New Channel</button>
                         </form>
                 </section>
+                    </div>
                     </div>
                 </div>
                 <ChatWindow currentChannel={currentChannel} />

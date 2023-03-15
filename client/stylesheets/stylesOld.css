@@ -64,12 +64,10 @@ body {
   border-radius: 1rem;
   margin-left: 1rem;
   background-color: #4158d0;
-  background-image: linear-gradient(
-    43deg,
-    #4158d0 0%,
-    #c850c0 46%,
-    #ffcc70 100%
-  );
+  background-image: linear-gradient(43deg,
+      #4158d0 0%,
+      #c850c0 46%,
+      #ffcc70 100%);
 
   border-color: black;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
@@ -143,12 +141,10 @@ body {
   overflow-y: auto;
   /* overflow-anchor: none; */
   background-color: #ffffff;
-  background-image: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #6284ff 50%,
-    #ff0000 100%
-  );
+  background-image: linear-gradient(180deg,
+      #ffffff 0%,
+      #6284ff 50%,
+      #ff0000 100%);
   flex-direction: column-reverse;
   position: relative;
   height: 35vw;
@@ -368,4 +364,9 @@ body {
 
 #browseChannelName {
   margin-bottom: 0.5rem;
+}
+
+.HuH {
+  background: #222222;
+  color: white;
 }

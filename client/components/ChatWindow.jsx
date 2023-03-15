@@ -78,12 +78,13 @@ export default function ChatWindow(props) {
 
   const messageCache = {};
   const chatBubbles = [];
-  chats.forEach((bubble) => {
+  chats.forEach((bubble, index) => {
     if (messageCache[bubble._id]) {
     } else {
       messageCache[bubble._id] = true;
       chatBubbles.push(
         <ChatBubble
+          key={index}
           message={bubble.message}
           username={bubble.username}
           id={Cookies.get("user")}
@@ -114,7 +115,7 @@ export default function ChatWindow(props) {
           <button type="button" className="sendButton" onClick={handleSubmit}>Send Message</button>
         </div>
       </div>
-      
+
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { darkModeStore } from "../store";
 
 function Header() {
   //when users pressed log out button the cookie is cleared and window redirected to login
@@ -10,21 +11,18 @@ function Header() {
   }
 
   //==========dark mode===========
-  const [theme, setTheme] = useState("light");
-
-  const toggleTheme = () => {
-    if (theme === "light") {
-      document.body.style.background = "#222222";
-      setTheme("dark");
-    } else {
-      document.body.style.background = "#0093e9";
-      setTheme("light");
-    }
-  };
-
+  const { toggleHuH, HuH } = darkModeStore();
   useEffect(() => {
-    document.body.className = theme;
-  }, [theme]);
+    if (HuH) {
+      document.body.classList.add("HuH");
+    } else {
+      document.body.classList.remove("HuH");
+    }
+  }, [HuH]);
+
+  // useEffect(() => {
+  //   document.body.className = theme;
+  // }, [theme]);
   //==========dark mode===========
 
   return (
@@ -35,7 +33,7 @@ function Header() {
         </div>
         <div id="chatPageHeaderButtons">
           <button type="button" onClick={logOut}>Logout</button>
-          <button onClick={toggleTheme}>Change Theme</button>
+          <button onClick={toggleHuH}>Change Theme</button>
         </div>
       </div>
     </>
