@@ -194,6 +194,25 @@ body {
   align-items: center;
 }
 
+.delChannelBox {
+  position: absolute;
+  top: 22rem;
+  left: 13rem;
+  background: #4568dc;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #b06ab3, #4568dc);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #b06ab3, #4568dc);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 13rem;
+  height: 8rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .dark {
   background-color: #1a1a1a;
 }

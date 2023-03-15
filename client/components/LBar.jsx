@@ -61,15 +61,32 @@ export default function LBar() {
             body: JSON.stringify({ channel: newChannel }),
             headers: { "Content-Type": "application/json" },
         });
-    };
-
-    // Giles Steiner
-    //
-    // When user clicks to change channel the currentChannel state is changed
-    // and adds them to res.locals.messages
-    function changeChannelHandler(newChannelName) {
-        setCurrentChannel(newChannelName);
     }
+
+  const delChannel = async () => {
+    console.log("DELETE CHANNEL FETCH");
+    await fetch("./db/deleteChannel", {
+        method: "POST",
+        body: JSON.stringify({ channel: newChannel }),
+        headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  //when users pressed log out button the cookie is cleared and window redirected to login
+  function logOut() {
+    Cookies.remove("user");
+    Cookies.remove("ownedChannels");
+    Cookies.remove("subscribedChannels");
+    window.location.href = "/login";
+  }
+
+  // Giles Steiner
+  //
+  // When user clicks to change channel the currentChannel state is changed
+  // and adds them to res.locals.messages
+  function changeChannelHandler(newChannelName) {
+    setCurrentChannel(newChannelName);
+  }
 
     // Giles Steiner
     //
@@ -144,7 +161,28 @@ export default function LBar() {
                         </form>
                 </section>
                     </div>
+                    <div className="delChannelBox">
+                        <div>Delete a channel!</div>
+                        <form className="channelForm">
+                            <div className="channelNameBox">
+                                <input
+                                type="text"
+                                id="inputChannelDel"
+                                onChange={handleChannelName}
+                                />
+                            </div>
+                            <button
+                                id="delChannelButton"
+                                type="button"
+                                className="delChannelButton"
+                                onClick={delChannel}
+                            >
+                            Delete Channel
+                            </button>
+                        </form>
                     </div>
+                    </div>
+
                     <ChatWindow currentChannel={currentChannel} />
                 </div>
                 
