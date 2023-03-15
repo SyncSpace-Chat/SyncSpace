@@ -93,6 +93,11 @@ channelController.createChannel = async (req, res, next) => {
   return next();
 };
 
+channelController.consoleLog = async (req, res, next) => {
+    console.log("DELETING: " + req.body.channel)
+    return next();
+}
+
 /* Middleware that checks to see if a channel exists in the DB - M */
 
 channelController.channelCheck = async (req, res, next) => {
@@ -114,6 +119,7 @@ channelController.deleteChannel = async (req, res, next) => {
   console.log("Deleting channel");
   if (!req.cookies.user || !req.body.channel) return next();
   res.locals.channel = req.body.channel;
+  console.log("DELETING: " + req.body.channel)
 
   if (res.locals.exists === false) {
     console.log("Channel does not exist!");

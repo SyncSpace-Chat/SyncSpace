@@ -78,7 +78,16 @@ export default function LBar() {
       body: JSON.stringify({ channel: newChannel }),
       headers: { "Content-Type": "application/json" },
     });
-  };
+  }
+
+  const delChannel = async () => {
+    console.log("DELETE CHANNEL FETCH");
+    await fetch("./db/deleteChannel", {
+        method: "POST",
+        body: JSON.stringify({ channel: newChannel }),
+        headers: { "Content-Type": "application/json" },
+    });
+  }
 
   //when users pressed log out button the cookie is cleared and window redirected to login
   function logOut() {
@@ -93,6 +102,8 @@ export default function LBar() {
   // When user clicks to change channel the currentChannel state is changed
   // and adds them to res.locals.messages
   function changeChannelHandler(newChannelName) {
+    // newChannelName will have current channel clicked on
+    console.log(newChannelName);
     setCurrentChannel(newChannelName);
   }
 
@@ -185,6 +196,26 @@ export default function LBar() {
               Add New Channel
             </button>
           </form>
+        </div>
+        <div className="delChannelBox">
+            <div>Delete a channel!</div>
+            <form className="channelForm">
+                <div className="channelNameBox">
+                    <input
+                    type="text"
+                    id="inputChannelDel"
+                    onChange={handleChannelName}
+                    />
+                </div>
+                <button
+                    id="delChannelButton"
+                    type="button"
+                    className="delChannelButton"
+                    onClick={delChannel}
+                >
+                Delete Channel
+                </button>
+            </form>
         </div>
       </div>
       <button
