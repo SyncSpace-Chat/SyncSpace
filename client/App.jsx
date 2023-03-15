@@ -5,7 +5,7 @@ import Login from "./routes/Login";
 import ChatContainer from "./routes/ChatContainer";
 // import LBar from "./components/LBar.jsx";
 import Basepage from "./routes/Basepage.jsx";
-// import "./stylesheets/styles.css";
+import "./stylesheets/styles.scss";
 
 function App() {
   return (

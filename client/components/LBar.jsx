@@ -107,8 +107,9 @@ export default function LBar() {
         <>
             <div className="chatPage">
 
-                <form id="browseChannels">
-                    <p>Subscribe to: </p>
+            <div className="channelSideBar">
+                    <div id="browseChannels">
+                        Browse Channels<br></br>
                     {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
                     <select id="browseChannelName">
                         {channels.map((channel, index) => {
@@ -118,38 +119,35 @@ export default function LBar() {
                         })}
                     </select>
                     <button type="button" className="sendButton" onClick={browseChannelClick}>Subscribe</button>
-                </form>
+                </div>
 
-                <ChatWindow currentChannel={currentChannel} />
 
-                <section id="channelList">
-                    {userChannels.map((channel, index) => (
-                        <motion.button
-                            key={index}
-                            animate={{ x: 0, scale: 1 }}
-                            initial={{ scale: 0 }}
-                            transition={{ type: "tween", duration: 0.5 }}
-                            whileHover={{ scale: 1.25 }}
-                            className="channelButton"
-                            onClick={() => changeChannelHandler(channel)}
-                        >
-                            {channel}
-                        </motion.button>
-                    ))}
+                <div id="channelList">
+                        {userChannels.map((channel, index) => (
+                            <div className="channelButton"
+                                key={index}
+                                onClick={() => changeChannelHandler(channel)}
+                                    >
+                                <strong># </strong>{channel.toLowerCase()}
+                            </div>
+                                ))} 
+                    </div>
+                
+                 <div id="addChannel">
+                        <section className="addChannelBox">
+                        <h7>Add a new channel!</h7>
+                        <form className="channelForm">
+                            <div className="channelNameBox">
+                                <input type="text" id="inputChannel" onChange={handleChannelName}/>
+                            </div>
+                            <button id="addChannelButton" type="button" className="addChannelButton" onClick={addChannel}>Add New Channel</button>
+                        </form>
                 </section>
-
-                <section className="addChannelBox">
-                    <p>Add a new channel!</p>
-                    <form className="channelForm">
-                        <div className="channelNameBox">
-                            <input type="text" id="inputChannel" onChange={handleChannelName} />
-                        </div>
-                        <button id="addChannelButton" type="button" className="addChannelButton" onClick={addChannel}>Add New Channel</button>
-                    </form>
-                </section>
-
-            </div>
-            {/* removed logout and darkmode buttons formerly here */}
+                    </div>
+                    </div>
+                    <ChatWindow currentChannel={currentChannel} />
+                </div>
+                
         </>
     );
 }
