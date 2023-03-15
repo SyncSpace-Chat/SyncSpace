@@ -19,6 +19,9 @@ function Header() {
             </li>
           </ul>
         </div>
+        {/* logout and huh/darkmode button moved from Lbar to here */}
+        <button className="btn btn-secondary logoutButton" type="button" onClick={logOut}>{" "}Logout{" "}</button>
+        <button onClick={toggleTheme} className="darkmodeButton">Huh?</button>
       </nav>
     </>
   );
