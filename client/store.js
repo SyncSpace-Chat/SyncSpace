@@ -20,15 +20,15 @@ const userCredentialsStore = create((set) => ({
   setpassword: (newpassword) => set({ password: newpassword }),
 }));
 
-const isLoggedInStore = create(
-  persist(
-    (set) => ({
-      isLoggedIn: false,
-      setIsLoggedIn: () => set((state) => ({ isLoggedIn: !state.isLoggedIn })),
-    }),
-    { name: "userLoggedInBool" }
-  )
-);
+const isLoggedInStore = create((set) => ({
+  isLoggedIn: false,
+  setIsLoggedIn: () => set((state) => ({ isLoggedIn: !state.isLoggedIn })),
+}));
+
+const currentChannelStore = create((set) => ({
+  currentChannel: "General",
+  setCurrentChannel: (newChannel) => set({ currentChannel: newChannel }),
+}));
 
 const messagesStore = create();
 
@@ -46,4 +46,4 @@ const messagesStore = create();
 //   }))
 // );
 
-export { darkModeStore, userCredentialsStore, isLoggedInStore };
+export { darkModeStore, userCredentialsStore, isLoggedInStore, currentChannelStore };

@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import ChatBubble from "./ChatBubble.jsx";
 import Cookies from "js-cookie";
+import { currentChannelStore } from "../store.js";
 
 export default function ChatWindow(props) {
+  const { currentChannel } = currentChannelStore();
   //Giles Steiner
   //
   //Chat window state
   const [message, setMessage] = useState("");
-  const { currentChannel } = props;
+  // const { currentChannel } = props;
   const [chats, setChats] = useState([]);
   const messageBoxRef = useRef(null);
 
