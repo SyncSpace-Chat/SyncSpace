@@ -1,0 +1,23 @@
+@import 'variables';
+
+body {
+    background-color: lightgray;
+    font-family: "Cabin", sans-serif;
+}
+
+button {
+    background-color: $button-primary;
+    color: white;
+    font-family: "Google Sans", sans-serif;
+    border: 1px solid transparent;
+    border-color: $button-lighter;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    min-width: 40px;
+    min-height: 20px;
+    width: auto;
+    padding: 12px 24px 12px 24px;
+    font-size: 16px;
+}

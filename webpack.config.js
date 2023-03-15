@@ -39,7 +39,13 @@ module.exports = {
       {
         test: /\.(css|scss)$/,
         exclude: /node_modules/,
-        use: ["style-loader", "css-loader"],
+        use: [
+          // Creates 'style' nodes from JS strings
+          "style-loader", 
+          // Translates CSS to CommonJS
+          "css-loader", 
+          // Compiles Sass to CSS
+          "sass-loader"],
       },
       {
         test: /\.(gif|svg|jpg|png|mp3)$/,

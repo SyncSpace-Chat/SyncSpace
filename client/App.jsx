@@ -4,7 +4,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import LBar from "./components/LBar.jsx";
 import Basepage from "./components/Basepage.jsx";
-// import "./stylesheets/styles.css";
+import './stylesheets/styles.scss';
 
 function App() {
   return (
