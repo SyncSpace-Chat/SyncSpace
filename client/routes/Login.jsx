@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
+import { redirect, useNavigate } from "react-router-dom";
 
 function Login() {
+    let navigate = useNavigate();
     //   let username = "";
     //   let password = "";
     const [username, setUsername] = useState("");
@@ -36,8 +38,10 @@ function Login() {
         //Giles Steiner
         //if user is assigned a cookie redirect them to window
         if (Cookies.get("user")) {
-            window.location.href = "/window";
+            // window.location.href = "/window";
             console.log("valid cookie");
+            // return redirect("/window");
+            return navigate("/window");
         }
     };
 
