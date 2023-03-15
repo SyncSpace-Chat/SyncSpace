@@ -51,12 +51,15 @@ export default function ChatWindow(props) {
   //
   //When the user send a message send a post request to /db/sendMessage route
   //route is caught in db_server 
-  const handleSubmit = async () => {
-    await fetch('./db/sendMessage', {
-      method: 'POST',
-      body: JSON.stringify({ message: message, channel: currentChannel }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+  const handleSubmit = async (e) => {
+    // await fetch('./db/sendMessage', {
+    //   method: 'POST',
+    //   body: JSON.stringify({ message: message, channel: currentChannel }),
+    //   headers: { 'Content-Type': 'application/json' },
+    // });
+    const user = document.cookie.split('; ').find(e => e.startsWith("user="))?.split("=")[1]
+    webSocket.send(JSON.stringify({message, currentChannel, user}))
+    setMessage('');
     let stuff = document.getElementById('inputMessage');
     stuff.value = '';
     const audio = new Audio("db/static/iphone_woosh.mp3");
@@ -138,7 +141,6 @@ export default function ChatWindow(props) {
         <button type='button' className='unsubscribe' onClick={handleUnsubscribe}>Unsubscribe</button>
       </div>
       <div className='messageBox'>
-        chats.map.forEach()
       </div>
       <button onClick={() => { setFlag(state => !state) }}>click</button>
       <div className='messageBox'>
