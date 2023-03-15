@@ -145,9 +145,9 @@ export default function LBar() {
                 </section>
                     </div>
                     </div>
+                    <ChatWindow currentChannel={currentChannel} />
                 </div>
-                <ChatWindow currentChannel={currentChannel} />
-            </div>
+                
         </>
     );
 }
