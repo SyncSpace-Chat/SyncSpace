@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function ChatBubble(props) {
   const { username, message, id } = props;
-  const [bgColor, setBgColor] = useState("#D880B6");
+  const [bgColor, setBgColor] = useState("#D880B6"); //
 
   //Giles Steiner
   //
@@ -24,33 +24,14 @@ export default function ChatBubble(props) {
     >
       <div
         className="bubble"
-        style={{
-          backgroundColor: bgColor,
-          borderRadius: "20px",
-          padding: "10px",
-          maxWidth: "80%",
-          margin: "10px",
-          boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.25)",
-        }}
       >
         <div
           className="user"
-          style={{
-            fontSize: "14px",
-            fontWeight: "bold",
-            color: "#444",
-          }}
         >
           {username}
         </div>
         <div
           className="theMessage"
-          style={{
-            fontSize: "16px",
-            fontStyle: "italic",
-            color: "#555",
-            marginTop: "5px",
-          }}
         >
           {message}
         </div>
