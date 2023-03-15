@@ -1,0 +1,101 @@
+@import 'variables';
+
+body {
+    background-color: $chat-page-primary;
+    font-family: "Cabin", sans-serif;
+    color: $font-primary;
+}
+
+.chatPageHeader {
+    margin: 5px;
+    margin-bottom: 25px;
+    background-color: $chat-page-primary;
+    display: flex;
+    border: 1px dotted red;
+    justify-content: space-between;
+}
+
+#chatPageHeaderTitle {
+    border: 1px dotted white;
+    flex: 8;
+}
+
+#chatPageHeaderButtons {
+    border: 1px dotted white;
+    display: flex;
+    justify-content: space-evenly;
+    flex: 2;
+}
+
+#chatPageHeaderTitle {
+    text-align: center;
+    height: 3em;
+    flex: 5;
+}
+
+.chatPage {
+    // border: 1px dotted blue;
+    display: flex;
+    flex-direction: row;   
+}
+
+.channelSideBar {
+    // border: 1px dotted red;
+    border-radius: 5px;
+    background-color: $chat-page-lighter2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 20vw;
+    height: 80vh;
+    margin-left: 10px;
+    margin-right: 50px;
+}
+
+#browseChannels {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+}
+
+#channelList {
+    flex: 8;
+    color: $font-secondary;
+    word-spacing: 5px;
+    padding: 10px;
+}
+
+#addChannel {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+}
+
+.channelButton {
+    border-radius: 2px;
+    margin: 4px;
+    padding: 2px 5px 2px 10px;
+}
+
+.channelButton:hover {
+    background-color: $chat-page-lighter;
+    -webkit-transform: scale(1.05);
+    // transform: scale(1.5);
+}
+
+.chatWindow {
+    border: 1px dotted white;
+    width: 73vw;
+}
+
+#chatHeader {
+    border: 1px dotted green;
+}
+
+#hatMessages {
+    border: 1px dotted green;
+}
+
+#submitChats {
+    border: 1px dotted green;
+}

@@ -78,12 +78,13 @@ export default function ChatWindow(props) {
 
   const messageCache = {};
   const chatBubbles = [];
-  chats.forEach((bubble) => {
+  chats.forEach((bubble, index) => {
     if (messageCache[bubble._id]) {
     } else {
       messageCache[bubble._id] = true;
       chatBubbles.push(
         <ChatBubble
+          key={index}
           message={bubble.message}
           username={bubble.username}
           id={Cookies.get("user")}
@@ -94,31 +95,27 @@ export default function ChatWindow(props) {
 
   return (
     <div className="chatWindow">
-      <div className="topWindow">
+
+      <div id="chatHeader">
         <p id="channelNameHeader">{currentChannel}</p>
-        <button
-          type="button"
-          className="unsubscribe"
-          onClick={handleUnsubscribe}
-        >
-          Unsubscribe
-        </button>
+        <button type="button" className="unsubscribe" onClick={handleUnsubscribe}>Unsubscribe</button>
       </div>
-      <div className="messageBox">
+
+      <div id="chatMessages">
         {chatBubbles}
         <div ref={messageBoxRef}></div>
       </div>
-      <div className="submitBox">
+
+      <div id="submitChats">
         <div className="messageForm">
           <p className="inputHeader">Send New Message:</p>
           <div className="textBox">
             <input type="text" id="inputMessage" onChange={handleMessage} />
           </div>
-          <button type="button" className="sendButton" onClick={handleSubmit}>
-            Send Message
-          </button>
+          <button type="button" className="sendButton" onClick={handleSubmit}>Send Message</button>
         </div>
       </div>
+
     </div>
   );
 }

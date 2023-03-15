@@ -1,0 +1,14 @@
+// Button Colors
+// Alt Colors: 
+// Google Blue:  #1a73e8
+$chat-page-primary: #e87e1a; 
+$chat-page-darker: darken($chat-page-primary, 50%);
+$chat-page-lighter: lighten($chat-page-primary, 10%);
+$chat-page-lighter2: lighten($chat-page-primary, 20%);
+$chat-page-lighter3: lighten($chat-page-primary, 30%);
+$chat-page-lighter4: lighten($chat-page-primary, 40%);
+$chat-page-lighter5: lighten($chat-page-primary, 50%);
+// Font Color
+$font-primary: rgb(15, 15, 15);
+$font-secondary: lighten($font-primary, 20%);
+$font-secondary2: lighten($font-primary, 30%);
