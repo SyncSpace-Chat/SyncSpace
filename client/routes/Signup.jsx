@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Cookies from "js-cookie";
 
-function Login() {
-    //   let username = "";
-    //   let password = "";
+
+function Signup() {
+    // let username = "";
+    // let password = "";
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -24,7 +24,7 @@ function Login() {
         };
         //=============fetch===============
         //input proper end point
-        await fetch("/db/login", {
+        await fetch("/db/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -33,47 +33,25 @@ function Login() {
         });
         //=============fetch===============
 
-        //Giles Steiner
-        //if user is assigned a cookie redirect them to window
-        if (Cookies.get("user")) {
-            window.location.href = "/window";
-            console.log("valid cookie");
-        }
+        window.location.href = "/login";
     };
 
     return (
         <div>
             <form className="initialForms">
-                <p className="formHeader"> Login Below: </p>
+                <p className="formHeader">Create an Account Below:</p>
                 <br></br>
                 <div className="mb-3">
                     <label className="form-label">Username</label>
-                    <input
-                        type="text"
-                        onChange={handleUser}
-                        className="form-control"
-                        id="inputUsername"
-                    />
+                    <input type="text" onChange={handleUser} className="form-control" id="inputUsername"/>
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Password</label>
-                    <input
-                        type="text"
-                        onChange={handlePass}
-                        className="form-control"
-                        id="inputPassword"
-                    />
+                    <input type="text" onChange={handlePass} className="form-control" id="inputPassword"/>
                 </div>
-                <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={handleSubmit}
-                >
-                    Submit
-                </button>
+                <button type="button" className="btn btn-primary" onClick={handleSubmit}>Submit</button>
             </form>
         </div>
     );
 }
-
-export default Login;
+export default Signup;
