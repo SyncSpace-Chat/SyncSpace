@@ -1,6 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 function Header() {
+  //when users pressed log out button the cookie is cleared and window redirected to login
+  function logOut() {
+    Cookies.remove("user");
+    Cookies.remove("ownedChannels");
+    Cookies.remove("subscribedChannels");
+    window.location.href = "/login";
+  }
+
+  //==========dark mode===========
+  const [theme, setTheme] = useState("light");
+
+  const toggleTheme = () => {
+    if (theme === "light") {
+      document.body.style.background = "#222222";
+      setTheme("dark");
+    } else {
+      document.body.style.background = "#0093e9";
+      setTheme("light");
+    }
+  };
+
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+  //==========dark mode===========
+
   return (
     <>
       <nav class="navbar navbar-expand-lg navbar-light navbarClass">

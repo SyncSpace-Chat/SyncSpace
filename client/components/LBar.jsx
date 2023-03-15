@@ -14,23 +14,6 @@ export default function LBar() {
     const [channels, setChannels] = useState([]); //the channels that exist in db
     const [userChannels, setUserChannels] = useState([]);
     const [currentChannel, setCurrentChannel] = useState("General"); //the current channel
-    //==========dark mode===========
-    const [theme, setTheme] = useState("light");
-
-    const toggleTheme = () => {
-        if (theme === "light") {
-            document.body.style.background = "#222222";
-            setTheme("dark");
-        } else {
-            document.body.style.background = "#0093e9";
-            setTheme("light");
-        }
-    };
-
-    useEffect(() => {
-        document.body.className = theme;
-    }, [theme]);
-    //==========dark mode===========
 
     // Giles Steiner
     //
@@ -80,14 +63,6 @@ export default function LBar() {
         });
     };
 
-    //when users pressed log out button the cookie is cleared and window redirected to login
-    function logOut() {
-        Cookies.remove("user");
-        Cookies.remove("ownedChannels");
-        Cookies.remove("subscribedChannels");
-        window.location.href = "/login";
-    }
-
     // Giles Steiner
     //
     // When user clicks to change channel the currentChannel state is changed
@@ -134,6 +109,7 @@ export default function LBar() {
 
                 <form id="browseChannels">
                     <h7>Subscribe to: </h7>
+                    {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
                     <select id="browseChannelName">
                         {channels.map((channel) => {
                             if (!Cookies.get("subscribedChannels").includes(channel)) {
