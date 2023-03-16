@@ -16,8 +16,8 @@ const darkModeStore = create(
 const userCredentialsStore = create((set) => ({
   username: "",
   password: "",
-  setusername: (newusername) => set({ username: newusername }),
-  setpassword: (newpassword) => set({ password: newpassword }),
+  setUsername: (newusername) => set({ username: newusername }),
+  setPassword: (newpassword) => set({ password: newpassword }),
 }));
 
 const isLoggedInStore = create((set) => ({
@@ -25,25 +25,27 @@ const isLoggedInStore = create((set) => ({
   setIsLoggedIn: () => set((state) => ({ isLoggedIn: !state.isLoggedIn })),
 }));
 
-const currentChannelStore = create((set) => ({
+const channelStore = create((set) => ({
   currentChannel: "General",
+  userChannels: [],
+  channels: [],
   setCurrentChannel: (newChannel) => set({ currentChannel: newChannel }),
+  setUserChannels: (channelsArray) => {
+    const newArray = [];
+    for (let channel of channelsArray) {
+      newArray.push(channel);
+    }
+    return set({ userChannels: newArray });
+  },
+  setChannels: (channelsArray) => {
+    const newArray = [];
+    for (let channel of channelsArray) {
+      newArray.push(channel);
+    }
+    return set({ channels: newArray });
+  },
+  newChannel: "",
+  setNewChannel: (newlyAddedChannel) => set({ newChannel: newlyAddedChannel }),
 }));
 
-const messagesStore = create();
-
-//havent tested channels store
-// const userChannelsStore = create(
-//   persist((set) => ({
-//     channels: [],
-//     setChannels: (...args) =>
-//       set(() => {
-//         for (let arg of args) {
-//           state.channels.push(arg);
-//         }
-//         channels: state.channels;
-//       }),
-//   }))
-// );
-
-export { darkModeStore, userCredentialsStore, isLoggedInStore, currentChannelStore };
+export { darkModeStore, userCredentialsStore, isLoggedInStore, channelStore };
