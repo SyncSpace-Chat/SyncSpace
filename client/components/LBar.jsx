@@ -1,6 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
+import { useEffect, useRef } from "react";
 import { channelStore, userCredentialsStore } from "../store.js";
 
 export default function LBar() {
@@ -16,8 +15,9 @@ export default function LBar() {
     setNewChannel,
   } = channelStore();
   const { username } = userCredentialsStore();
-  console.log(userChannels, "1st");
-  console.log(channels, "1st");
+
+  const addChannelText = useRef();
+  const delChannelText = useRef();
   // Giles Steiner
   //
   // Purpose: pulls the list of channels that exist in the database
@@ -69,6 +69,7 @@ export default function LBar() {
         setNewChannel("");
         setUserChannels(userChannels);
         setChannels(channels);
+        addChannelText.current.value = "";
       });
     } else {
       alert("invalid input");
@@ -80,7 +81,7 @@ export default function LBar() {
     console.log("DELETE CHANNEL FETCH");
     await fetch("./db/deleteChannel", {
       method: "POST",
-      body: JSON.stringify({ channel: newChannel }),
+      body: JSON.stringify({ channel: newChannel, username }),
       headers: { "Content-Type": "application/json" },
     });
     const newChannels = channels.filter((channel) => {
@@ -91,6 +92,7 @@ export default function LBar() {
     });
     setUserChannels(newUserChannels);
     setChannels(newChannels);
+    delChannelText.current.value = "";
   };
 
   // Giles Steiner
@@ -183,6 +185,7 @@ export default function LBar() {
                   type="text"
                   id="inputChannel"
                   onChange={(e) => setNewChannel(e.target.value)}
+                  ref={addChannelText}
                 />
               </div>
               <button
@@ -204,6 +207,7 @@ export default function LBar() {
                 type="text"
                 id="inputChannelDel"
                 onChange={(e) => setNewChannel(e.target.value)}
+                ref={delChannelText}
               />
             </div>
             <button id="delChannelButton" type="button" onClick={delChannel}>

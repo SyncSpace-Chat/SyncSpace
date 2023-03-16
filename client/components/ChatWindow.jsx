@@ -7,7 +7,6 @@ import { channelStore, userCredentialsStore } from "../store";
 export default function ChatWindow(props) {
   const { currentChannel } = channelStore();
   const { username } = userCredentialsStore();
-  console.log(currentChannel);
   // const wsRef = new WebSocket('ws://localhost:8082')
 
   //Giles Steiner
@@ -44,7 +43,6 @@ export default function ChatWindow(props) {
     // if (!ws && webSocket) {
     //   setWs(webSocket);
     // }
-    console.log('heyyy')
     console.log("mount", testRef.current, webSocket);
     setWs(webSocket);
 
@@ -123,7 +121,6 @@ export default function ChatWindow(props) {
     if (messageBoxRef.current) {
       messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
     }
-    console.log("chat's changed");
   }, [chats]);
 
   const messageCache = {};

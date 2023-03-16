@@ -1,21 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Header from "../components/Header.jsx";
 import LBar from "../components/LBar.jsx";
 import ChatWindow from "../components/ChatWindow";
 import { isLoggedInStore, userCredentialsStore } from "../store.js";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export default function ChatContainer() {
   const { username } = userCredentialsStore();
   const { isLoggedIn } = isLoggedInStore();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      return navigate("/login");
-    }
-  }, [isLoggedIn]);
-  return (
+  return !isLoggedIn ? (
+    <Navigate to="/login" />
+  ) : (
     <div className="chatPage">
       <h2>hey {username}</h2>
       <Header />

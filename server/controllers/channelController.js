@@ -53,6 +53,9 @@ channelController.sendMessage = async (req, res, next) => {
 /* Retrieves an array of every channel - M*/
 channelController.getChannels = async (req, res, next) => {
   const { username } = req.body;
+  if (!username) {
+    return next();
+  }
   const channelCollectionArr = await Channel.find({});
   const channelStringArr = channelCollectionArr.map((el) => el.channelName);
   const user = await User.findOne({ username });
@@ -98,7 +101,8 @@ channelController.consoleLog = async (req, res, next) => {
 /* Middleware that checks to see if a channel exists in the DB - M */
 
 channelController.channelCheck = async (req, res, next) => {
-  const check = await Channel.findOne({ channelName: req.body.channel });
+  const { channel } = req.body;
+  const check = await Channel.findOne({ channelName: channel });
   if (!check) {
     res.locals.exists = false;
     console.log("Channel does not exist");
@@ -113,25 +117,26 @@ channelController.channelCheck = async (req, res, next) => {
 
 channelController.deleteChannel = async (req, res, next) => {
   console.log("Deleting channel");
-  if (!req.cookies.user || !req.body.channel) return next();
-  res.locals.channel = req.body.channel;
-  console.log("DELETING: " + req.body.channel);
+  const { channel, username } = req.body;
+  if (!channel) return next();
+  res.locals.channel = channel;
+  console.log("DELETING: " + channel);
 
   if (res.locals.exists === false) {
     console.log("Channel does not exist!");
     return next();
   }
 
-  const delChan = await Channel.findOne({ owner: req.cookies.user });
+  const delChan = await Channel.findOne({ owner: username });
   if (delChan === null) {
     console.log("User does not own channel!");
   }
   // Remove channel from owned channels, then delete channel - M
   await User.findOneAndUpdate(
-    { username: req.cookies.user },
+    { username },
     { $pull: { ownedChannels: delChan.channelName } }
   );
-  await Channel.findOneAndDelete({ channelName: req.body.channel });
+  await Channel.findOneAndDelete({ channelName: channel });
 
   return next();
 };
@@ -145,15 +150,13 @@ channelController.unsubscribeAll = async (req, res, next) => {
     console.log("Channel did not exist, moving out of middleware");
     return next();
   }
-
-  const channelObj = await Channel.findOne({ channelName: req.body.channel });
+  const { channel } = req.body;
+  const channelObj = await Channel.findOne({ channelName: channel });
   const memberList = channelObj.members;
-  console.log(memberList);
-  memberList.forEach(async (element) => {
-    console.log(element);
+  memberList.forEach(async (member) => {
     // Removes channel from each user's subscriptions
     await User.findOneAndUpdate(
-      { username: element },
+      { username: member },
       { $pull: { subscribedChannels: channelObj.channelName } }
     );
   });

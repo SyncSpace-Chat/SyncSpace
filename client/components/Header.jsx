@@ -27,11 +27,6 @@ function Header() {
     }
   }, [HuH]);
 
-  // useEffect(() => {
-  //   document.body.className = theme;
-  // }, [theme]);
-  //==========dark mode===========
-
   return (
       <div className="chatPageHeader">
         <div id="chatPageHeaderTitle">
