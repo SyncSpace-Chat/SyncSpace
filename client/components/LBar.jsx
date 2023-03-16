@@ -121,8 +121,7 @@ export default function LBar() {
   // Chat window is rendered as a child component and the current channel is passed down
   // as a prop
   return (
-    <>
-      <div className="chatPage">
+      <div>
         <div className="channelSideBar">
           <div id="browseChannels">
             Browse Channels<br></br>
@@ -161,8 +160,7 @@ export default function LBar() {
           </div>
 
           <div id="addChannel">
-            <section className="addChannelBox">
-              <h2>Add a new channel!</h2>
+            <section className="addChannelBox">Add a new channel
               <form className="channelForm">
                 <div className="channelNameBox">
                   <input
@@ -177,13 +175,13 @@ export default function LBar() {
                   className="addChannelButton"
                   onClick={addChannel}
                 >
-                  Add New Channel
+                  Add
                 </button>
               </form>
             </section>
           </div>
-          <div className="delChannelBox">
-            <div>Delete a channel!</div>
+          <div id="delChannelBox">
+            <div>Delete a channel</div>
             <form className="channelForm">
               <div className="channelNameBox">
                 <input
@@ -195,15 +193,13 @@ export default function LBar() {
               <button
                 id="delChannelButton"
                 type="button"
-                className="delChannelButton"
                 onClick={delChannel}
               >
-                Delete Channel
+                Delete
               </button>
             </form>
           </div>
         </div>
       </div>
-    </>
   );
 }

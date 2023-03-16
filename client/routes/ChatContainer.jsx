@@ -15,9 +15,9 @@ export default function ChatContainer() {
     }
   }, [isLoggedIn]);
   return (
-    <div>
+    <div className="chatPage">
       <Header />
-      <div>
+    <div className="midContainer">
         <LBar />
         <ChatWindow />
       </div>

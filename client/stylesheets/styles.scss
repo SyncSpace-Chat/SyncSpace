@@ -2,54 +2,93 @@
 
 body {
     background-color: $chat-page-primary;
-    font-family: "Cabin", sans-serif;
+    font-family: "Oswald", sans-serif;
     color: $font-primary;
+}
+
+textarea:focus, input:focus {
+    outline: none;
+}
+
+input {
+    background-color: $chat-page-lighter9;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    padding-left: 10px;
+}
+
+.chatPage {
+    display: flex;
+    flex-direction: column;   
+    min-width: 90vw;
 }
 
 .chatPageHeader {
     margin: 5px;
     margin-bottom: 25px;
-    background-color: $chat-page-primary;
+    background-color: $chat-page-lighter2;
+    border-radius: 5px;
     display: flex;
-    border: 1px dotted red;
+    height: 3em;
     justify-content: space-between;
+    align-items: center;
 }
 
 #chatPageHeaderTitle {
-    border: 1px dotted white;
-    flex: 8;
+    flex: 7;
+    text-align: left;
+    padding-left: 5em;
+    min-width: 5em;
+
 }
 
 #chatPageHeaderButtons {
-    border: 1px dotted white;
+    // border: 1px dotted white;
     display: flex;
-    justify-content: space-evenly;
-    flex: 2;
+    margin-block: 2px;
+    justify-content: flex-end;
+    flex: 3;
 }
 
-#chatPageHeaderTitle {
-    text-align: center;
-    height: 3em;
-    flex: 5;
+button {
+    background-color: $chat-page-lighter4;
+    border-radius: 3px;
+    border: none;
+    max-height: 2em;
+    min-height: 1em;
+    margin: 1em;
+    overflow-x: hidden;
 }
 
-.chatPage {
-    // border: 1px dotted blue;
+button:hover {
+    background-color: $chat-page-lighter5;
+    -webkit-transform: scale(1.05);
+}
+
+#chatPageHeaderButtons > button {
+    min-width: 10em;
+}
+
+.midContainer {
+    // border: 1px dotted white;
     display: flex;
-    flex-direction: row;   
+    width: 98vw;
+    max-height: 80vh;
 }
 
 .channelSideBar {
-    // border: 1px dotted red;
     border-radius: 5px;
     background-color: $chat-page-lighter2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-width: 20vw;
-    height: 80vh;
+    min-width: 15em;
+    max-width: 20em;
+    min-height: 80vh;
     margin-left: 10px;
     margin-right: 50px;
+    flex: 1;
 }
 
 #browseChannels {
@@ -59,16 +98,37 @@ body {
 }
 
 #channelList {
-    flex: 8;
+    flex: 7;
     color: $font-secondary;
     word-spacing: 5px;
     padding: 10px;
+    min-height: 30vh;
 }
 
 #addChannel {
     flex: 1;
     text-align: center;
     padding: 10px;
+}
+
+#delChannelBox {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+}
+
+#addChannelButton,
+#delChannelButton {
+    min-width: 7em;
+}
+
+#inputChannel,
+#inputChannelDel {
+    min-width: 5em;
+    max-width: 10em;
+    border: none;
+    background-color: $chat-page-lighter9;
+    border-radius: 2px;
 }
 
 .channelButton {
@@ -80,22 +140,113 @@ body {
 .channelButton:hover {
     background-color: $chat-page-lighter;
     -webkit-transform: scale(1.05);
-    // transform: scale(1.5);
 }
 
 .chatWindow {
-    border: 1px dotted white;
-    width: 73vw;
+    background-color: $chat-page-lighter5;
+    border-radius: 5px;
+    width: 95vw;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 9;
+    overflow-y: scroll;
 }
 
 #chatHeader {
-    border: 1px dotted green;
+    background-color: $chat-page-lighter5;
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 1em;
+    flex: 1;
+    border-bottom: 1px solid $chat-page-lighter7;
+    margin-inline: 1em;
 }
 
-#hatMessages {
-    border: 1px dotted green;
+#chatMessages {
+    background-color: $chat-page-lighter5;
+    flex: 8;
+    overflow-y: scroll;
 }
 
-#submitChats {
-    border: 1px dotted green;
+.submitChats {
+    background-color: $chat-page-lighter5;
+    border-top: 1px solid $chat-page-lighter7;
+    margin-inline: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 5em;
+    padding-left: 1em;
+    flex: 1;
+}
+
+#messageForm {
+    flex: 9;
+}
+
+#messageForm > input {
+    background-color: $chat-page-lighter9;
+    border: none;
+    border-radius: 5px;
+    width: 99%;
+    min-height: 3em;
+    padding: 5px;
+    padding-left: 10px;
+    margin-right: 5px;
+}
+
+#messageSubmit {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    margin-left: 5px;
+}
+
+.sendButton {
+    height: 2em;
+    width: 5em;
+    background-color: $chat-page-lighter7;
+}
+
+.sendButton:hover {
+    height: 2em;
+    width: 5em;
+    background-color: $chat-page-lighter9;
+    -webkit-transform: scale(1.05);
+}
+
+.bubble {
+    padding-block: 10px;
+    display: flex;
+}
+
+.user {
+    size: 1em;
+    margin-right: 3em;
+    min-width: 4em;
+
+}
+
+.theMessage {
+    color: $font-secondary2;
+}
+
+@media (max-width: $breakpoint-tablet) {
+
+    .midContainer {
+        // border: 1px dotted white;
+        display: flex;
+        flex-direction: column;
+        // width: 98vw;
+}
+
+    .channelSideBar {
+        display: none;
+    }
+
+    .chatWindow {
+        min-height: 80vh;
+    }
 }
