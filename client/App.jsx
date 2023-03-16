@@ -1,24 +1,23 @@
-import React from 'react';
-import { BrowserRouter as Switch, Route } from "react-router-dom";
-import Header from './components/Header';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import LBar from './components/LBar.jsx';
-import Basepage from './components/Basepage.jsx';
-import './stylesheets/styles.css';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Signup from "./routes/Signup";
+import Login from "./routes/Login";
+import ChatContainer from "./routes/ChatContainer";
+// import LBar from "./components/LBar.jsx";
+import Basepage from "./routes/Basepage.jsx";
+import "./stylesheets/styles.scss";
 
 function App() {
-    return (
-        <div className="app">
-            {/* <Header /> */}
-            <Switch>
-                <Route exact path="/" component={Basepage} />
-                <Route path="/window" component={LBar} />
-                <Route path="/login" component={Login} />
-                <Route path="/signup" component={Signup} />
-            </Switch>
-        </div>
-    )
+  return (
+    <div className="app">
+      <Routes>
+        <Route path="/" element={<Basepage />} />
+        <Route path="/chat" element={<ChatContainer />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App;

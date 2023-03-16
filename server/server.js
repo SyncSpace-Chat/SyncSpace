@@ -3,7 +3,6 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const app = express();
 const dbRouter = require("./routes/db_server");
-const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const Channel = require("../server/models/channelModel")
 require("dotenv").config();

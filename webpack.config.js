@@ -1,28 +1,28 @@
-const webpack = require('webpack');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require("webpack");
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: ['./client/index.js'],
+  entry: ["./client/index.js"],
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
+    filename: "bundle.js",
   },
-  mode: 'development',
+  mode: "development",
   devServer: {
-    host: 'localhost',
+    host: "localhost",
     port: 8080,
     hot: true,
     historyApiFallback: true,
     static: {
-      directory: path.resolve(__dirname, 'dist'),
-      publicPath: '/',
+      directory: path.resolve(__dirname, "dist"),
+      publicPath: "/",
     },
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    headers: { "Access-Control-Allow-Origin": "*" },
     proxy: {
-      '/db/**': {
-        target: 'http://localhost:3000/',
+      "/db/**": {
+        target: "http://localhost:3000/",
         secure: false,
       },
     },
@@ -33,36 +33,42 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
         },
       },
       {
         test: /\.(css|scss)$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          // Creates 'style' nodes from JS strings
+          "style-loader", 
+          // Translates CSS to CommonJS
+          "css-loader", 
+          // Compiles Sass to CSS
+          "sass-loader"],
       },
       {
         test: /\.(gif|svg|jpg|png|mp3)$/,
-        loader: 'file-loader',
+        loader: "file-loader",
         options: {
-          name: '[name].[ext]',
-          outputPath: 'images/',
+          name: "[name].[ext]",
+          outputPath: "images/",
         },
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './client/index.html',
+      template: "./client/index.html",
     }),
     new webpack.ProvidePlugin({
-      React: 'react',
+      React: "react",
     }),
   ],
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: [".js", ".jsx"],
     alias: {
-      'framer-motion': path.resolve(__dirname, 'node_modules/framer-motion'),
+      "framer-motion": path.resolve(__dirname, "node_modules/framer-motion"),
     },
   },
 };

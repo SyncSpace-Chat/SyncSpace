@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import ChatBubble from './ChatBubble.jsx';
-import Cookies from 'js-cookie';
-import { motion } from 'framer-motion';
+import ChatBubble from "./ChatBubble.jsx";
+import Cookies from "js-cookie";
+import { currentChannelStore } from "../store.js";
 import { WsContext } from '../webSocketProvider.jsx';
 
 export default function ChatWindow(props) {
-
+  const { currentChannel } = currentChannelStore();
   // const wsRef = new WebSocket('ws://localhost:8082')
   //Giles Steiner
   //
   //Chat window state
-  const [message, setMessage] = useState('');
-  const { currentChannel } = props;
+  const [message, setMessage] = useState("");
+  // const { currentChannel } = props;
   const [chats, setChats] = useState([]);
   const messageBoxRef = useRef(null);
   const webSocket = useContext(WsContext);
@@ -20,17 +20,17 @@ export default function ChatWindow(props) {
 
   // const [ws, setWs] = useState(new WebSocket("ws://localhost:8082"))
   // useEffect(() => {
-    webSocket.onmessage = ({ data }) => {
-      const parsed = JSON.parse(data)
-      if (parsed.messages) {
-        const newMessage = parsed.messages[parsed.messages.length - 1]
-        console.log(parsed.messages[parsed.messages.length - 1])
-        const newChats = [...chats];
-        newChats.push({ message: newMessage.message, username: newMessage.username })
-        setChats(newChats)
+  webSocket.onmessage = ({ data }) => {
+    const parsed = JSON.parse(data)
+    if (parsed.messages) {
+      const newMessage = parsed.messages[parsed.messages.length - 1]
+      console.log(parsed.messages[parsed.messages.length - 1])
+      const newChats = [...chats];
+      newChats.push({ message: newMessage.message, username: newMessage.username, _id: newMessage._id})
+      setChats(newChats)
     }
-      console.log('server sent this')
-    }
+    console.log('server sent this')
+  }
   // }, [chats])
 
 
@@ -56,12 +56,12 @@ export default function ChatWindow(props) {
 
   //Giles Steiner
   //
-  //Keeps the message state updated onChange 
+  //Keeps the message state updated onChange
   const handleMessage = (e) => {
     setMessage(e.target.value);
   };
 
-  //Giles Steiner 
+  //Giles Steiner
   //
   //When the user send a message send a post request to /db/sendMessage route
   //route is caught in db_server 
@@ -81,17 +81,16 @@ export default function ChatWindow(props) {
   };
 
   const handleUnsubscribe = async () => {
-    await fetch('./db/unsubscribe', {
-      method: 'POST',
+    await fetch("./db/unsubscribe", {
+      method: "POST",
       body: JSON.stringify({ channel: currentChannel }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
-  }
+  };
 
-
-  //Giles Steiner 
+  //Giles Steiner
   //
-  // Every 500 seconds a fetch request is done to db/getMessages to get all the current messages in 
+  // Every 500 seconds a fetch request is done to db/getMessages to get all the current messages in
   // the channel the user is currently in. The chats state is concurrently updated
   useEffect(() => {
     // const intervalId = setInterval(() => {
@@ -117,54 +116,59 @@ export default function ChatWindow(props) {
     return () => clearInterval(intervalId);
   }, [currentChannel]);
 
-
   useEffect(() => {
     if (messageBoxRef.current) {
-      messageBoxRef.current.scrollIntoView({ behavior: 'smooth' });
+      messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
     }
     console.log("chat's changed")
   }, [chats]);
 
   const messageCache = {};
   const chatBubbles = [];
-  chats.forEach((bubble) => {
-    chatBubbles.push(
-      <ChatBubble message={bubble.message} username={bubble.username} id={Cookies.get('user')} />
-    );
-  });
-  const [flag, setFlag] = useState(true);
-
-  useEffect(() => {
-    console.log('click', testRef, webSocket, ws)
-    if (webSocket instanceof WebSocket) {
-      console.log('click2', webSocket)
-      webSocket.addEventListener('message', (e) => {
-        console.log(e.data)
-      })
+  chats.forEach((bubble, index) => {
+    if (messageCache[bubble._id]) {
+    } else {
+      messageCache[bubble._id] = true;
+      chatBubbles.push(
+        <ChatBubble
+          key={index}
+          message={bubble.message}
+          username={bubble.username}
+          id={Cookies.get("user")}
+        />
+      );
     }
-  }, [flag])
+  });
+
+  // const [flag, setFlag] = useState(true);
+  // useEffect(() => {
+  //   console.log('click', testRef, webSocket, ws)
+  //   if (webSocket instanceof WebSocket) {
+  //     console.log('click2', webSocket)
+  //     webSocket.addEventListener('message', (e) => {
+  //       console.log(e.data)
+  //     })
+  //   }
+  // }, [flag])
 
   return (
-    <div className='chatWindow'>
-      <div className='topWindow'>
-        <p id='channelNameHeader'>{currentChannel}</p>
-        <button type='button' className='unsubscribe' onClick={handleUnsubscribe}>Unsubscribe</button>
+    <div className="chatWindow">
+      <div id="chatHeader">
+        <p id="channelNameHeader">{currentChannel}</p>
+        <button type="button" className="unsubscribe" onClick={handleUnsubscribe}>Unsubscribe</button>
       </div>
-      <button onClick={() => { setFlag(state => !state) }}>click</button>
-      <div className='messageBox'>
+      <div id="chatMessages">
         {chatBubbles}
         <div ref={messageBoxRef}></div>
       </div>
-      <div className='submitBox'>
-        <div className='messageForm'>
-          <p className='inputHeader'>Send New Message:</p>
-          <div className='textBox'>
-            <input type='text' id='inputMessage' onChange={handleMessage} />
-          </div>
-          <button type='button' className='sendButton' onClick={handleSubmit}>
-            Send Message
-          </button>
+      <div className="submitChats">
+        <div id="messageForm">
+          <input type="text" id="inputMessage" onChange={handleMessage} />
         </div>
+        <div id="messageSubmit">
+          <button type="button" className="sendButton" onClick={handleSubmit}>Send</button>
+        </div>
+
       </div>
     </div>
   );

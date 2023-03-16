@@ -1,14 +1,16 @@
-import React from 'react';
-import { render } from 'react-dom';
+import React from "react";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import App from './App';
 import WebSocketProvider from './webSocketProvider';
+import App from "./App.jsx";
 
-render(
+const container = document.querySelector("#root");
+const root = createRoot(container);
+
+root.render(
     <BrowserRouter>
         <WebSocketProvider>
             <App />
         </WebSocketProvider>
     </BrowserRouter>
-    , document.getElementById('root')
 );

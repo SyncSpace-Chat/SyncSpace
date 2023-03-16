@@ -1,9 +1,9 @@
 body {
-  background: #20002C;
+  background: #20002c;
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #0093E9, #80D0C7);
+  background: -webkit-linear-gradient(to right, #0093e9, #80d0c7);
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #0093E9, #80D0C7);
+  background: linear-gradient(to right, #0093e9, #80d0c7);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
@@ -51,7 +51,6 @@ body {
   align-items: flex-start; */
   display: flex;
   flex-direction: column;
-
 }
 
 .channelButton {
@@ -118,8 +117,8 @@ body {
 
 .sendButton {
   border-radius: 8px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   cursor: pointer;
 }
 
@@ -180,11 +179,30 @@ body {
   position: absolute;
   top: 12rem;
   left: 13rem;
-  background: #4568DC;
+  background: #4568dc;
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);
+  background: -webkit-linear-gradient(to right, #b06ab3, #4568dc);
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #B06AB3, #4568DC);
+  background: linear-gradient(to right, #b06ab3, #4568dc);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 13rem;
+  height: 8rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.delChannelBox {
+  position: absolute;
+  top: 22rem;
+  left: 13rem;
+  background: #4568dc;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #b06ab3, #4568dc);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #b06ab3, #4568dc);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   width: 13rem;
   height: 8rem;
@@ -278,11 +296,11 @@ body {
   position: absolute;
   top: 2rem;
   left: 13rem;
-  background: #4568DC;
+  background: #4568dc;
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);
+  background: -webkit-linear-gradient(to right, #b06ab3, #4568dc);
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #B06AB3, #4568DC);
+  background: linear-gradient(to right, #b06ab3, #4568dc);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   width: 13rem;
   height: 8rem;
@@ -295,17 +313,16 @@ body {
 
 .topWindow {
   display: flex;
-  ;
 }
 
 /* CSS */
 .unsubscribe {
-  background: #FF4742;
-  border: 1px solid #FF4742;
+  background: #ff4742;
+  border: 1px solid #ff4742;
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   display: inline-block;
   font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
@@ -325,23 +342,23 @@ body {
   margin-left: 300px;
   height: 15px;
   margin-top: 25px;
-
 }
 
 .unsubscribe:hover,
 .unsubscribe:active {
   background-color: white;
   background-position: 0 0;
-  color: #FF4742;
+  color: #ff4742;
 }
 
 .unsubscribe:active {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 #channelNameHeader {
   align-self: center;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 36px;
 }
 
@@ -361,9 +378,14 @@ body {
 
 #inputChannel {
   width: 12rem;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 #browseChannelName {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
+}
+
+.HuH {
+  background: #222222;
+  color: white;
 }
