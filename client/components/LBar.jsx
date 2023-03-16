@@ -1,40 +1,49 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Cookies from "js-cookie";
-import { currentChannelStore } from "../store.js";
+import { channelStore, userCredentialsStore } from "../store.js";
 
 export default function LBar() {
-  const { setCurrentChannel } = currentChannelStore();
-  // const setCurrentChannelz = currentChannelStore((state) => state.setCurrentChannel)
-  // Tim Muller
-  //
-  // State thing is added so that the channel can be updated
-  const [newChannel, setChannel] = useState("");
-
-  // WE NEED TO USE THE SERVER TO MAKE THIS SO IT UPDATES AUTOMATICALLY!!!!!
-  const [channels, setChannels] = useState([]); //the channels that exist in db
-  const [userChannels, setUserChannels] = useState([]);
-
+  //JUNAID
+  //all hooks removed from this component
+  const {
+    setCurrentChannel,
+    setUserChannels,
+    setChannels,
+    channels,
+    userChannels,
+    newChannel,
+    setNewChannel,
+  } = channelStore();
+  const { username } = userCredentialsStore();
+  console.log(userChannels, "1st");
   // Giles Steiner
   //
   // Purpose: pulls the list of channels that exist in the database
   // and only show the ones that match with the users cookie preference
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    console.log(userChannels, "2nd userchannels");
+    const intervalId = setInterval(async () => {
+      console.log(userChannels, "3rd userchannels");
       async function getChannels() {
-        await fetch("./db/getChannels", {
+        const res = await fetch("./db/getChannels", {
           headers: { "Content-Type": "application/json" },
         })
-          .then((response) => response.json())
+          .then((response) => {
+            console.log(userChannels, "4th")
+            return response.json();
+          })
           .then((data) => {
+            console.log(userChannels, "5th");
             setChannels(data);
-            const userChannels = data.filter((el) =>
-              Cookies.get("subscribedChannels").includes(el)
-            );
+            console.log(data, "data 2");
+            console.log(channels, "channels");
+            const userChannelsArr = data.filter((el) => !userChannels.includes(el));
             setUserChannels(userChannels);
+            console.log(userChannels, "6th")
           })
           .catch((error) => {
-            console.error("Error in grabbing chats from channel:", error);
+            console.error("Error in grabbing chats from channel lbar:", error);
           });
       }
       getChannels();
@@ -44,23 +53,28 @@ export default function LBar() {
 
   // Tim Muller
   //
-  // Whenever a string or anything is typed into the add channel box the channel name to be added is updated immediately
-  const handleChannelName = (e) => {
-    setChannel(e.target.value);
-  };
-
-  // Tim Muller
-  //
   // When user clicks on the add channel button they will be directed to make a new channel which will then be shown on the screen and
   // Be able to be clicked. This will then call the server which will create a new channel in the database and add whichever user made
   // the channel
-  const addChannel = async () => {
-    console.log("hello!!!!");
-    await fetch("./db/newChannel", {
-      method: "POST",
-      body: JSON.stringify({ channel: newChannel }),
-      headers: { "Content-Type": "application/json" },
-    });
+  const addChannel = () => {
+    console.log("adding new channel:", newChannel);
+    const reqBody = {
+      channel: newChannel,
+      username,
+    };
+    if (newChannel.length) {
+      fetch("./db/newChannel", {
+        method: "POST",
+        body: JSON.stringify(reqBody),
+        headers: { "Content-Type": "application/json" },
+      }).then(() => {
+        console.log("added:", newChannel);
+        setNewChannel("");
+      });
+    } else {
+      alert("invalid input");
+      return;
+    }
   };
 
   const delChannel = async () => {
@@ -72,19 +86,12 @@ export default function LBar() {
     });
   };
 
-  //when users pressed log out button the cookie is cleared and window redirected to login
-  function logOut() {
-    Cookies.remove("user");
-    Cookies.remove("ownedChannels");
-    Cookies.remove("subscribedChannels");
-    window.location.href = "/login";
-  }
-
   // Giles Steiner
   //
   // When user clicks to change channel the currentChannel state is changed
   // and adds them to res.locals.messages
   function changeChannelHandler(newChannelName) {
+    console.log("in here");
     setCurrentChannel(newChannelName);
   }
 
@@ -104,7 +111,7 @@ export default function LBar() {
     })
       .then((response) => response.json())
       .catch((error) => {
-        console.error("Error in grabbing chats from channel:", error);
+        console.error("Error in grabbing chats from channel lbar2:", error);
       });
   }
 
@@ -128,7 +135,7 @@ export default function LBar() {
             {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
             <select id="browseChannelName">
               {channels.map((channel, index) => {
-                if (!Cookies.get("subscribedChannels").includes(channel)) {
+                if (!userChannels.includes(channel)) {
                   return (
                     <option key={index + 100} value={channel}>
                       {channel}
@@ -166,7 +173,7 @@ export default function LBar() {
                   <input
                     type="text"
                     id="inputChannel"
-                    onChange={handleChannelName}
+                    onChange={(e) => setNewChannel(e.target.value)}
                   />
                 </div>
                 <button
@@ -187,7 +194,7 @@ export default function LBar() {
                 <input
                   type="text"
                   id="inputChannelDel"
-                  onChange={handleChannelName}
+                  onChange={(e) => setNewChannel(e.target.value)}
                 />
               </div>
               <button

@@ -5,15 +5,21 @@ const channelController = require("../controllers/channelController");
 
 //router.post('/signup')
 router.post("/signup", userController.createUser, (req, res) => {
-  console.log("Signing process started");
-  res.status(200).json("User created");
+  if (res.locals.userCreated) {
+    res.status(200).send("user created");
+  } else {
+    res.status(400).json("user creation failed");
+  }
 });
 
 //do we want to redirect users to login after they register their account or just log them in automatically?  //- Log them in automatically ofc -M
 //Would be slightly less coding to send them to the login page after account creation
 router.post("/login", userController.verifyUser, (req, res) => {
-  console.log("Verifying User");
-  res.status(200).json("User verified");
+  if (res.locals.foundUser) {
+    res.status(200).send("user logged in");
+  } else {
+    res.status(400).json("login failed");
+  }
 });
 
 /* CHANNEL ROUTES */
@@ -29,7 +35,7 @@ router.post("/sendMessage", channelController.sendMessage, (req, res) => {
   res.sendStatus(200);
 });
 
-/* Returns an array of ALL of the channels, user verification happens on the frontend - M */
+/* Returns an array of ALL of the channels- M */
 router.get("/getChannels", channelController.getChannels, (req, res) => {
   console.log("Retrieving channels");
   res.status(200).json(res.locals.channels);
@@ -61,7 +67,6 @@ router.post(
   channelController.unsubscribeAll,
   channelController.deleteChannel,
   (req, res) => {
-    console.log("Channel SLAIN");
     res.sendStatus(200);
   }
 );

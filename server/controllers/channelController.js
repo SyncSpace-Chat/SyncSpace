@@ -63,47 +63,41 @@ channelController.getChannels = async (req, res, next) => {
 
 channelController.createChannel = async (req, res, next) => {
   console.log("Creating channel");
-  if (!req.cookies.user || !req.body.channel) return next();
-
-  if (res.locals.exists === true) {
+  if (res.locals.exists) {
     console.log("Channel Already Exists!");
     return next();
   }
-
+  const { username, channel } = req.body;
   await Channel.create({
-    channelName: req.body.channel,
-    owner: req.cookies.user,
+    channelName: channel,
+    owner: username,
     messages: [],
-    members: [req.cookies.user],
+    members: [username],
   });
-  const user = await User.findOne({ username: req.cookies.user });
+  const user = await User.findOne({ username });
   const ownedChannels = user.ownedChannels;
-  ownedChannels.push(req.body.channel);
+  ownedChannels.push(channel);
 
-  await User.findOneAndUpdate(
-    { username: req.cookies.user },
-    { ownedChannels: ownedChannels }
-  );
-  res.locals.channel = req.body.channel;
+  await User.findOneAndUpdate({ username }, { ownedChannels: ownedChannels });
+  res.locals.channel = channel;
   /* This set adds the owned channel to the user's cookies.  This is actually a really big security flaw, maybe something
     for any iterators to fix - relying on cookies in the way we did for functionality does create security flaws */
-  res.cookie("ownedChannels", req.cookies.ownedChannels + req.body.channel);
+  // res.cookie("ownedChannels", req.cookies.ownedChannels + req.body.channel);
 
   console.log("Channel created");
   return next();
 };
 
 channelController.consoleLog = async (req, res, next) => {
-    console.log("DELETING: " + req.body.channel)
-    return next();
-}
+  console.log("DELETING: " + req.body.channel);
+  return next();
+};
 
 /* Middleware that checks to see if a channel exists in the DB - M */
 
 channelController.channelCheck = async (req, res, next) => {
   const check = await Channel.findOne({ channelName: req.body.channel });
-
-  if (check === null) {
+  if (!check) {
     res.locals.exists = false;
     console.log("Channel does not exist");
     return next();
@@ -119,7 +113,7 @@ channelController.deleteChannel = async (req, res, next) => {
   console.log("Deleting channel");
   if (!req.cookies.user || !req.body.channel) return next();
   res.locals.channel = req.body.channel;
-  console.log("DELETING: " + req.body.channel)
+  console.log("DELETING: " + req.body.channel);
 
   if (res.locals.exists === false) {
     console.log("Channel does not exist!");
