@@ -1,57 +1,70 @@
-import React, { useState } from "react";
-
+import React from "react";
+import { userCredentialsStore } from "../store";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
-    // let username = "";
-    // let password = "";
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const { setUsername, setPassword, username, password } =
+    userCredentialsStore();
 
-    const handleUser = (e) => {
-        // username = e.target.value;
-        setUsername(e.target.value);
+  const handleSubmit = () => {
+    console.log(password.length, username);
+    if (!password.length || !username.length) {
+      alert("please include both fields");
+      return;
+    }
+    let temp = {
+      username: username,
+      password: password,
     };
+    fetch("/db/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(temp),
+    }).then((res) => {
+      if (res.status < 400) {
+        return navigate("/login");
+      } else {
+        alert("account already exists");
+        return;
+      }
+    });
+  };
 
-    const handlePass = (e) => {
-        // password = e.target.value;
-        setPassword(e.target.value);
-    };
-
-    const handleSubmit = async () => {
-        let temp = {
-            username: username,
-            password: password,
-        };
-        //=============fetch===============
-        //input proper end point
-        await fetch("/db/signup", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(temp),
-        });
-        //=============fetch===============
-
-        window.location.href = "/login";
-    };
-
-    return (
-        <div>
-            <form className="initialForms">
-                <p className="formHeader">Create an Account Below:</p>
-                <br></br>
-                <div className="mb-3">
-                    <label className="form-label">Username</label>
-                    <input type="text" onChange={handleUser} className="form-control" id="inputUsername"/>
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Password</label>
-                    <input type="text" onChange={handlePass} className="form-control" id="inputPassword"/>
-                </div>
-                <button type="button" className="btn btn-primary" onClick={handleSubmit}>Submit</button>
-            </form>
+  return (
+    <div>
+      <form className="initialForms">
+        <p className="formHeader">Create an Account Below:</p>
+        <br></br>
+        <div className="mb-3">
+          <label className="form-label">Username</label>
+          <input
+            type="text"
+            onChange={(e) => setUsername(e.target.value)}
+            className="form-control"
+            id="inputUsername"
+          />
         </div>
-    );
+        <div className="mb-3">
+          <label className="form-label">Password</label>
+          <input
+            type="text"
+            onChange={(e) => setPassword(e.target.value)}
+            className="form-control"
+            id="inputPassword"
+          />
+        </div>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  );
 }
 export default Signup;

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import ChatBubble from "./ChatBubble.jsx";
 import Cookies from "js-cookie";
-import { currentChannelStore } from "../store.js";
+import { channelStore } from "../store.js";
 
 export default function ChatWindow(props) {
-  const { currentChannel } = currentChannelStore();
+  const { currentChannel } = channelStore();
   //Giles Steiner
   //
   //Chat window state
@@ -62,7 +62,7 @@ export default function ChatWindow(props) {
               setChats(data);
             })
             .catch((error) => {
-              console.error("Error in grabbing chats from channel:", error);
+              console.error("Error in :", error);
             });
         }
       }
@@ -72,11 +72,13 @@ export default function ChatWindow(props) {
     return () => clearInterval(intervalId);
   }, [currentChannel]);
 
-  useEffect(() => {
-    if (messageBoxRef.current) {
-      messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [chats]);
+  //JUNAID
+  //COMMENTED OUT SO THAT IT DOESNT SCROLL THE WINDOW DOWN EVERYTIME
+  // useEffect(() => {
+  //   if (messageBoxRef.current) {
+  //     messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // }, [chats]);
 
   const messageCache = {};
   const chatBubbles = [];
@@ -99,7 +101,13 @@ export default function ChatWindow(props) {
     <div className="chatWindow">
       <div id="chatHeader">
         <p id="channelNameHeader">{currentChannel}</p>
-        <button type="button" className="unsubscribe" onClick={handleUnsubscribe}>Unsubscribe</button>
+        <button
+          type="button"
+          className="unsubscribe"
+          onClick={handleUnsubscribe}
+        >
+          Unsubscribe
+        </button>
       </div>
       <div id="chatMessages">
         {chatBubbles}
@@ -107,12 +115,13 @@ export default function ChatWindow(props) {
       </div>
       <div className="submitChats">
         <div id="messageForm">
-            <input type="text" id="inputMessage" onChange={handleMessage} />
+          <input type="text" id="inputMessage" onChange={handleMessage} />
         </div>
         <div id="messageSubmit">
-            <button type="button" className="sendButton" onClick={handleSubmit}>Send</button>
+          <button type="button" className="sendButton" onClick={handleSubmit}>
+            Send
+          </button>
         </div>
-          
       </div>
     </div>
   );

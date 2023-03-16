@@ -1,40 +1,44 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Cookies from "js-cookie";
-import { currentChannelStore } from "../store.js";
+import { channelStore, userCredentialsStore } from "../store.js";
 
 export default function LBar() {
-  const { setCurrentChannel } = currentChannelStore();
-  // const setCurrentChannelz = currentChannelStore((state) => state.setCurrentChannel)
-  // Tim Muller
-  //
-  // State thing is added so that the channel can be updated
-  const [newChannel, setChannel] = useState("");
-
-  // WE NEED TO USE THE SERVER TO MAKE THIS SO IT UPDATES AUTOMATICALLY!!!!!
-  const [channels, setChannels] = useState([]); //the channels that exist in db
-  const [userChannels, setUserChannels] = useState([]);
-
+  //JUNAID
+  //all hooks removed from this component
+  const {
+    setCurrentChannel,
+    setUserChannels,
+    setChannels,
+    channels,
+    userChannels,
+    newChannel,
+    setNewChannel,
+  } = channelStore();
+  const { username } = userCredentialsStore();
+  console.log(userChannels, "1st");
+  console.log(channels, "1st");
   // Giles Steiner
   //
   // Purpose: pulls the list of channels that exist in the database
   // and only show the ones that match with the users cookie preference
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    const intervalId = setInterval(async () => {
       async function getChannels() {
-        await fetch("./db/getChannels", {
+        const res = await fetch("./db/getChannels", {
           headers: { "Content-Type": "application/json" },
+          method: "POST",
+          body: JSON.stringify({ username }),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            return response.json();
+          })
           .then((data) => {
-            setChannels(data);
-            const userChannels = data.filter((el) =>
-              Cookies.get("subscribedChannels").includes(el)
-            );
-            setUserChannels(userChannels);
+            setChannels(data[0]);
+            setUserChannels(data[1]);
           })
           .catch((error) => {
-            console.error("Error in grabbing chats from channel:", error);
+            console.error("Error in grabbing chats from channel lbar:", error);
           });
       }
       getChannels();
@@ -44,23 +48,28 @@ export default function LBar() {
 
   // Tim Muller
   //
-  // Whenever a string or anything is typed into the add channel box the channel name to be added is updated immediately
-  const handleChannelName = (e) => {
-    setChannel(e.target.value);
-  };
-
-  // Tim Muller
-  //
   // When user clicks on the add channel button they will be directed to make a new channel which will then be shown on the screen and
   // Be able to be clicked. This will then call the server which will create a new channel in the database and add whichever user made
   // the channel
-  const addChannel = async () => {
-    console.log("hello!!!!");
-    await fetch("./db/newChannel", {
-      method: "POST",
-      body: JSON.stringify({ channel: newChannel }),
-      headers: { "Content-Type": "application/json" },
-    });
+  const addChannel = () => {
+    console.log("adding new channel:", newChannel);
+    const reqBody = {
+      channel: newChannel,
+      username,
+    };
+    if (newChannel.length) {
+      fetch("./db/newChannel", {
+        method: "POST",
+        body: JSON.stringify(reqBody),
+        headers: { "Content-Type": "application/json" },
+      }).then(() => {
+        console.log("added:", newChannel);
+        setNewChannel("");
+      });
+    } else {
+      alert("invalid input");
+      return;
+    }
   };
 
   const delChannel = async () => {
@@ -72,19 +81,12 @@ export default function LBar() {
     });
   };
 
-  //when users pressed log out button the cookie is cleared and window redirected to login
-  function logOut() {
-    Cookies.remove("user");
-    Cookies.remove("ownedChannels");
-    Cookies.remove("subscribedChannels");
-    window.location.href = "/login";
-  }
-
   // Giles Steiner
   //
   // When user clicks to change channel the currentChannel state is changed
   // and adds them to res.locals.messages
   function changeChannelHandler(newChannelName) {
+    console.log("in here");
     setCurrentChannel(newChannelName);
   }
 
@@ -95,17 +97,18 @@ export default function LBar() {
   async function browseChannelClick() {
     // console.log("clicked: ", document.getElementById('browseChannelName').value);
     console.log("subscribing to new channel");
+    console.log(
+      document.getElementById("browseChannelName").value,
+      "subbing to this"
+    );
     await fetch("./db/subscribe", {
       method: "PUT",
       body: JSON.stringify({
         channel: document.getElementById("browseChannelName").value,
+        username,
       }),
       headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => response.json())
-      .catch((error) => {
-        console.error("Error in grabbing chats from channel:", error);
-      });
+    });
   }
 
   // Giles Steiner
@@ -121,85 +124,82 @@ export default function LBar() {
   // Chat window is rendered as a child component and the current channel is passed down
   // as a prop
   return (
-      <div>
-        <div className="channelSideBar">
-          <div id="browseChannels">
-            Browse Channels<br></br>
-            {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
-            <select id="browseChannelName">
-              {channels.map((channel, index) => {
-                if (!Cookies.get("subscribedChannels").includes(channel)) {
-                  return (
-                    <option key={index + 100} value={channel}>
-                      {channel}
-                    </option>
-                  );
-                }
-              })}
-            </select>
-            <button
-              type="button"
-              className="sendButton"
-              onClick={browseChannelClick}
+    <div>
+      <div className="channelSideBar">
+        <div id="browseChannels">
+          Browse Channels<br></br>
+          {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
+          <select id="browseChannelName">
+            {channels.map((channel, index) => {
+              if (!userChannels.includes(channel)) {
+                return (
+                  <option key={index + 100} value={channel}>
+                    {channel}
+                  </option>
+                );
+              }
+            })}
+          </select>
+          <button
+            type="button"
+            className="sendButton"
+            onClick={browseChannelClick}
+          >
+            Subscribe
+          </button>
+        </div>
+
+        <div id="channelList">
+          {userChannels.map((channel, index) => (
+            <div
+              className="channelButton"
+              key={index}
+              onClick={() => changeChannelHandler(channel)}
             >
-              Subscribe
-            </button>
-          </div>
+              <strong># </strong>
+              {channel.toLowerCase()}
+            </div>
+          ))}
+        </div>
 
-          <div id="channelList">
-            {userChannels.map((channel, index) => (
-              <div
-                className="channelButton"
-                key={index}
-                onClick={() => changeChannelHandler(channel)}
-              >
-                <strong># </strong>
-                {channel.toLowerCase()}
-              </div>
-            ))}
-          </div>
-
-          <div id="addChannel">
-            <section className="addChannelBox">Add a new channel
-              <form className="channelForm">
-                <div className="channelNameBox">
-                  <input
-                    type="text"
-                    id="inputChannel"
-                    onChange={handleChannelName}
-                  />
-                </div>
-                <button
-                  id="addChannelButton"
-                  type="button"
-                  className="addChannelButton"
-                  onClick={addChannel}
-                >
-                  Add
-                </button>
-              </form>
-            </section>
-          </div>
-          <div id="delChannelBox">
-            <div>Delete a channel</div>
+        <div id="addChannel">
+          <section className="addChannelBox">
+            Add a new channel
             <form className="channelForm">
               <div className="channelNameBox">
                 <input
                   type="text"
-                  id="inputChannelDel"
-                  onChange={handleChannelName}
+                  id="inputChannel"
+                  onChange={(e) => setNewChannel(e.target.value)}
                 />
               </div>
               <button
-                id="delChannelButton"
+                id="addChannelButton"
                 type="button"
-                onClick={delChannel}
+                className="addChannelButton"
+                onClick={addChannel}
               >
-                Delete
+                Add
               </button>
             </form>
-          </div>
+          </section>
+        </div>
+        <div id="delChannelBox">
+          <div>Delete a channel</div>
+          <form className="channelForm">
+            <div className="channelNameBox">
+              <input
+                type="text"
+                id="inputChannelDel"
+                onChange={(e) => setNewChannel(e.target.value)}
+              />
+            </div>
+            <button id="delChannelButton" type="button" onClick={delChannel}>
+              Delete
+            </button>
+          </form>
         </div>
       </div>
+    </div>
   );
 }

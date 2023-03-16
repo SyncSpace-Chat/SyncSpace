@@ -1,36 +1,32 @@
 import React from "react";
-import Cookies from "js-cookie";
 import { userCredentialsStore, isLoggedInStore } from "../store";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
 
-  const { username, password, setpassword, setusername } =
+  const { username, password, setPassword, setUsername } =
     userCredentialsStore();
-  const { isLoggedIn, setIsLoggedIn } = isLoggedInStore();
+  const { setIsLoggedIn } = isLoggedInStore();
 
   const handleSubmit = async () => {
     let reqBody = {
       username: username,
       password: password,
     };
-    //=============fetch===============
-    //input proper end point
-    await fetch("/db/login", {
+    const res = await fetch("/db/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(reqBody),
     });
-    //=============fetch===============
-    //Giles Steiner
-    //if user is assigned a cookie redirect them to window
-    if (Cookies.get("user")) {
+    if (res.status < 400) {
       setIsLoggedIn();
-      console.log("valid cookie");
       return navigate("/chat");
+    } else {
+      alert("invalid login");
+      return;
     }
   };
 
@@ -43,7 +39,7 @@ function Login() {
           <label className="form-label">Username</label>
           <input
             type="text"
-            onChange={(e) => setusername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             className="form-control"
             id="inputUsername"
           />
@@ -52,7 +48,7 @@ function Login() {
           <label className="form-label">Password</label>
           <input
             type="text"
-            onChange={(e) => setpassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             className="form-control"
             id="inputPassword"
           />

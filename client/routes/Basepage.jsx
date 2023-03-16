@@ -1,6 +1,8 @@
 import React from "react";
 import Cookies from "js-cookie";
 
+//JUNAID
+//this component is kind of useless right now since we arent using cookies, will have to refactor is we use express sessions
 function Basepage() {
   // Giles Steiner
   //
