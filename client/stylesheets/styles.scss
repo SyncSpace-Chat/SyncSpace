@@ -158,10 +158,10 @@ button:hover {
     background-color: $chat-page-lighter5;
     display: flex;
     justify-content: space-between;
-    padding-inline: 2em;
+    padding-inline: 1em;
     flex: 1;
     border-bottom: 1px solid $chat-page-lighter7;
-    margin-inline: 5px;
+    margin-inline: 1em;
 }
 
 #chatMessages {
