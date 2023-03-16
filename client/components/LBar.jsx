@@ -23,27 +23,27 @@ export default function LBar() {
   // Purpose: pulls the list of channels that exist in the database
   // and only show the ones that match with the users cookie preference
   useEffect(() => {
-    const intervalId = setInterval(async () => {
-      async function getChannels() {
-        const res = await fetch("./db/getChannels", {
-          headers: { "Content-Type": "application/json" },
-          method: "POST",
-          body: JSON.stringify({ username }),
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            setChannels(data[0]);
-            setUserChannels(data[1]);
-          })
-          .catch((error) => {
-            console.error("Error in grabbing chats from channel lbar:", error);
-          });
-      }
-      getChannels();
-    }, 5000);
-    return () => clearInterval(intervalId);
+    // const intervalId = setInterval(async () => {
+    // async function getChannels() {
+    fetch("./db/getChannels", {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+      body: JSON.stringify({ username }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setChannels(data[0]);
+        setUserChannels(data[1]);
+      })
+      .catch((error) => {
+        console.error("Error in grabbing chats from channel lbar:", error);
+      });
+    // }
+    // getChannels();
+    // }, 5000);
+    // return () => clearInterval(intervalId);
   }, []);
 
   // Tim Muller
@@ -64,7 +64,11 @@ export default function LBar() {
         headers: { "Content-Type": "application/json" },
       }).then(() => {
         console.log("added:", newChannel);
+        channels.push(newChannel);
+        userChannels.push(newChannel);
         setNewChannel("");
+        setUserChannels(userChannels);
+        setChannels(channels);
       });
     } else {
       alert("invalid input");
@@ -79,6 +83,14 @@ export default function LBar() {
       body: JSON.stringify({ channel: newChannel }),
       headers: { "Content-Type": "application/json" },
     });
+    const newChannels = channels.filter((channel) => {
+      return channel !== newChannel;
+    });
+    const newUserChannels = userChannels.filter((channel) => {
+      return channel !== newChannel;
+    });
+    setUserChannels(newUserChannels);
+    setChannels(newChannels);
   };
 
   // Giles Steiner
@@ -95,20 +107,17 @@ export default function LBar() {
   // When user clicks a new message from the drop down menu a PUT request is done to
   // db/subscribe subscribing the user to that channel and updating the cookie preference
   async function browseChannelClick() {
-    // console.log("clicked: ", document.getElementById('browseChannelName').value);
-    console.log("subscribing to new channel");
-    console.log(
-      document.getElementById("browseChannelName").value,
-      "subbing to this"
-    );
+    console.log("subscribing to new channel: ", newChannel);
     await fetch("./db/subscribe", {
       method: "PUT",
       body: JSON.stringify({
-        channel: document.getElementById("browseChannelName").value,
+        channel: newChannel,
         username,
       }),
       headers: { "Content-Type": "application/json" },
     });
+    userChannels.push(newChannel);
+    setUserChannels(userChannels);
   }
 
   // Giles Steiner
@@ -129,7 +138,10 @@ export default function LBar() {
         <div id="browseChannels">
           Browse Channels<br></br>
           {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
-          <select id="browseChannelName">
+          <select
+            onChange={(e) => setNewChannel(e.target.value)}
+            id="browseChannelName"
+          >
             {channels.map((channel, index) => {
               if (!userChannels.includes(channel)) {
                 return (

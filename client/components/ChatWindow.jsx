@@ -23,27 +23,28 @@ export default function ChatWindow(props) {
 
   // const [ws, setWs] = useState(new WebSocket("ws://localhost:8082"))
   // useEffect(() => {
-  webSocket.onmessage = ({ data }) => {
-    const parsed = JSON.parse(data);
-    if (parsed.messages) {
-      const newMessage = parsed.messages[parsed.messages.length - 1];
-      console.log(parsed.messages[parsed.messages.length - 1]);
-      const newChats = [...chats];
-      newChats.push({
-        message: newMessage.message,
-        username: newMessage.username,
-        _id: newMessage._id,
-      });
-      setChats(newChats);
-    }
-    console.log("server sent this");
-  };
-  // }, [chats])
+    webSocket.onmessage = ({ data }) => {
+      const parsed = JSON.parse(data);
+      if (parsed.messages) {
+        const newMessage = parsed.messages[parsed.messages.length - 1];
+        console.log(parsed.messages[parsed.messages.length - 1]);
+        const newChats = [...chats];
+        newChats.push({
+          message: newMessage.message,
+          username: newMessage.username,
+          _id: newMessage._id,
+        });
+        setChats(newChats);
+      }
+      console.log("server sent this");
+    };
+  // }, [chats]);
 
   useEffect(() => {
     // if (!ws && webSocket) {
     //   setWs(webSocket);
     // }
+    console.log('heyyy')
     console.log("mount", testRef.current, webSocket);
     setWs(webSocket);
 

@@ -4,30 +4,33 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const dbRouter = require("./routes/db_server");
 const mongoose = require("mongoose");
-const Channel = require("../server/models/channelModel")
+const Channel = require("../server/models/channelModel");
 require("dotenv").config();
-const websocket = require('ws');
+const websocket = require("ws");
 
 const wss = new websocket.Server({ port: 8082 });
 
 wss.on("connection", (ws) => {
-  console.log('new client connected')
+  console.log("new client connected");
   ws.on("message", async (data) => {
     const toDb = JSON.parse(data.toString());
     const { currentChannel, message, user } = toDb;
-    const channel = await Channel.find({ channelName: currentChannel })
+    const channel = await Channel.find({ channelName: currentChannel });
     const messagesArr = channel[0].messages;
     messagesArr.push({ message, username: user });
-    const passback = await Channel.findOneAndUpdate({ channelName: currentChannel }, { messages: messagesArr }, {new: true})
+    const passback = await Channel.findOneAndUpdate(
+      { channelName: currentChannel },
+      { messages: messagesArr },
+      { new: true }
+    );
 
-    // console.log(wss.clients)
-    wss.clients.forEach((e)=> e.send(JSON.stringify(passback)))
-    // ws.send(JSON.stringify(passback))
-  })
-})
-wss.on('test', (ws)=> {
-  console.log('logged from test')
-})
+    wss.clients.forEach((e) => e.send(JSON.stringify(passback)));
+  });
+});
+
+wss.on("test", (ws) => {
+  console.log("logged from test");
+});
 
 const PORT = 3000;
 
