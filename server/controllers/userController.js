@@ -63,6 +63,7 @@ userController.subscribe = async (req, res, next) => {
   // Check for failed channel creation - M
   if (res.locals.exists) return next();
   const { username, channel } = req.body;
+  console.log(username, channel);
   //Querying the subscriber
   const subscriber = await User.findOne({ username });
   if (!subscriber) {
@@ -106,7 +107,6 @@ userController.subscribe = async (req, res, next) => {
     "subscribedChannels",
     req.cookies.subscribedChannels + req.body.channel
   );
-
   return next();
 };
 /* Unscription functionality - takes in username from cookies and channel from body */

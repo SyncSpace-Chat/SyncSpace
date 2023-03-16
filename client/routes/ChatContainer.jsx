@@ -17,6 +17,7 @@ export default function ChatContainer() {
   }, [isLoggedIn]);
   return (
     <div className="chatPage">
+      <h2>hey {username}</h2>
       <Header />
       <div className="midContainer">
         <LBar />

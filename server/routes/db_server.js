@@ -36,7 +36,7 @@ router.post("/sendMessage", channelController.sendMessage, (req, res) => {
 });
 
 /* Returns an array of ALL of the channels- M */
-router.get("/getChannels", channelController.getChannels, (req, res) => {
+router.post("/getChannels", channelController.getChannels, (req, res) => {
   console.log("Retrieving channels");
   res.status(200).json(res.locals.channels);
 });

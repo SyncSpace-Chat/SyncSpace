@@ -49,13 +49,15 @@ channelController.sendMessage = async (req, res, next) => {
   );
   return next();
 };
-/* Retrieves an array of every channel - M*/
 
+/* Retrieves an array of every channel - M*/
 channelController.getChannels = async (req, res, next) => {
-  let channelStringArr = [];
+  const { username } = req.body;
   const channelCollectionArr = await Channel.find({});
-  channelStringArr = channelCollectionArr.map((el) => el.channelName);
-  res.locals.channels = channelStringArr;
+  const channelStringArr = channelCollectionArr.map((el) => el.channelName);
+  const user = await User.findOne({ username });
+  const userChannels = user.subscribedChannels;
+  res.locals.channels = [channelStringArr, userChannels];
   return next();
 };
 

@@ -17,30 +17,25 @@ export default function LBar() {
   } = channelStore();
   const { username } = userCredentialsStore();
   console.log(userChannels, "1st");
+  console.log(channels, "1st");
   // Giles Steiner
   //
   // Purpose: pulls the list of channels that exist in the database
   // and only show the ones that match with the users cookie preference
   useEffect(() => {
-    console.log(userChannels, "2nd userchannels");
     const intervalId = setInterval(async () => {
-      console.log(userChannels, "3rd userchannels");
       async function getChannels() {
         const res = await fetch("./db/getChannels", {
           headers: { "Content-Type": "application/json" },
+          method: "POST",
+          body: JSON.stringify({ username }),
         })
           .then((response) => {
-            console.log(userChannels, "4th")
             return response.json();
           })
           .then((data) => {
-            console.log(userChannels, "5th");
-            setChannels(data);
-            console.log(data, "data 2");
-            console.log(channels, "channels");
-            const userChannelsArr = data.filter((el) => !userChannels.includes(el));
-            setUserChannels(userChannels);
-            console.log(userChannels, "6th")
+            setChannels(data[0]);
+            setUserChannels(data[1]);
           })
           .catch((error) => {
             console.error("Error in grabbing chats from channel lbar:", error);
@@ -102,17 +97,18 @@ export default function LBar() {
   async function browseChannelClick() {
     // console.log("clicked: ", document.getElementById('browseChannelName').value);
     console.log("subscribing to new channel");
+    console.log(
+      document.getElementById("browseChannelName").value,
+      "subbing to this"
+    );
     await fetch("./db/subscribe", {
       method: "PUT",
       body: JSON.stringify({
         channel: document.getElementById("browseChannelName").value,
+        username,
       }),
       headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => response.json())
-      .catch((error) => {
-        console.error("Error in grabbing chats from channel lbar2:", error);
-      });
+    });
   }
 
   // Giles Steiner
@@ -128,85 +124,82 @@ export default function LBar() {
   // Chat window is rendered as a child component and the current channel is passed down
   // as a prop
   return (
-      <div>
-        <div className="channelSideBar">
-          <div id="browseChannels">
-            Browse Channels<br></br>
-            {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
-            <select id="browseChannelName">
-              {channels.map((channel, index) => {
-                if (!userChannels.includes(channel)) {
-                  return (
-                    <option key={index + 100} value={channel}>
-                      {channel}
-                    </option>
-                  );
-                }
-              })}
-            </select>
-            <button
-              type="button"
-              className="sendButton"
-              onClick={browseChannelClick}
+    <div>
+      <div className="channelSideBar">
+        <div id="browseChannels">
+          Browse Channels<br></br>
+          {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
+          <select id="browseChannelName">
+            {channels.map((channel, index) => {
+              if (!userChannels.includes(channel)) {
+                return (
+                  <option key={index + 100} value={channel}>
+                    {channel}
+                  </option>
+                );
+              }
+            })}
+          </select>
+          <button
+            type="button"
+            className="sendButton"
+            onClick={browseChannelClick}
+          >
+            Subscribe
+          </button>
+        </div>
+
+        <div id="channelList">
+          {userChannels.map((channel, index) => (
+            <div
+              className="channelButton"
+              key={index}
+              onClick={() => changeChannelHandler(channel)}
             >
-              Subscribe
-            </button>
-          </div>
+              <strong># </strong>
+              {channel.toLowerCase()}
+            </div>
+          ))}
+        </div>
 
-          <div id="channelList">
-            {userChannels.map((channel, index) => (
-              <div
-                className="channelButton"
-                key={index}
-                onClick={() => changeChannelHandler(channel)}
-              >
-                <strong># </strong>
-                {channel.toLowerCase()}
-              </div>
-            ))}
-          </div>
-
-          <div id="addChannel">
-            <section className="addChannelBox">Add a new channel
-              <form className="channelForm">
-                <div className="channelNameBox">
-                  <input
-                    type="text"
-                    id="inputChannel"
-                    onChange={(e) => setNewChannel(e.target.value)}
-                  />
-                </div>
-                <button
-                  id="addChannelButton"
-                  type="button"
-                  className="addChannelButton"
-                  onClick={addChannel}
-                >
-                  Add
-                </button>
-              </form>
-            </section>
-          </div>
-          <div id="delChannelBox">
-            <div>Delete a channel</div>
+        <div id="addChannel">
+          <section className="addChannelBox">
+            Add a new channel
             <form className="channelForm">
               <div className="channelNameBox">
                 <input
                   type="text"
-                  id="inputChannelDel"
+                  id="inputChannel"
                   onChange={(e) => setNewChannel(e.target.value)}
                 />
               </div>
               <button
-                id="delChannelButton"
+                id="addChannelButton"
                 type="button"
-                onClick={delChannel}
+                className="addChannelButton"
+                onClick={addChannel}
               >
-                Delete
+                Add
               </button>
             </form>
-          </div>
+          </section>
+        </div>
+        <div id="delChannelBox">
+          <div>Delete a channel</div>
+          <form className="channelForm">
+            <div className="channelNameBox">
+              <input
+                type="text"
+                id="inputChannelDel"
+                onChange={(e) => setNewChannel(e.target.value)}
+              />
+            </div>
+            <button id="delChannelButton" type="button" onClick={delChannel}>
+              Delete
+            </button>
+          </form>
         </div>
       </div>
+    </div>
   );
 }
