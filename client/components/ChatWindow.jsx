@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import ChatBubble from "./ChatBubble.jsx";
 import Cookies from "js-cookie";
-import { channelStore } from "../store.js";
+
+import { currentChannelStore } from "../store.js";
+import { WsContext } from '../webSocketProvider.jsx';
 
 export default function ChatWindow(props) {
-  const { currentChannel } = channelStore();
+  const { currentChannel } = currentChannelStore();
+  // const wsRef = new WebSocket('ws://localhost:8082')
+
   //Giles Steiner
   //
   //Chat window state
@@ -12,6 +16,45 @@ export default function ChatWindow(props) {
   // const { currentChannel } = props;
   const [chats, setChats] = useState([]);
   const messageBoxRef = useRef(null);
+  const webSocket = useContext(WsContext);
+  const testRef = useRef(webSocket);
+  const [ws, setWs] = useState(webSocket);
+
+  // const [ws, setWs] = useState(new WebSocket("ws://localhost:8082"))
+  // useEffect(() => {
+  webSocket.onmessage = ({ data }) => {
+    const parsed = JSON.parse(data)
+    if (parsed.messages) {
+      const newMessage = parsed.messages[parsed.messages.length - 1]
+      console.log(parsed.messages[parsed.messages.length - 1])
+      const newChats = [...chats];
+      newChats.push({ message: newMessage.message, username: newMessage.username, _id: newMessage._id})
+      setChats(newChats)
+    }
+    console.log('server sent this')
+  }
+  // }, [chats])
+
+
+  useEffect(() => {
+    // if (!ws && webSocket) {
+    //   setWs(webSocket);
+    // }
+    console.log('mount', testRef.current, webSocket)
+    setWs(webSocket)
+
+    if (webSocket) {
+      // setWs(ws)
+      webSocket.onopen = function(e) {
+        console.log('connection established')
+      }
+      //   console.log('clicked2')
+      //   ws.addEventListener("open", (e) => {
+      //     ws.send('message'.toString())
+      //   })
+    }
+
+  }, [])
 
   //Giles Steiner
   //
@@ -23,15 +66,18 @@ export default function ChatWindow(props) {
   //Giles Steiner
   //
   //When the user send a message send a post request to /db/sendMessage route
-  //route is caught in db_server
-  const handleSubmit = async () => {
-    await fetch("./db/sendMessage", {
-      method: "POST",
-      body: JSON.stringify({ message: message, channel: currentChannel }),
-      headers: { "Content-Type": "application/json" },
-    });
-    let stuff = document.getElementById("inputMessage");
-    stuff.value = "";
+  //route is caught in db_server 
+  const handleSubmit = async (e) => {
+    // await fetch('./db/sendMessage', {
+    //   method: 'POST',
+    //   body: JSON.stringify({ message: message, channel: currentChannel }),
+    //   headers: { 'Content-Type': 'application/json' },
+    // });
+    const user = document.cookie.split('; ').find(e => e.startsWith("user="))?.split("=")[1]
+    webSocket.send(JSON.stringify({ message, currentChannel, user }))
+    setMessage('');
+    let stuff = document.getElementById('inputMessage');
+    stuff.value = '';
     const audio = new Audio("db/static/iphone_woosh.mp3");
     audio.play();
   };
@@ -49,36 +95,39 @@ export default function ChatWindow(props) {
   // Every 500 seconds a fetch request is done to db/getMessages to get all the current messages in
   // the channel the user is currently in. The chats state is concurrently updated
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      async function getMessages() {
-        if (currentChannel != "") {
-          await fetch("./db/getMessages", {
-            method: "POST",
-            body: JSON.stringify({ channel: currentChannel }),
-            headers: { "Content-Type": "application/json" },
+    // const intervalId = setInterval(() => {
+    async function getMessages() {
+      if (currentChannel != "") {
+        await fetch('./db/getMessages', {
+          method: 'POST',
+          body: JSON.stringify({ channel: currentChannel }),
+          headers: { 'Content-Type': 'application/json' }
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setChats(data);
           })
-            .then((response) => response.json())
-            .then((data) => {
-              setChats(data);
-            })
-            .catch((error) => {
-              console.error("Error in :", error);
-            });
-        }
+
+          .catch((error) => {
+            console.error('Error in grabbing chats from channel:', error);
+          });
+
       }
-      getMessages();
-    }, 5000);
+    }
+    getMessages();
+    // }, 500);
 
     return () => clearInterval(intervalId);
   }, [currentChannel]);
 
-  //JUNAID
-  //COMMENTED OUT SO THAT IT DOESNT SCROLL THE WINDOW DOWN EVERYTIME
-  // useEffect(() => {
-  //   if (messageBoxRef.current) {
-  //     messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // }, [chats]);
+
+  useEffect(() => {
+    if (messageBoxRef.current) {
+      messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+    console.log("chat's changed")
+  }, [chats]);
+
 
   const messageCache = {};
   const chatBubbles = [];
@@ -96,6 +145,17 @@ export default function ChatWindow(props) {
       );
     }
   });
+
+  // const [flag, setFlag] = useState(true);
+  // useEffect(() => {
+  //   console.log('click', testRef, webSocket, ws)
+  //   if (webSocket instanceof WebSocket) {
+  //     console.log('click2', webSocket)
+  //     webSocket.addEventListener('message', (e) => {
+  //       console.log(e.data)
+  //     })
+  //   }
+  // }, [flag])
 
   return (
     <div className="chatWindow">
@@ -118,10 +178,12 @@ export default function ChatWindow(props) {
           <input type="text" id="inputMessage" onChange={handleMessage} />
         </div>
         <div id="messageSubmit">
+
           <button type="button" className="sendButton" onClick={handleSubmit}>
             Send
           </button>
         </div>
+
       </div>
     </div>
   );
