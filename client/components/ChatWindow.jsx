@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import ChatBubble from "./ChatBubble.jsx";
 import Cookies from "js-cookie";
 import { WsContext } from "../webSocketProvider.jsx";
-import { channelStore } from "../store";
+import { channelStore, userCredentialsStore } from "../store";
 
 export default function ChatWindow(props) {
   const { currentChannel } = channelStore();
+  const { username } = userCredentialsStore();
   console.log(currentChannel);
   // const wsRef = new WebSocket('ws://localhost:8082')
 
@@ -75,10 +76,7 @@ export default function ChatWindow(props) {
     //   body: JSON.stringify({ message: message, channel: currentChannel }),
     //   headers: { 'Content-Type': 'application/json' },
     // });
-    const user = document.cookie
-      .split("; ")
-      .find((e) => e.startsWith("user="))
-      ?.split("=")[1];
+    const user = username;
     webSocket.send(JSON.stringify({ message, currentChannel, user }));
     setMessage("");
     let stuff = document.getElementById("inputMessage");
