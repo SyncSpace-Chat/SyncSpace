@@ -97,27 +97,23 @@ export default function ChatWindow(props) {
 
   return (
     <div className="chatWindow">
-
       <div id="chatHeader">
         <p id="channelNameHeader">{currentChannel}</p>
         <button type="button" className="unsubscribe" onClick={handleUnsubscribe}>Unsubscribe</button>
       </div>
-
       <div id="chatMessages">
         {chatBubbles}
         <div ref={messageBoxRef}></div>
       </div>
-
-      <div id="submitChats">
-        <div className="messageForm">
-          <p className="inputHeader">Send New Message:</p>
-          <div className="textBox">
+      <div className="submitChats">
+        <div id="messageForm">
             <input type="text" id="inputMessage" onChange={handleMessage} />
-          </div>
-          <button type="button" className="sendButton" onClick={handleSubmit}>Send Message</button>
         </div>
+        <div id="messageSubmit">
+            <button type="button" className="sendButton" onClick={handleSubmit}>Send</button>
+        </div>
+          
       </div>
-
     </div>
   );
 }

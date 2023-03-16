@@ -26,17 +26,15 @@ function Header() {
   //==========dark mode===========
 
   return (
-    <>
       <div className="chatPageHeader">
         <div id="chatPageHeaderTitle">
-          STABI CHAT
+          STAB CHAT
         </div>
         <div id="chatPageHeaderButtons">
           <button type="button" onClick={logOut}>Logout</button>
           <button onClick={toggleHuH}>Change Theme</button>
         </div>
       </div>
-    </>
   );
 }
 
