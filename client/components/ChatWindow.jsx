@@ -19,6 +19,21 @@ export default function ChatWindow(props) {
   const [ws, setWs] = useState(webSocket);
 
   // const [ws, setWs] = useState(new WebSocket("ws://localhost:8082"))
+  // useEffect(() => {
+    webSocket.onmessage = ({ data }) => {
+      const parsed = JSON.parse(data)
+      if (parsed.messages) {
+        const newMessage = parsed.messages[parsed.messages.length - 1]
+        console.log(parsed.messages[parsed.messages.length - 1])
+        const newChats = [...chats];
+        newChats.push({ message: newMessage.message, username: newMessage.username })
+        setChats(newChats)
+    }
+      console.log('server sent this')
+    }
+  // }, [chats])
+
+
   useEffect(() => {
     // if (!ws && webSocket) {
     //   setWs(webSocket);
@@ -57,7 +72,7 @@ export default function ChatWindow(props) {
     //   headers: { 'Content-Type': 'application/json' },
     // });
     const user = document.cookie.split('; ').find(e => e.startsWith("user="))?.split("=")[1]
-    webSocket.send(JSON.stringify({message, currentChannel, user}))
+    webSocket.send(JSON.stringify({ message, currentChannel, user }))
     setMessage('');
     let stuff = document.getElementById('inputMessage');
     stuff.value = '';
@@ -107,18 +122,15 @@ export default function ChatWindow(props) {
     if (messageBoxRef.current) {
       messageBoxRef.current.scrollIntoView({ behavior: 'smooth' });
     }
+    console.log("chat's changed")
   }, [chats]);
 
   const messageCache = {};
   const chatBubbles = [];
   chats.forEach((bubble) => {
-    if (messageCache[bubble._id]) {
-    } else {
-      messageCache[bubble._id] = true;
-      chatBubbles.push(
-        <ChatBubble message={bubble.message} username={bubble.username} id={Cookies.get('user')} />
-      );
-    }
+    chatBubbles.push(
+      <ChatBubble message={bubble.message} username={bubble.username} id={Cookies.get('user')} />
+    );
   });
   const [flag, setFlag] = useState(true);
 
@@ -126,10 +138,9 @@ export default function ChatWindow(props) {
     console.log('click', testRef, webSocket, ws)
     if (webSocket instanceof WebSocket) {
       console.log('click2', webSocket)
-      webSocket.send('test')
-      // webSocket.addEventListener('message', (e)=>{
-      //   console.log(e.data)
-      // })
+      webSocket.addEventListener('message', (e) => {
+        console.log(e.data)
+      })
     }
   }, [flag])
 
@@ -138,8 +149,6 @@ export default function ChatWindow(props) {
       <div className='topWindow'>
         <p id='channelNameHeader'>{currentChannel}</p>
         <button type='button' className='unsubscribe' onClick={handleUnsubscribe}>Unsubscribe</button>
-      </div>
-      <div className='messageBox'>
       </div>
       <button onClick={() => { setFlag(state => !state) }}>click</button>
       <div className='messageBox'>
