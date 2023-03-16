@@ -15,10 +15,19 @@ const WebSocketProvider = ({ children }) => {
             // ws.send('test from client')
         }
 
-        ws.onmessage = function(m) {
-            console.log(m)
+        ws.addEventListener('updateMessage', (data) => {
+            console.log(data);
+        })
+
+        ws.onmessage = ({ data }) => {
+            const parsed = JSON.parse(data)
+            if (parsed.messages) {
+                console.log(parsed.messages[parsed.messages.length-1])
+            }
             console.log('server sent this')
         }
+
+
 
 
         setSocket(ws);

@@ -21,9 +21,13 @@ wss.on("connection", (ws) => {
     messagesArr.push({ message, username: user });
     const passback = await Channel.findOneAndUpdate({ channelName: currentChannel }, { messages: messagesArr }, {new: true})
 
-    console.log(passback)
-    ws.send(JSON.stringify(passback))
+    // console.log(wss.clients)
+    wss.clients.forEach((e)=> e.send(JSON.stringify(passback)))
+    // ws.send(JSON.stringify(passback))
   })
+})
+wss.on('test', (ws)=> {
+  console.log('logged from test')
 })
 
 const PORT = 3000;

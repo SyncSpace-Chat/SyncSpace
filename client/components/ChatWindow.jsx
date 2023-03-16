@@ -30,7 +30,6 @@ export default function ChatWindow(props) {
       // setWs(ws)
       webSocket.onopen = function(e) {
         console.log('connection established')
-        webSocket.send('test from client')
       }
       //   console.log('clicked2')
       //   ws.addEventListener("open", (e) => {
